@@ -1,0 +1,35 @@
+/* estilo inicial */
+body {
+    background-color: #F2F2F2;
+}
+
+/* estilo do titulo */
+.titulo {
+    font-size: 1.3rem;
+    margin-left: 5%;
+    margin-right: auto;
+}
+
+/* cor da aba */
+.tabs .indicator {
+    background-color: white;
+}
+
+/* fixo no topo */
+.topo-fixo {
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+/* .section { */
+/*     padding-top: 25px; */
+/* } */
+
+.listadiv {
+    padding-bottom: 16px;
+    padding-top: 0px;
+}
+
+	
+.card.horizontal { display: -webkit-flex; display: -ms-flexbox; display: flex; }

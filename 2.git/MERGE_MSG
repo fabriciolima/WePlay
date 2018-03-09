@@ -1,0 +1,13 @@
+Merge remote-tracking branch 'remotes/origin/pc' into pc
+
+# Conflicts:
+#	node_modules/.bin/create
+#	node_modules/cordova-plugin-customurlscheme/plugin.xml
+#	node_modules/cordova-plugin-globalization/src/blackberry10/native/device/libGlobalization.so
+#	node_modules/cordova-plugin-globalization/src/blackberry10/native/simulator/libGlobalization.so
+#	www/index.html
+#	www/js/app.js
+#	www/js/geral.js
+#	www/js/propostaaceitacao.js
+#	www/mapa.html
+#	www/propostaaceitacao.html

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta http-equiv="Content-Security-Policy" content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self' content:;fmedia-src mediastream;">
+
+<meta charset="utf-8">
+<title>Troca de games</title>
+<link rel="stylesheet" href="icons/material.css">
+<link rel="stylesheet" href="css/materialize.min.css">
+<link rel="stylesheet" href="css/estilos.css">
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+	<div class="topo-fixo z-depth-1">
+		<div class="valign-wrapper cyan darken-4 white-text">
+			<h5 class="titulo">WePlay</h5>
+
+			<div>
+				<i class="material-icons waves-effect waves-light waves-circle camera">camera2</i>
+				<i class="material-icons waves-effect waves-light waves-circle cadastro-jogo">camera</i>
+
+				<i
+					class="material-icons waves-effect waves-light
+                          waves-circle dropdown-button"
+					data-activates="submenu" data-gutter="5"
+					data-constrainwidth="false"> more_vert </i>
+
+				<ul id="submenu" class="dropdown-content">
+					<li><a class="black-text acao-limpar">Limpar</a></li>
+					<li><a class="black-text galeria">galeria </a></li>
+					<li><a class="black-text teste">subir</a></li>
+					
+				</ul>
+			</div>
+		</div>
+
+		<ul class="tabs cyan darken-4">
+			<li class="tab"><a href="#compra"
+				class="white-text waves-effect waves-light"> Compras </a></li>
+			<li class="tab"><a href="#bebidas"
+				class="white-text waves-effect waves-light"> Vendas </a></li>
+		</ul>
+	</div>
+
+	<div id="compra" class="section">
+		<ul data-role="listview" id="SomeListView" class="tab"></ul>
+
+
+	</div>
+
+	<div id="bebidas" class="section">
+		<h6 class="container brown-text">Cafés</h6>
+		<div class="collection">
+			<a class="collection-item waves-effect black-text">Espresso</a> <a
+				class="collection-item waves-effect black-text">Capuccino</a> <a
+				class="collection-item waves-effect black-text">Mocachino</a>
+		</div>
+
+		<h6 class="container brown-text">Refrigerantes</h6>
+		<div class="collection">
+			<a class="collection-item waves-effect black-text">Soda</a> <a
+				class="collection-item waves-effect black-text">Guaraná</a> <a
+				class="collection-item waves-effect black-text">Coca</a>
+		</div>
+
+		<h6 class="container brown-text">Sucos</h6>
+		<div class="collection">
+			<a class="collection-item waves-effect black-text">Melancia</a> <a
+				class="collection-item waves-effect black-text">Tangerina</a> <a
+				class="collection-item waves-effect black-text">Limão</a>
+		</div>
+	</div>
+
+	<div class="fixed-action-btn">
+		<a
+			class="btn-floating btn-large waves-effect waves-light brown modal-trigger"
+			href="#confirmacao" id="confirmar"> <i class="material-icons">done</i>
+		</a>
+	</div>
+
+	<div id="confirmacao" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h5>Resumo do pedido</h5>
+			<input id="numero-mesa" type="number" class="validate"
+				placeholder="Número da mesa">
+			<blockquote id="resumo"></blockquote>
+		</div>
+		<div class="modal-footer">
+			<button class="btn deep-orange waves-effect waves-light modal-close">
+				Pedir</button>
+			<button
+				class="btn-flat waves-effect waves-red modal-close acao-limpar">
+				Cancelar</button>
+		</div>
+	</div>
+
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/materialize.min.js"></script>
+	<script src="cordova.js"></script>
+	<script src="js/app.js"></script>
+	 <script type="text/javascript" charset="utf-8">
+
+	 document.addEventListener("deviceready",onDeviceReady,false);
+
+    function onDeviceReady() {
+    	//criarDB();
+    	//dropJogosDB();
+    	criarjogosDB();   	        
+
+    }
+
+    
+    </script>
+</body>
+</html>

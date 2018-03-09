@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self' content:;fmedia-src mediastream;">
+	
+	<meta charset="utf-8">
+	<title>Troca de games</title>
+	<!--Let browser know website is optimized for mobile-->
+      
+</head>
+<body>
+	<script src="cordova.js"></script>
+	<script type="text/javascript">
+		document.addEventListener('deviceready', function(){
+			var storage = window.localStorage;
+			var idCliente = storage.getItem('idCliente');
+			window.location = "login.html";
+// 			if(idCliente != null)
+// 				window.location = "index2.html";
+// 			else{
+// 				window.location = "login.html";
+// 			}
+	});
+	</script>
+
+</body>
+</html>
+
