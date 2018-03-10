@@ -13,10 +13,9 @@ function loginGoogle(){
 	  var user = result.user;
 	  var local = window.localStorage;
 	  local.setItem('idTemp', user.uid);
-	  local.setItem('nomeTemp', user.displayName);
+	  local.setItem('nomeCliente', user.displayName);
 	}).catch(function(error) {
 		console.log(error);
-
 	  // Handle Errors here.
 	  var errorCode = error.code;
 	  var errorMessage = error.message;
@@ -36,7 +35,7 @@ function loginFacebook(){
 	  var user = result.user;
 	  var local = window.localStorage;
 	  local.setItem('idTemp', user.uid);
-	  local.setItem('nomeTemp', user.displayName);
+	  local.setItem('nomeCliente', user.displayName);
 	}).catch(function(error) {
 	  // Handle Errors here.
 	  var errorCode = error.code;
@@ -58,8 +57,9 @@ function telaLogin(){
 function salvaCliente(){
 	var local = window.localStorage;
 	lat = local.getItem('lat');
+	lon = local.getItem('lon');
 	
-	if(local.getItem('idCliente')==null){
+	if(local.getItem('idTemp')==null){
 		Materialize.toast(Localization.for("facalogin"));
 	}
 	else
@@ -67,17 +67,17 @@ function salvaCliente(){
 		Materialize.toast(Localization.for("escolherlocalizacao"));
 	}
 	else{
-		var local = window.localStorage;
-		local.setItem('lat',0);
-		local.setItem('idCliente',5);
-
-		$.post(getJSON+"/add/cliente",{
-        	idcliente:local.getItem('idTemp'),
+		$.post(getJSON()+'/cliente/add',{
+      uid:local.getItem('idTemp'),
 			nome:local.getItem('nomeTemp'),
 			lon:local.getItem('lon'),
 			lat:local.getItem('lat')},
 				function(data, status){
-					Materialize.toast(" json: " + data + "\nStatus: " + status);
+					if(data != null && data != ""){
+						local.setItem('idCliente',local.getItem('idTemp'));
+						window.location = "index.html";
+					}
+					
 			});
 		
 	}	

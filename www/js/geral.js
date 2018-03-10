@@ -14,7 +14,21 @@ document.addEventListener('deviceready', function(){
             localizacao:"Localização",
             escolherlocalizacao:"Escolher localização",
 						facalogin:"Faça o Login com uma conta selecionada",
-						enviar:"Enviar"
+						enviar:"Enviar",
+						proportroca:"Propor troca",
+						semgps:"Sem gps",
+						novo:"Novo",
+						usado:"Usado",
+						melhorlercomentario:"Melhor ler comentário",
+						outros:"Outros",
+						estadoconservacao:"Selecione estado de conservação",
+						nomejogo:"Nome do jogo",
+						escolherplataforma:"Escolha uma plataforma",
+						escolherjogo:"Escolha um jogo",
+						jogojacadastrado:"Voce já tem esse jogo",
+						jogocadastrado:"Pronto para troca",
+						tiporolo:"Comentário ou troco por $$$ "
+
         },
         fr: {
             sim: "Oui",
@@ -34,7 +48,20 @@ document.addEventListener('deviceready', function(){
             localizacao:"Localization",
             escolherlocalizacao:"Choose a localization",
 						facalogin:"Login with a selected account",
-						enviar:"Send"
+						enviar:"Send",
+						proportroca:"Offer trade",
+						semgps:"No gps signal",
+						novo:"New",
+						usado:"Wear",
+						melhorlercomentario:"Better read comments",
+						outros:"Others",
+						estadoconservacao:"State of preservation",
+						nomejogo:"Game's name",
+						escolherplataforma:"Choose one platform",
+						escolherjogo:"Choose a game",
+						jogojacadastrado:"You have this game already",
+						jogocadastrado:"OK. Good to go",
+						tiporolo:"Comments or how much do you want"
         }
     },"en");
 	});
@@ -74,24 +101,20 @@ function getDB(){
 }
 
 function getJSON(){
-	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-		db.doc("config/servidor").get().then(function(doc){
-			console.log("retornando remoto");
-			//return doc.data().ip;
-		});
+	// if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+	// 	db.doc("config/servidor").get().then(function(doc){
+	// 		console.log("retornando remoto");
+	// 		//return doc.data().ip;
+	// 	});
 		
-	}
-	console.log("retornando localhost");
-<<<<<<< HEAD
-	return "http://18.219.12.178:8080/json";
-=======
-	return "http://192.168.0.227:8080/json";
->>>>>>> remotes/origin/pc
-//	return "http://localhost:8080/json";
+	// }
+	// console.log("retornando localhost");
+	// return "http://18.219.152.216:8080/json";
+	return "http://localhost:8080/json";
 }
 
 function gerURLplataforma90(id){
-	return "www/img/plataforma50/"+id+"_50.png";
+	return "www/img/plataforma400/"+id+"_400.png";
 }
 
 function gerURLplataforma(id){

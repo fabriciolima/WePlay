@@ -54,12 +54,8 @@ function adicionaPropostas(rcRef){
 	items = [];
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
-<<<<<<< HEAD
 	console.log("-------",idjogocliente);
 	db.collection('jogocliente').doc(idjogocliente).collection('interessados').get().then(function(propostalista){
-=======
-	jcRef..collection('interessados').get().then(function(propostalista){
->>>>>>> remotes/origin/pc
 		propostalista.forEach(function(propostadoc) {
 
 			db.collection('jogocliente').doc(propostadoc.data().idjogocliente)

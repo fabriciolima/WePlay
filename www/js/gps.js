@@ -38,8 +38,7 @@ function onSuccess(position) {
 }
 
 function onError(error) {
-	console.log("erro gps", error);
-    alert('code: ' + error.code + '\n' +'message: ' + error.message + '\n');
+	Materialize.toast(Localization.for("semgps"), 4000);
 }
 
 document.addEventListener("deviceready", onDeviceReady, true);

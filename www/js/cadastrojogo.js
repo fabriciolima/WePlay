@@ -1,51 +1,80 @@
-$('form').submit(function(){
-
-
+// $('form').submit(function(){
+function salvaJogo(){
 	var local = window.localStorage;
     var postData = $(this).serialize();
-    idCliente = 1;//local.getItem('idCliente');
-    nomeJogoNormal = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    nomeJogo = $('#nome').val();
-    
-    idJogo=0;
-    //verifica se ja tem o jogo cadastrado
-	db.doc("jogo2/"+nomeJogoNormal).get().then(function(doc){idJogo=doc.id})
-    .catch(function(erro){
-    	db.collection("jogo2").doc(nomeJogoNormal).set({nome: nomeJogo})
-    	.then(function(doc){idJogo=doc.id});
-    });
+    idCliente = local.getItem('idCliente');
+    nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	nomeJogo = $('#nome').val();
+	idPlataforma = $('#console').val();
+	
+	if(idPlataforma == null){
+		Materialize.toast(Localization.for("escolherplataforma"), 4000);
+		return false;
+	}
+
+	if(nomeJogo.length < 3){
+		Materialize.toast(Localization.for("escolherjogo"), 4000);
+		return false;
+	}
+
 	
 	console.log(idCliente);
     console.log($('#console').val());
-    console.log($('#estado').val());
-    console.log(idJogo + ','+nomeJogo);
-    console.log($('#comentario').val()?$('#comentario').val():"");
     console.log($('#dinheiro').val()?$('#dinheiro').val():"");
-    
-    db.collection("jogocliente").add({
-    	idcliente:idCliente,
-		console:$('#console').val(),
-		estado:$('#estado').val(),
-		idjogo:idJogo,
-		comentario:$('#comentario').val(),
-		dinheiro:$('#dinheiro').val()}
-    ).then(function(){
-    	Materialize.toast('Jogo Salvo', 4000);
-    	$.post(getJSON+"/add/jogo",{
-        	idcliente:idCliente,
-    		console:$('#console').val(),
-    		estado:$('#estado').val(),
-    		idjogo:idJogo,
-    		comentario:$('#comentario').val(),
-    		dinheiro:$('#dinheiro').val()
-    		},function(data, status){
-    			Materialize.toast("erro json: " + data + "\nStatus: " + status);
-			    });
-    	voltar();	
-    }).catch(function(erro){Materialize.toast('Erro salvando', 4000);});
+	var idEstado = 0;
+	
+	estadoradio = document.getElementsByName('estado');
+	for (var cont = 0, length = estadoradio.length; cont < length; cont++){
+ 		if (estadoradio[cont].checked) {
+			idEstado = estadoradio[cont].id;
+			  break;
+		}
+	}
 
-    return false;
-});
+	//verificando se tem um jogocliente salvo
+	idCliente = local.getItem('idCliente');
+    nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	nomeJogo = $('#nome').val();
+	idPlataforma = $('#console').val();
+	
+	db.collection("jogo").where("nomepesquisa","==",nomePesquisa).get().then(function(listajogo){
+		var idjogo;
+		listajogo.forEach(function(docjogoRef) {
+			console.log("docjogoRef",docjogoRef);
+			idjogo = docjogoRef.id;
+		});
+		console.log("ref",idjogo);
+			db.collection("jogocliente")
+			.where("idcliente","==",idCliente)
+			.where("idjogo","==",idjogo)
+			.where("estado","==",idEstado)
+			.get().then(function(jogoclienteRef){
+				if(jogoclienteRef.size > 0)
+				Materialize.toast(Localization.for("jogojacadastrado"), 4000);
+				else{//indo cadastrar
+					$.post(getJSON()+"/jogo/add",{
+						idPlataforma:idPlataforma,
+						uidCliente:idCliente,
+						estado:idEstado,
+						nomePesquisa:nomePesquisa,
+						nomeJogo:nomeJogo,
+						dinheiro:$('#dinheiro').val()},function(data, status){
+							if(data.length >2){
+								Materialize.toast(Localization.for("jogocadastrado"), 4000);
+								window.location="index.html";
+							}
+							// else
+							// 	Materialize.toast(':(', 4000);
+						});
+					}
+				});
+			});
+			// voltar();	
+    // }).catch(function(erro){Materialize.toast('Erro salvando', 4000);});
+
+	return false;
+}
+// });
 
 
     
@@ -92,6 +121,10 @@ function atualizaCadastro()
 //-------------------------------------------------------------------------------------------
 }
 
+function atualizaEstado(){
+	console.log("csdf");
+	$('#estado').material_select();
+}
 function mostrandoCadastro(){
 	 atualizaCadastro();
 	 $('#estado').material_select();
@@ -104,24 +137,27 @@ function mostrandoCadastro(){
 
 $("#nome").on("input", function(e) {
 	var val = $(this).val();
-	console.log(0);
-	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	
+
 //	if(val === "") return;
 	//You could use this to limit results
-	//if(val.length < 3) return;
+	if(val.length > 2){
 
-	console.log(val);
-	db.collection("jogo").where("nome",">=",nomeJogo).limit(3).get().then(function (lista){
-		console.log(1);
-		
-	     var dataList = $("#searchresults");
-		dataList.empty();
-		lista.forEach(function(doc){
-		console.log(doc);
-		var opt = $("<option></option>").attr("value", doc.data().nome);
-		dataList.append(opt);
-	});
-	})
+		// db.child('jogo').orderByChild('nomepesquise').startAt(nomeJogo).limit(4)
+		// 	.on('value',snap =>{
+		// 		console.log("dsfg");
+		// 	})
+		 db.collection("jogo").where("nomepesquisa",">=",nomeJogo).limit(3).get().then(function (lista){
+			var dataList = $("#searchresults");
+			dataList.empty();
+			lista.forEach(function(doc){
+			console.log(doc.data().nome);
+			var opt = $("<option></option>").attr("value", doc.data().nome);
+			dataList.append(opt);
+		});
+		})
+	}
 	
 }); 
 

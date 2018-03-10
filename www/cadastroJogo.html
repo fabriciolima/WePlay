@@ -27,17 +27,13 @@
 
 	<div class="z-depth-1">
 		<div class="valign-wrapper cyan darken-4 white-text">
-			<h5 class="titulo">WePlay</h5>
-
-			<div>
 				<i class="material-icons waves-effect waves-light waves-circle botao-voltar">arrow_back</i>
-			</div>
 		</div>
 	</div>
 
 	<div id="cadastro" class="section">
 		
-			<form class="col s12">
+			<!-- <form class="col s12"> -->
 <!-- 			<input type="hidden" id="idCliente" name="idCliente" value="0"> -->
 			
 				<div class="row">
@@ -48,47 +44,58 @@
 							</div>
 				</div>
 				
-				
+<!-- 				
 				<div class="row">
 							<div class="input-field col s12">
-								<select id="estado" name="<span class="l10n-estado"></span>" required>
+								<select id="estado" name="<span class="l10n-estado"></span>" required >
 									<option value="" disabled selected><span class="l10n-escolhaopcao"></span></option>
-									<option value="1">Novo</option>
-									<option value="2">Usado</option>
-									<option value="3">Melhor ler o comentário</option>
-								</select> <label>Selecione estado de conservação</label>
-							</div>
-				</div>
+									<option value="1"><span class="l10n-novo"></span></option>
+									<option value="2"><span class="l10n-usado"></span></option>
+									<option value="3"><span class="l10n-melhorlercomentario"></span></option>
+								</select> <label><span class="l10n-estadoconservacao"></span></label>
+					
+						</div>
+						
+				</div> -->
 				<div class="row">
 					<div class="input-field col s12">
 						<input type="text" name="nome" id="nome" list="searchresults" autocomplete="off">
 						<datalist id="searchresults"></datalist>
-						<label for="nome">Nome do jogo</label>
+						<label for="nome"><span class="l10n-nomejogo"></span></label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
-						<input type="text" id="dinheiro" name="dinheiro" >
-          				<label for="jogo">Aceitaria receber $$$ por ele</label>
+						<input type="text" id="dinheiro" name="dinheiro" maxlength="50" >
+          				<label for="jogo"><span class="l10n-tiporolo"></span></label>
 					</div>
 				</div>
 				
+				
 				<div class="row">
+				<p class="center-align">
+						<input name="estado" type="radio" id="1" checked/>
+						<label for="1"><span class="l10n-novo"></span></label>
+						<input name="estado" type="radio" id="2" />
+						<label for="2"><span class="l10n-usado"></span></label>
+					</p>
+				</div>				
+				<!-- <div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix">mode_edit</i>
 						<textarea name="comentario" id="comentario"
 							class="materialize-textarea"></textarea>
 						<label for="icon_prefix2">Comentários</label>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
-					<div class="input-field col s12">
-						<button class="btn waves-effect waves-light" type="submit" name="action">
+					<div class="input-field col s12 center-align">
+						<button class="btn waves-effect waves-light" onclick="salvaJogo()">
 							Cadastrar <i class="material-icons right">send</i>
 						</button>
 					</div>
 				</div>
-			</form>
+			<!-- </form> -->
 		</div>
 
 	<!--         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script> -->
@@ -104,9 +111,11 @@
 	<script src="js/materialize.min.js"></script>
 	<script src="cordova.js"></script>
 	<script src="js/firebase.js"></script>
+	<script src="js/localization.js"></script>
 	<script src="js/geral.js"></script>
 	<script src="js/cadastrojogo.js"></script>
 	<script type="text/javascript" charset="utf-8">
+		 $('#estado').material_select();
 
 	  </script>
 
