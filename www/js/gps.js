@@ -15,12 +15,22 @@ function getPointLocation(){
 }
 
 function getLocation(){
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 3000 });    
+	document.addEventListener("deviceready",
+	function(){
+
+		// navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 3000 });    
+		var options = { enableHighAccuracy: true, maximumAge: 100, timeout: 60000 };
+		if( navigator.geolocation) {
+		   var watchID = navigator.geolocation.watchPosition( onSuccess, onError, options );
+		   var timeout = setTimeout( function() { navigator.geolocation.clearWatch( watchID ); }, 5000 );
+		} else {
+			gotErr();
+		}
+	} , true);
 }
 
 function onSuccess(position) {
-	
-    var lat=position.coords.latitude;
+	var lat=position.coords.latitude;
     var long=position.coords.longitude;
     
     //Google Maps

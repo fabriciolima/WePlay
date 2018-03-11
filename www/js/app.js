@@ -21,32 +21,27 @@
 
 
 
-$('.botao-voltar').on('click', function() {
-	 function BackKeyDown()
-     {
-		 e.preventDefault(); 
-     }
-    
+$('.botao-share').on('click', function() {
+	 window.plugins.socialsharing.shareWithOptions(options,null,null);
 });
 
 var options={message:"kjhkjh",
 	  	   subject:"llkjlj", 
 	  	   files:null, 
-	  	   url:"http://google.com/",
-	  	   chooserTitle:'titulo'}
+	  	   url:"https://jx52y.app.goo.gl/pGuk",
+	  	   chooserTitle:'We Play'}
 
-//window.plugins.socialsharing.shareWithOptions(options,null,null);
 
 	
 
 getJogosPorPerto();
-getMeusJogos();
+getMeusJogosTelaInicial();
 $('.atualiza').on('click',function(){
                 // mRefresh.refresh();
         //refresh();
 	$("#porperto").empty();
 	$("#meusjogos").empty();
-	getMeusJogos();
+	getMeusJogosTelaInicial();
 	getJogosPorPerto();
                 return false;
             });
@@ -56,10 +51,10 @@ $('.atualiza').on('click',function(){
 $('.cadastro-jogo').on('click', function() {
 	var local = window.localStorage;
 	var idCliente = local.getItem('idCliente');
-	if(idCliente != null)
-		window.location = "cadastroJogo.html";
-	else{
+	if(idCliente == null || idCliente =="null")
 		window.location = "login.html";
+	else{
+		window.location = "cadastroJogo.html";
 	}
     
 });
@@ -123,10 +118,9 @@ function adicionaJogoTelaInicial(data) {
 };
 
 function proporTroca(idJogoCliente,distancia,nomePlataforma){
-	console.log("kjhkkh");
 	var local = window.localStorage;
 	var idCliente = local.getItem('idCliente');
-	if(idCliente == null)
+	if(idCliente == null || idCliente =="null")
 		window.location = "login.html";
 	else{
 //		loginGoogle();
@@ -153,6 +147,8 @@ function adicionaMeuJogoTelaInicial(jogocliente) {
 					+ '</div>'
 					+ '<div class="card-stacked">'
 					+ '	<div class="card-content listadiv">'
+					+'<a style="float:right" class="btn btn-floating" onclick="apaga(\''+jogocliente.id+'\')">' 
+							+'<i class="material-icons">delete</i></a>'
 					+ '	<div>'
 					+ '			<h6>'+plataforma.data().nome+'</h6>'
 					+ '			<h5> '+doc.data().nome+'</h5>'
@@ -182,7 +178,16 @@ function nomePlataforma(idplataforma){
 
 	}
 
+function apaga(idJogoCliente){
+	db.collection("jogocliente").doc(idJogoCliente).set({
+		dataexclusao:new Date()
+	}, { merge: true });
+	$("#meusjogos").empty();
+	getMeusJogosTelaInicial();
+}
+
 function botaoTemJogosParaTroca(jogocliente){
+	// console.log("jogocliente",jogocliente);
 //	botao",db.collection("jogocliente").doc(jogocliente.id);
 	// console.log(jogocliente.id,jogocliente.data().ultimaabertura);
 	if( jogocliente.data() != null && jogocliente.data().ultimaabertura != null){
@@ -226,7 +231,6 @@ google.maps.event.addDomListener(window, 'load', getLocation);
 function getJogosPorPerto(){
 	document.addEventListener('deviceready', function(){
 		navigator.geolocation.getCurrentPosition(function(posicao){
-			console.log("perto",posicao);
 			var lat=posicao.coords.latitude.toFixed(6);
 			var long=posicao.coords.longitude.toFixed(6);
 			pos = "Point(" + long+" "+lat+")";
@@ -266,21 +270,24 @@ function getJogosPorPerto(){
 
 
 
-function getMeusJogos(){
+function getMeusJogosTelaInicial(){
 	var local = window.localStorage;
 	idCliente = local.getItem('idCliente');
-	db.collection("jogocliente").where("idcliente","==",idCliente)
-	.get().then(function(lista){
-		lista.forEach(function(doc) {
-			try {
-				adicionaMeuJogoTelaInicial(doc);				
-			}
-			catch(err) {
-				console.log(err,doc);
-				
-			}
+	db.collection("jogocliente")
+		.where("idcliente","==",idCliente)
+		// .where("dataexclusao","==",null)
+		.get().then(function(lista){
+			lista.forEach(function(doc) {
+				try {//@to-do mudar isso
+					if(doc.data().dataexclusao == null)
+						adicionaMeuJogoTelaInicial(doc);				
+				}
+				catch(err) {
+					console.log(err,doc);
+					
+				}
+			});
 		});
-	});
 return true;
 }
 
@@ -364,32 +371,6 @@ function salvaClienteJSon(dados){
 }
 
 
-function getImagemPlataforma(id){
-
-// window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-//
-// console.log('file system open: ' + fs.name);
-// fs.root.getFile("newPersistentFile.txt", { create: true, exclusive: false },
-// function (fileEntry) {
-//
-// console.log("fileEntry is file?" + fileEntry.isFile.toString());
-// // fileEntry.name == 'someFile.txt'
-// // fileEntry.fullPath == '/someFile.txt'
-// writeFile(fileEntry, null);
-// }, function(){console.log("111");});
-// }, function(){console.log("22222");});
-
-// }, onErrorLoadFs);
-// window.resolveLocalFileSystemURI("img/plataforma50/15_50.JPG", function(){
-// console.log("existe");
-// }, function(){
-// console.log("nao existe");
-// });
-
-	// return "img/plataforma50/15_50.JPG";
-	return "img/jogo90/"+id + "_90.png";
-}
-
 
 // db.collection("jogos").get().then({ includeQueryMetadataChanges: true },
 // function(snapshot) {
@@ -445,3 +426,63 @@ window.addEventListener('pushnotification', function(notification) {
     }, false);
 
 }, false);
+
+document.addEventListener("deviceready", function(){
+	
+	initAd();
+	showBannerFunc();
+}, true);
+
+function initAd(){
+	// document.addEventListener("deviceready", initAd, true);
+			if ( window.plugins && window.plugins.AdMob ) {
+				var ad_units = {
+					ios : {
+						banner: 'ca-app-pub-5252544817016620/5591870476',		//PUT ADMOB ADCODE HERE 
+						interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE 
+					},
+					android : {
+						banner: 'ca-app-pub-5252544817016620/5591870476',		//PUT ADMOB ADCODE HERE 
+						interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE 
+					}
+				};
+				var admobid = ( /(android)/i.test(navigator.userAgent) ) ? ad_units.android : ad_units.ios;
+	 
+				window.plugins.AdMob.setOptions( {
+					publisherId: admobid.banner,
+					interstitialAdId: admobid.interstitial,
+					adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER,	//use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD 
+					bannerAtTop: false, // set to true, to put banner at top 
+					overlap: true, // banner will overlap webview  
+					offsetTopBar: false, // set to true to avoid ios7 status bar overlap 
+					isTesting: false, // receiving test ad 
+					autoShow: false // auto show interstitial ad when loaded 
+				});
+	 
+				registerAdEvents();
+				window.plugins.AdMob.createInterstitialView();	//get the interstitials ready to be shown 
+				window.plugins.AdMob.requestInterstitialAd();
+	 
+			} else {
+				//alert( 'admob plugin not ready' ); 
+			}
+	}
+	//functions to allow you to know when ads are shown, etc. 
+	function registerAdEvents() {
+			document.addEventListener('onReceiveAd', function(){});
+			document.addEventListener('onFailedToReceiveAd', function(data){});
+			document.addEventListener('onPresentAd', function(){});
+			document.addEventListener('onDismissAd', function(){ });
+			document.addEventListener('onLeaveToAd', function(){ });
+			document.addEventListener('onReceiveInterstitialAd', function(){ });
+			document.addEventListener('onPresentInterstitialAd', function(){ });
+			document.addEventListener('onDismissInterstitialAd', function(){
+				window.plugins.AdMob.createInterstitialView();			//REMOVE THESE 2 LINES IF USING AUTOSHOW 
+				window.plugins.AdMob.requestInterstitialAd();			//get the next one ready only after the current one is closed 
+			});
+		}
+	 
+	function showBannerFunc(){
+		window.plugins.AdMob.createBannerView();
+	}
+	

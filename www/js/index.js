@@ -9,6 +9,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        
     },
     // deviceready Event Handler
     //
@@ -16,7 +17,22 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
        // app.receivedEvent('deviceready');
+       universalLinks.subscribe(null, function (eventData) {
+        // do some work
+        alert(eventData.url);
+        console.log('eventdata ', eventData);
+    });
+       
+
+    universalLinks.subscribe('verify', function(data) {
+        alert('verify: ' + JSON.stringify(data, null, 2));
+      });
+      universalLinks.subscribe('load', function(data) {
+        alert('load: ' + JSON.stringify(data, null, 2));
+      });
        navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
+      initAd();
+       showBannerFunc();
     },
 
     onSuccess: function(position){
@@ -43,5 +59,7 @@ var app = {
         alert("the code is " + error.code + ". \n" + "message: " + error.message);
     },
 };
+
+
 
 app.initialize();

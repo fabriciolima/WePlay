@@ -2,14 +2,14 @@
 <widget id="com.trocajogo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Troca Jogos</name>
     <description>
-	    App de uso pare testes
-	    okokokok
+	    App de troca de jogos usados
 	</description>
+    <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="Orientation" value="portrait" />
-    <preference name="BackgroundColor" value="0xF2F2F2FF" />
+    <preference name="BackgroundColor" value="cyan darken-4" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenDelay" value="0" />
     <platform name="android">
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
@@ -67,33 +67,50 @@
         <splash height="1920" src="resources/windows/splash/SplashScreenPhone.scale-240.png" width="1152" />
     </platform>
     <platform name="android">
-        <preference name="StatusBarBackgroundColor" value="#E86C13" />
+        <preference name="StatusBarBackgroundColor" value="cyan darken-4" />
     </platform>
     <platform name="ios">
         <preference name="StatusBarOverlaysWebView" value="false" />
-        <preference name="StatusBarBackgroundColor" value="#F57F17" />
+        <preference name="StatusBarBackgroundColor" value="cyan darken-4" />
     </platform>
     <access origin="*" />
     <preference name="phonegap-version" value="cli-7.1.0" />
-    <plugin name="cordova-plugin-whitelist" />
-    <plugin name="cordova-sqlite-storage" spec="^2.2.0" />
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
+    <universal-links>
+        <host name="jx52y.app.goo.gl" scheme="https">
+            <path url="/pGuk/*" />
+        </host>
+        <host name="jogos-usados.firebaseapp.com" scheme="https">
+            <path url="/__/auth/callback" />
+        </host>
+        <host name="*.myapp.com" scheme="https">
+            <path event="verify" url="*verify*" />
+            <path event="load" url="/*" />
+        </host>
+    </universal-links>
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <plugin name="cordova-sqlite-storage" spec="^2.2.1" />
     <plugin name="cordova-plugin-googlemaps" spec="^2.2.5">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAWjHwV4XROiM8YYRtqUBfaPNtn-ixZHh0" />
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Show your location on the map" />
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Trace your location on the map" />
     </plugin>
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-globalization" spec="^1.0.9" />
-    <plugin name="cordova-plugin-admobpro-firebase" spec="^2.30.1" />
-    <plugin name="cordova-plugin-x-socialsharing" spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="git+https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
-        <variable name="URL_SCHEME" value="weplay" />
+        <variable name="URL_SCHEME" value="jx52y.app.goo.gl" />
         <variable name="ANDROID_SCHEME" value="weplay" />
         <variable name="ANDROID_HOST" value=" " />
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
+    <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
+    <plugin name="cordova-plugin-buildinfo" spec="^2.0.1" />
+    <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-admob-simple" spec="^3.3.4" />
     <engine name="browser" spec="^5.0.1" />
-    <engine name="android" spec="^7.0.0" />
+    <engine name="android" spec="^6.3.0" />
 </widget>

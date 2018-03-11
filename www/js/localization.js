@@ -13,8 +13,9 @@ Localization = (function() {
   };
 
   Localization.get_preferred_language_callback = function(language) {
-    Localization.language = language.value.substring(0, 2);;
+    Localization.language = language.value.substring(0, 2);
     console.log("Phone language is " + Localization.language);
+    console.log("dicionario",Localization.dictionnary);
     if (Localization.language in Localization.dictionnary) {
       console.log("It is supported.");
     } else {

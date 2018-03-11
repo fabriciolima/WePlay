@@ -1,7 +1,7 @@
 document.addEventListener('deviceready', function(){
 	Localization.initialize(
     { 
-		"pt-BR": {
+		pt: {
             sim: "SIM",
             nao: "Nops",
             perto:"Por perto",
@@ -13,27 +13,56 @@ document.addEventListener('deviceready', function(){
             logingoogle:"Login com Google",
             localizacao:"Localização",
             escolherlocalizacao:"Escolher localização",
-						facalogin:"Faça o Login com uma conta selecionada",
-						enviar:"Enviar",
-						proportroca:"Propor troca",
-						semgps:"Sem gps",
-						novo:"Novo",
-						usado:"Usado",
-						melhorlercomentario:"Melhor ler comentário",
-						outros:"Outros",
-						estadoconservacao:"Selecione estado de conservação",
-						nomejogo:"Nome do jogo",
-						escolherplataforma:"Escolha uma plataforma",
-						escolherjogo:"Escolha um jogo",
-						jogojacadastrado:"Voce já tem esse jogo",
-						jogocadastrado:"Pronto para troca",
-						tiporolo:"Comentário ou troco por $$$ "
+			facalogin:"Faça o Login com uma conta selecionada",
+			enviar:"Enviar",
+			proportroca:"Propor troca",
+			semgps:"Sem gps",
+			novo:"Novo",
+			usado:"Usado",
+			melhorlercomentario:"Melhor ler comentário",
+			outros:"Outros",
+			estadoconservacao:"Selecione estado de conservação",
+			nomejogo:"Nome do jogo",
+			escolherplataforma:"Escolha uma plataforma",
+			escolherjogo:"Escolha um jogo",
+			jogojacadastrado:"Voce já tem esse jogo",
+			jogocadastrado:"Pronto para troca",
+			tiporolo:"Comentário ou troco por $$$ "
 
         },
         fr: {
             sim: "Oui",
             nao: "Non",
             perto:""
+		},
+		es: {
+            sim: "si",
+            nao: "No",
+            perto:"cerca",
+            meusjogos:"mis juegos",
+            escolhaopcao:"elija la opción",
+            selecioneconsole:"seleccione una consola",
+            estado:"Estado de conservación",
+            loginfacebook:"Iniciar sesión con Facebook",
+            logingoogle:"Iniciar sesión con  Google",
+            localizacao:"Localización",
+            escolherlocalizacao:"Elegir la ubicación",
+			facalogin:"Inicie sesión con una cuenta seleccionada",
+			enviar:"Enviar",
+			proportroca:"Proponer un intercambio",
+			semgps:"Sin gps",
+			novo:"Nuevo",
+			usado:"Usado",
+			melhorlercomentario:"Mejor leer el comentario",
+			outros:"Otros",
+			estadoconservacao:"Seleccione estado de conservación",
+			nomejogo:"Nombre del juego",
+			escolherplataforma:"Elija una plataforma",
+			escolherjogo:"Elegir un juego",
+			jogojacadastrado:"Usted ya tiene ese juego",
+			jogocadastrado:"listo para el intercambio",
+			tiporolo:"Comentario o intercambio por $$$ "
+						
         },
         en: {
             sim: "Yes",
@@ -47,21 +76,22 @@ document.addEventListener('deviceready', function(){
             logingoogle:"Login with Google",
             localizacao:"Localization",
             escolherlocalizacao:"Choose a localization",
-						facalogin:"Login with a selected account",
-						enviar:"Send",
-						proportroca:"Offer trade",
-						semgps:"No gps signal",
-						novo:"New",
-						usado:"Wear",
-						melhorlercomentario:"Better read comments",
-						outros:"Others",
-						estadoconservacao:"State of preservation",
-						nomejogo:"Game's name",
-						escolherplataforma:"Choose one platform",
-						escolherjogo:"Choose a game",
-						jogojacadastrado:"You have this game already",
-						jogocadastrado:"OK. Good to go",
-						tiporolo:"Comments or how much do you want"
+			facalogin:"Login with a selected account",
+			enviar:"Send",
+			proportroca:"Offer trade",
+			semgps:"No gps signal",
+			novo:"New",
+			usado:"Wear",
+			melhorlercomentario:"Better read comments",
+			outros:"Others",
+			estadoconservacao:"State of preservation",
+			nomejogo:"Game's name",
+			escolherplataforma:"Choose one platform",
+			escolherjogo:"Choose a game",
+			jogojacadastrado:"You have this game already",
+			jogocadastrado:"OK. Good to go",
+			tiporolo:"Comments or how much do you want"
+			
         }
     },"en");
 	});
@@ -110,11 +140,11 @@ function getJSON(){
 	// }
 	// console.log("retornando localhost");
 	// return "http://18.219.152.216:8080/json";
-	return "http://localhost:8080/json";
+	return "http://192.168.15.2:8080/json";
 }
 
 function gerURLplataforma90(id){
-	return "www/img/plataforma400/"+id+"_400.png";
+	return "www/img/plataforma90/"+id+"_90.png";
 }
 
 function gerURLplataforma(id){
@@ -151,28 +181,27 @@ function distancia(location1, location2) {
 function degreesToRadians(degrees) {
 	  return (degrees * Math.PI / 180);
 	};
-
 	
-	
-var admobid = {};
-	  if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
-	    admobid = {
-	      banner: 'ca-app-pub-5252544817016620/5591870476', // or DFP format "/6253334/dfp_example_ad"
-	      interstitial: 'ca-app-pub-xxx/yyy'
-	    };
-	  } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
-	    admobid = {
-	      banner: 'ca-app-pub-xxx/zzz', // or DFP format "/6253334/dfp_example_ad"
-	      interstitial: 'ca-app-pub-5252544817016620/8293630401'
-	    };
-	  } else { // for windows phone
-	    admobid = {
-	      banner: 'ca-app-pub-5252544817016620/5591870476', // or DFP format "/6253334/dfp_example_ad"
-	      interstitial: 'ca-app-pub-xxx/kkk'
-	    };
-	  }
+// var admobid = {};
+// 	  if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
+// 	    admobid = {
+// 	      banner: 'ca-app-pub-5252544817016620/5591870476', // or DFP format "/6253334/dfp_example_ad"
+// 	      interstitial: 'ca-app-pub-xxx/yyy'
+// 	    };
+// 	  } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+// 	    admobid = {
+// 	      banner: 'ca-app-pub-xxx/zzz', // or DFP format "/6253334/dfp_example_ad"
+// 	      interstitial: 'ca-app-pub-5252544817016620/8293630401'
+// 	    };
+// 	  } else { // for windows phone
+// 	    admobid = {
+// 	      banner: 'ca-app-pub-5252544817016620/5591870476', // or DFP format "/6253334/dfp_example_ad"
+// 	      interstitial: 'ca-app-pub-xxx/kkk'
+// 	    };
+// 	  }
 
-if(AdMob) AdMob.createBanner({
-		  adId: admobid.banner,
-		  position: AdMob.AD_POSITION.TOP_CENTER,
-		  autoShow: true });
+// if(AdMob) AdMob.createBanner({
+// 		  adId: admobid.banner,
+// 		  position: AdMob.AD_POSITION.TOP_CENTER,
+// 		  autoShow: true });
+
