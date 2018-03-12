@@ -26,7 +26,6 @@ document.addEventListener('deviceready', function(){
 	
 
 function salvaPlataforma(checkbox){
-	console.log(checkbox);
 	local.setItem("plataforma"+checkbox.id,  (checkbox.checked ? "checked" : ""));
 }
 function salvaCliente(){

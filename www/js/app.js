@@ -1,3 +1,4 @@
+var local = window.localStorage;
 //alert(Localization.for("sim"));
 
 //window.location = "chat.html";
@@ -51,7 +52,6 @@ $('.atualiza').on('click',function(){
 
 
 $('.cadastro-jogo').on('click', function() {
-	var local = window.localStorage;
 	var idCliente = local.getItem('idCliente');
 	if(idCliente == null || idCliente =="null")
 		window.location = "login.html";
@@ -491,3 +491,11 @@ function initAd(){
 		window.plugins.AdMob.createBannerView();
 	}
 	
+if(local.getItem("primeiravez")==null){
+	db.collection("plataforma").get().then(function listaPlataforma(listaPlataforma){
+		listaPlataforma.forEach(function(doc){
+			local.setItem("plataforma"+doc.id, "checked");
+		});
+	});
+	local.setItem("primeiravez","nao");
+}

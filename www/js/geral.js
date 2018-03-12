@@ -146,7 +146,9 @@ function getJSON(){
 }
 
 function gerURLplataforma90(id){
-	return "www/img/plataforma90/"+id+"_90.png";
+	// return "file:///android_asset/www/img/plataforma90/"+id+"_90.png";
+	return "img/plataforma90/"+id+"_90.png";
+	// return "www/img/plataforma90/"+id+"_90.png";
 }
 
 function gerURLplataforma(id){
