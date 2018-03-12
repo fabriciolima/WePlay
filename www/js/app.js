@@ -24,7 +24,9 @@
 $('.botao-share').on('click', function() {
 	 window.plugins.socialsharing.shareWithOptions(options,null,null);
 });
-
+$('.botao-config').on('click', function() {
+	window.location="logout.html";
+});
 var options={message:"kjhkjh",
 	  	   subject:"llkjlj", 
 	  	   files:null, 
@@ -100,7 +102,7 @@ function adicionaJogoTelaInicial(data) {
 			+ '		<h6 style="padding-left:  15px;">'+data.nomePlataforma+'</h6>'
  			+ '		<h5 style="padding-left:  5px;"> '+data.nomeJogo+'</h5>'
 			 +'<a style="float:right" class="btn btn-floating" onclick="'
-			 +'  proporTroca('+data.idJogoCliente+','+data.distancia+',\''+data.nomePlataforma
+			 +'  proporTroca(\''+data.idJogoCliente+'\','+data.distancia+',\''+data.nomePlataforma
 			 +'\')"><i class="material-icons">swap_horiz</i></a>'
 			 +'  <span class="badge">'+data.distancia+' Km</span> '
 			 
@@ -195,7 +197,7 @@ function botaoTemJogosParaTroca(jogocliente){
 		.get().then(function (listaNovos){
 			if(listaNovos.size>0){
 				console.log("novo",jogocliente.id);
-				$('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas('+jogocliente.id+')">'
+				$('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
 						+'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
 			}//verificar se existem mensagem antigas
 			else db.collection("jogocliente").doc(jogocliente.id).collection("interessados")
@@ -233,6 +235,8 @@ function getJogosPorPerto(){
 		navigator.geolocation.getCurrentPosition(function(posicao){
 			var lat=posicao.coords.latitude.toFixed(6);
 			var long=posicao.coords.longitude.toFixed(6);
+			local.setItem('lat',lat);
+			local.setItem('lon',long);
 			pos = "Point(" + long+" "+lat+")";
 
 			$.ajax({
@@ -273,6 +277,7 @@ function getJogosPorPerto(){
 function getMeusJogosTelaInicial(){
 	var local = window.localStorage;
 	idCliente = local.getItem('idCliente');
+	console.log(idCliente);
 	db.collection("jogocliente")
 		.where("idcliente","==",idCliente)
 		// .where("dataexclusao","==",null)

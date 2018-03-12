@@ -27,7 +27,8 @@ document.addEventListener('deviceready', function(){
 			escolherjogo:"Escolha um jogo",
 			jogojacadastrado:"Voce já tem esse jogo",
 			jogocadastrado:"Pronto para troca",
-			tiporolo:"Comentário ou troco por $$$ "
+			tiporolo:"Comentário ou troco por $$$ ",
+			propostas:"Propostas para troca"
 
         },
         fr: {
@@ -90,7 +91,8 @@ document.addEventListener('deviceready', function(){
 			escolherjogo:"Choose a game",
 			jogojacadastrado:"You have this game already",
 			jogocadastrado:"OK. Good to go",
-			tiporolo:"Comments or how much do you want"
+			tiporolo:"Comments or how much do you want",
+			propostas:"Games to Swap"
 			
         }
     },"en");
@@ -164,13 +166,16 @@ $('.botao-voltar').on('click', function() {
 });
 
 
-function distancia(location1, location2) {
+function distancia(lat,lon) {
+	console.log("distanciaslndf;assdf");
 	  var radius = 6371; // Earth's radius in kilometers
-	  var latDelta = degreesToRadians(location2[0] - location1[0]);
-	  var lonDelta = degreesToRadians(location2[1] - location1[1]);
+	  var local = window.localStorage;
+	  
+	  var latDelta = degreesToRadians(lat - local.getItem('lat'));
+	  var lonDelta = degreesToRadians(lon - local.getItem('lon'));
 
 	  var a = (Math.sin(latDelta / 2) * Math.sin(latDelta / 2)) +
-	          (Math.cos(degreesToRadians(location1[0])) * Math.cos(degreesToRadians(location2[0])) *
+	          (Math.cos(degreesToRadians(local.setItem('lat'))) * Math.cos(degreesToRadians(lat)) *
 	          Math.sin(lonDelta / 2) * Math.sin(lonDelta / 2));
 
 	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));

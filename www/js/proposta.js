@@ -80,6 +80,7 @@ function adicionaJogoInteresse(){
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
 	db.doc('jogocliente/'+idjogocliente).get().then(function(docjc){//busca jc
+		console.log(idjogocliente);
 		db.doc('jogo/'+docjc.data().idjogo).get().then(function (docjogo){
 			items.push('<div class="col s12 m7">'
 					+ '<div class="card horizontal">'
@@ -118,6 +119,7 @@ function fazProposta(){
 	$('input[type=checkbox]').each(function () {
 		sList += "(" + $(this).val() + "-" + (this.checked ? "checked" : "not checked") + ")";
 		if(this.checked){
+			console.log("+",this.id);
 			db.collection("jogocliente").doc(idjogocliente).collection("interessados")
 				.doc(this.id+'-'+idjogocliente).set({
 					idcliente:idCliente,
@@ -136,8 +138,8 @@ function fazProposta(){
 				}
 	});
 	
+	window.location = "index.html";
 	Materialize.toast(Localization.for("jogocadastrado"), 4000);
-	
     return false;
 };
 

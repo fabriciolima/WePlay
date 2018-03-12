@@ -161,6 +161,19 @@ $(document).ready(function () {
     animateText();
 
     scrollBottom();
+
+    var local = window.localStorage;
+    jcInteresse = local.getItem("jcInteresse");
+    jcProposta = local.getItem("jcProposta");
+    idCliente = local.getItem("idCliente");
+    
+    db.collection("chat").add({
+      idenviou:idCliente,
+      idpessoa1:jcInteresse,
+      idpessoa2:jcProposta,
+      hora:new Date(),
+      msg:message.text
+    });
   }
 
   function buildRecieved(message) {
@@ -184,48 +197,43 @@ $(document).ready(function () {
   messenger.onSend = buildSent;
   messenger.onRecieve = buildRecieved;
 
-  setTimeout(function () {
-    messenger.recieve('Hello there!');
-  }, 1500);
+  // setTimeout(function () {
+  //   messenger.recieve('Hello there!');
+  // }, 1500);
 
-  setTimeout(function () {
-    messenger.recieve('Do you like this? If so check out more on my page...');
-  }, 5000);
-
-  setTimeout(function () {
-    messenger.recieve('Or maybe just give it a like!');
-  }, 7500);
   
-  
-  db.collection("clientes").get().then(function(lista){
-		
-		lista.forEach(function(doc) {
-			setTimeout(function () {
-			    messenger.recieve(doc.data().nome);
-			  });
-			console.log(doc.data());
-//			messenger.receive('doc.data().nome');
-//			messenger.send("--------------");
-			
-		});
-	
-})
-
-
   $input.focus();
-
+  
   $send.on('click', function (e) {
     sendMessage();
   });
-
+  
   $input.on('keydown', function (e) {
     var key = e.which || e.keyCode;
-
+    
     if (key === 13) {
       // enter key
       e.preventDefault();
-
+      
       sendMessage();
     }
+  });
+  
+  
+  var local = window.localStorage;
+	jcInteresse = local.getItem("jcInteresse");
+  jcProposta = local.getItem("jcProposta");
+  idCliente = local.getItem("idCliente");
+  
+  db.collection("chat").get().then(function(lista){
+  
+    lista.forEach(function(doc) {
+      if(doc.data().idEnviou==idCliente){
+        messenger.send(doc.data().msg);
+      }else{
+        messenger.recieve(doc.data().msg);
+      }
+      console.log(idCliente,doc.data());
+    });
   });
 });

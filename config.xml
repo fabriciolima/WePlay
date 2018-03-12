@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.trocajogo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Troca Jogos</name>
+    <name>WePlay</name>
     <description>
-	    App de troca de jogos usados
+	    WePlay
 	</description>
     <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="Orientation" value="portrait" />

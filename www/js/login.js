@@ -25,7 +25,8 @@ function login(){
 			var local = window.localStorage;
 			local.setItem('idTemp', user.uid);
 			local.setItem('nomeCliente', user.displayName);
-			Materialize.toast(user.displayName, 4000);
+			console.log('idTemp', user.uid);
+			console.log('user', user);
 		}
 	});
 }
@@ -76,7 +77,8 @@ function salvaCliente(){
 			lat:lat,
 			lon:lon},function(data, status){
 					if(data != null && data != ""){
-						local.setItem('idCliente',local.getItem('idTemp'));
+						local.setItem('idCliente',data);
+						console.log("===>",data);
 						window.location = "index.html";
 					}
 				})

@@ -32,8 +32,7 @@ function salvaJogo(){
 	}
 
 	//verificando se tem um jogocliente salvo
-	idCliente = local.getItem('idCliente');
-    nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	nomeJogo = $('#nome').val();
 	idPlataforma = $('#console').val();
 	

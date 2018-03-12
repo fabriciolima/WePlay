@@ -1,120 +1,107 @@
 getMeuJogo();
-adicionaPropostas();
+adicionaListaPropostas();
 
 function getMeuJogo(){
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
-	document.addEventListener('deviceready', function(){
-		rcRef = db.collection("jogocliente").doc(idjogocliente);
-		
-		rcRef.get().then(function(doc){
-			if(doc.exists){
-					adicionaMeuJogoTela(doc.data());
-					adicionaPropostas(rcRef);
-				}else{
-					console.log("doc nao existe");
-				}
-			});		
-	});
+	rcRef = db.collection("jogocliente").doc(idjogocliente).get().then(function(doc){
+		if(doc.exists){
+				adicionaMeuJogoTela(doc.data());
+				//adicionaPropostas(rcRef);
+			}else{
+				console.log("doc nao existe");
+			}
+		});		
+
 }
 
-function adicionaMeuJogoTela(proposta) {
+function adicionaMeuJogoTela(jogocliente) {
 	var items = [];
 	
 	nomejogo = "";
-	db.collection("jogo").doc(proposta.idjogo).get().then(function (docJogo){
-		db.collection("plataforma").doc(proposta.idplataforma).get().then(function (docPlataforma){
-				console.log(docPlataforma.data());
+	db.collection("jogo").doc(jogocliente.idjogo).get().then(function (docJogo){
+		db.collection("plataforma").doc(jogocliente.idplataforma).get().then(function (docPlataforma){
 				items.push('<div class="col s12 m7">'
-				+ '<h2 class="header">Jogo perto</h2>'
-				+ '<div class="card horizontal">'
-				+ '<div class="card-image">'
-	//			+ '	<img src="img/plataforma50/2_50.PNG"> '
-//				+ '	<img src="'+ getImagemPlataforma(data.id)+ '">'
-				+ '</div>'
-				+ '<div class="card-stacked">'
-				+ '	<div class="card-content">'
-				+ '		<p>'
-				+ '<h6>'+docJogo.data().nome+'</h6>'
-				+ '<h5> '+docPlataforma.data().nome+'</h5>'
-				
-				+ '</p>'
-				+ '	</div>'
-				+ '	<div class="card-action">'
-				+ '	</div>'
-				+ '</div>'
-				+ '</div>' + '</div>');
+					+ '<div class="card horizontal">'
+					+ '<div class="card-image">'
+					+ '	<img src="'+gerURLjogo90(docJogo.id)+'"> '
+					+ '</div>'
+					+ '<div class="card-stacked">'
+					+ '	<div style="padding: 5px  15px  24px 5px;">'
+					+ '		<h6 style="padding-left:  15px;">'+docPlataforma.data().nome+'</h6>'
+					+ '		<h5 style="padding-left:  5px;"> '+docJogo.data().nome+'</h5>'
+					+ '	</div>'
+					+ '</div>'
+					+ '</div></div>');
 		$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#meujogo');
 	//		}).appendTo('body');
 		});
 	});
 };
 
-function adicionaPropostas(rcRef){
+function adicionaListaPropostas(rcRef){
 	items = [];
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
-	console.log("-------",idjogocliente);
 	db.collection('jogocliente').doc(idjogocliente).collection('interessados').get().then(function(propostalista){
 		propostalista.forEach(function(propostadoc) {
-
-			db.collection('jogocliente').doc(propostadoc.data().idjogocliente)
-				.get().then(function (docpropostajc){
-			
-					if(docpropostajc.dataexclusao == null){
-						console.log("5555",docpropostajc.data());
-					
-						db.collection('jogo').doc(docpropostajc.data().idjogo).get().then(function(docjogo){
-							//calcdistancia(docpropostajc.data().idcliente,idjogocliente);
-//							'jogocliente/'+propostadoc.data().idjogocliente+'/interessados/'+docpropostajc.id
-							
-							items.push('<div class="col s12 m7">'
-									+ '<h2 class="header">Jogo perto</h2>'
-									+ '<div class="card horizontal">'
-									+ '<div class="card-image">'
-//			+ '	<img src="img/plataforma50/2_50.PNG"> '
-//			+ '	<img src="'+ getImagemPlataforma(data.id)+ '">'
-									+ '</div>'
-									+ '<div class="card-stacked">'
-									+ '	<div class="card-content">'
-									+ '		<p>'
-									+ '<h6>'+docjogo.data().nome+'</h6>'
-//			+ '<h5> '+nomePlataforma(data.idPlataforma)+'</h5>'
-									+ local.getItem('nomePlataforma')
-									+ '</p>'
-									+ '	</div>'
-//									+'      <div id="chat_'+docjogo.data().idcliente+'" > </div>'
-									+'<div><a style="float:right" class="btn btn-floating " onclick="abrechat()">'
-									+'<i class="material-icons">chat</i></a></div>'
-									+ '	</div>'
-									+ '</div>'
-									+ '</div></div>');
-							$('<ul/>', {'class' : 'my-new-list',
-								html : items.join('')
-							}).appendTo('#propostas');
-						});
-					}
+			if(propostadoc.data().dataexclusao == null)
+				adicionaProposta(propostadoc.data().idcliente,propostadoc.data().idjogocliente)		
 		});
-		}); //busca o jogo
 	});
 }
 
-function abrechat(){
+
+function adicionaProposta(idCliente,idjogocliente){
+	
+	db.collection('jogocliente').doc(idjogocliente).get().then(function (docjc){
+		db.collection('jogo').doc(docjc.data().idjogo).get().then(function(docjogo){
+			db.collection('plataforma').doc(docjc.data().idplataforma).get().then(function(docplataforma){
+				distancia = calcdistancia(idCliente);
+				//							'jogocliente/'+propostadoc.data().idjogocliente+'/interessados/'+docpropostajc.id
+				
+				items.push('<div class="col s12 m7">'
+				+ '<div class="card horizontal">'
+				+ '<div class="card-image">'
+				+ '	<img src="'+gerURLjogo90(docjogo.id)+'"> '
+				+ '</div>'
+				+ '<div class="card-stacked">'
+				+ '	<div style="padding: 5px  15px  24px 5px;">'
+				+ '		<h6 style="padding-left:  15px;">'+docplataforma.data().nome+'</h6>'
+				+ '		<h5 style="padding-left:  5px;"> '+docjogo.data().nome+'</h5>'
+				+'<div><a style="float:right" class="btn btn-floating " onclick="abrechat(\''+idjogocliente+'\')">'
+				+'<i class="material-icons">chat</i></a></div>'
+				+'  <span class="badge">'+00 +'Km</span></div>'
+				+ '	</div>'
+				+ '	</div>'
+				+ '</div>'
+				+ '</div></div>');
+			$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#propostas');
+			});
+		});
+	});
+}
+
+function abrechat(jcProposta){
+	var local = window.localStorage;
+	local.setItem("jcInteresse",local.getItem('idjogocliente'));
+	local.setItem("jcProposta",jcProposta);
 	window.location="chat.html";
 }
 // collection("jogocliente").doc(id).collection(interessados).doc(id).collection(chat).doc()
 
 function calcdistancia(idcliente,idjogocliente){
-	db.collection("jogocliente").doc(idjogocliente).get().then(function(docidjogocliente){
+	// db.collection("jogocliente").doc(idjogocliente).get().then(function(docidjogocliente){
 //		db.collection("cliente").doc(docidjogocliente.data().idcliente).get().then(function(doc1){
-		db.collection("cliente").doc("0KJGSC0qpAIBhJ0Zn4Yv").get().then(function(doc1){
+		// db.collection("cliente").doc(docidjogocliente.data().idcliente).get().then(function(doc1){
 //			db.collection("cliente").doc(idcliente).get().then(function(doc2){
-			db.collection("cliente").doc("1NzkWbFfRJMKqZ6n3aLl").get().then(function(doc2){
-				console.log("doc1",doc1.data().posicao);
-				console.log("doc2",doc2.data().posicao);
-				console.log(distancia(doc1.data().posicao,doc2.data().posicao));
+	//console.log("doc1",doc1.data().posicao);
+				db.collection("cliente").doc(idcliente).get().then(function(doc2){
+console.log(idcliente);
+				console.log("doc2",doc2.data().localizacao);
+				//  console.log(distancia(doc2.data().localizacao.latitude,doc2.data().localizacao.longitude));
 			})
-		})
-	})
+	// 	})
+	// })
 	
 }
