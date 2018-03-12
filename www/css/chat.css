@@ -209,7 +209,7 @@ body {
   font-weight: 300;
   position: relative;
   /* word-break: break-all; */
-  opacity: 0;
+/*  opacity: 0;*/
 }
 .message-wrapper .text-wrapper:before {
   content: '';

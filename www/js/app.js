@@ -232,47 +232,65 @@ google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
 	document.addEventListener('deviceready', function(){
+		//var local = window.localStorage;
+		if(local.getItem('lat')!=null){
+			adicionaJogosPorPerto();
+		}
+		else
 		navigator.geolocation.getCurrentPosition(function(posicao){
-			var lat=posicao.coords.latitude.toFixed(6);
-			var long=posicao.coords.longitude.toFixed(6);
-			local.setItem('lat',lat);
-			local.setItem('lon',long);
-			pos = "Point(" + long+" "+lat+")";
-
-			$.ajax({
-				type: "GET",
-				url: getJSON()+"/jogosperto",
-				data: { 
-					pos:pos,
-					// getJogosPorPerto: 1,
-					// sortBy: 'name', 
-					// sortOrder: 'ASC',
-					page: $currentPage,
-					size: $pageSize
-					// filterBy: $filter
-				},
-				crossDomain: false,
-				cache: false,
-				dataType: "json",
-				beforeSend: function(){ 
-					scrollStop = 1;
-				},
-				success: function(data){
-					for(cont = 0 ; cont < data.length; ++cont){
-						//console.log("cont",cont);
-						// atualizaJogosDB(data.content[cont]);
-						adicionaJogoTelaInicial(data[cont]);
-					}
-					if(data != null) scrollStop = 0;
-					else scrollStop = 1;
-					
-				}
-			});
+			alert(99);
+			console.log("indo buscar no GPS");
+			adicionaJogosPorPerto();
 		}, onError, { timeout: 3000 });
 	});
 }
 
 
+function adicionaJogosPorPerto(posicao){
+
+	if(posicao==null){
+		lat = local.getItem('lat');
+		long = local.getItem('lon');
+	}
+	else{
+		var lat=posicao.coords.latitude.toFixed(6);
+		var long=posicao.coords.longitude.toFixed(6);
+		local.setItem('lat',lat);
+		local.setItem('lon',long);
+	}
+	pos = "Point(" + long+" "+lat+")";
+
+	$.ajax({
+		type: "GET",
+		url: getJSON()+"/jogosperto",
+		data: { 
+			pos:pos,
+			// getJogosPorPerto: 1,
+			// sortBy: 'name', 
+			// sortOrder: 'ASC',
+			page: $currentPage,
+			size: $pageSize
+			// filterBy: $filter
+		},
+		crossDomain: false,
+		cache: false,
+		dataType: "json",
+		beforeSend: function(){ 
+			scrollStop = 1;
+		},
+		success: function(data){
+			for(cont = 0 ; cont < data.length; ++cont){
+				//console.log("cont",cont);
+				// atualizaJogosDB(data.content[cont]);
+				adicionaJogoTelaInicial(data[cont]);
+			}
+			if(data != null) scrollStop = 0;
+			else scrollStop = 1;
+			
+		}
+	});
+
+}
 
 function getMeusJogosTelaInicial(){
 	var local = window.localStorage;
@@ -433,45 +451,19 @@ window.addEventListener('pushnotification', function(notification) {
 }, false);
 
 document.addEventListener("deviceready", function(){
-	
+	universalLinks.subscribe(null, function (eventData) {
+        // do some work
+        alert(eventData.url);
+		alert.log('eventdata ', eventData);
+		
+		
+	});
 	initAd();
-	showBannerFunc();
+	window.plugins.AdMob.createBannerView();
+	//showBannerFunc();
 }, true);
 
-function initAd(){
-	// document.addEventListener("deviceready", initAd, true);
-			if ( window.plugins && window.plugins.AdMob ) {
-				var ad_units = {
-					ios : {
-						banner: 'ca-app-pub-5252544817016620/5591870476',		//PUT ADMOB ADCODE HERE 
-						interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE 
-					},
-					android : {
-						banner: 'ca-app-pub-5252544817016620/5591870476',		//PUT ADMOB ADCODE HERE 
-						interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE 
-					}
-				};
-				var admobid = ( /(android)/i.test(navigator.userAgent) ) ? ad_units.android : ad_units.ios;
-	 
-				window.plugins.AdMob.setOptions( {
-					publisherId: admobid.banner,
-					interstitialAdId: admobid.interstitial,
-					adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER,	//use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD 
-					bannerAtTop: false, // set to true, to put banner at top 
-					overlap: true, // banner will overlap webview  
-					offsetTopBar: false, // set to true to avoid ios7 status bar overlap 
-					isTesting: false, // receiving test ad 
-					autoShow: false // auto show interstitial ad when loaded 
-				});
-	 
-				registerAdEvents();
-				window.plugins.AdMob.createInterstitialView();	//get the interstitials ready to be shown 
-				window.plugins.AdMob.requestInterstitialAd();
-	 
-			} else {
-				//alert( 'admob plugin not ready' ); 
-			}
-	}
+
 	//functions to allow you to know when ads are shown, etc. 
 	function registerAdEvents() {
 			document.addEventListener('onReceiveAd', function(){});
@@ -498,4 +490,37 @@ if(local.getItem("primeiravez")==null){
 		});
 	});
 	local.setItem("primeiravez","nao");
+}
+
+function initAd(){
+	if ( window.plugins && window.plugins.AdMob ) {
+		var ad_units = {
+			ios : {
+				banner: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx',		//PUT ADMOB ADCODE HERE
+				interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE
+			},
+			android : {
+				banner: 'ca-app-pub-5252544817016620/5591870476',		//PUT ADMOB ADCODE HERE
+				interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE
+			}
+		};
+		var admobid = ( /(android)/i.test(navigator.userAgent) ) ? ad_units.android : ad_units.ios;
+
+		window.plugins.AdMob.setOptions( {
+			publisherId: admobid.banner,
+			interstitialAdId: admobid.interstitial,
+			adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER,	//use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
+			bannerAtTop: false, // set to true, to put banner at top
+			overlap: true, // banner will overlap webview 
+			offsetTopBar: false, // set to true to avoid ios7 status bar overlap
+			isTesting: true, // receiving test ad
+			autoShow: false // auto show interstitial ad when loaded
+		});
+
+		registerAdEvents();
+		
+
+	} else {
+		//alert( 'admob plugin not ready' );
+	}
 }

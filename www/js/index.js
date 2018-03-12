@@ -1,3 +1,6 @@
+
+alert(0);
+    
 var app = {
     // Application Constructor
     initialize: function() {
