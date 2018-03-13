@@ -28,8 +28,8 @@ $('.botao-share').on('click', function() {
 $('.botao-config').on('click', function() {
 	window.location="logout.html";
 });
-var options={message:"kjhkjh",
-	  	   subject:"llkjlj", 
+var options={message:"Check This",
+	  	   subject:"", 
 	  	   files:null, 
 	  	   url:"https://jx52y.app.goo.gl/pGuk",
 	  	   chooserTitle:'We Play'}
@@ -251,6 +251,9 @@ function botaoTemJogosParaTroca(jogocliente){
 function verpropostas(idjogocliente){
 	var local = window.localStorage;
 	local.setItem('idjogocliente',idjogocliente);
+	db.collection("jogocliente").doc(idjogocliente).set({
+		ultimaabertura:new Date()
+	}, { merge: true })
 	window.location = "propostaaceitacao.html";
 }
 

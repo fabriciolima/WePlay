@@ -25,7 +25,7 @@ body {
 
 .depois-topo{
     top: 60px;
-    position: relative;
+    position: fixed;
     width: 100%;
 }
 /* .section { */

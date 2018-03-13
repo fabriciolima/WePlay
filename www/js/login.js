@@ -76,7 +76,10 @@ function salvaCliente(){
 						console.log("===>",data);
 						window.location = "index.html";
 					}
-				})
+				}).catch(function(erro){
+					Materialize.toast('Erro salvando', 4000);
+					console.log(erro);
+				});
 			};
 	return false;
 	
