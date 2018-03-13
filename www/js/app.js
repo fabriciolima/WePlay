@@ -269,6 +269,7 @@ var $filter = 'today';
 google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
+	$currentPage = 0;
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
 		if(local.getItem('lat')!=null){
