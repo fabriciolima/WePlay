@@ -28,6 +28,25 @@ var Messenger = function () {
   }
 
   _createClass(Messenger, [{
+    key: 'sendOFF',
+    value: function send() {
+      var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      text = this.filter(text);
+
+      if (this.validate(text)) {
+        var message = {
+          user: this.me,
+          text: text,
+          time: new Date().getTime()
+        };
+
+        this.messageList.push(message);
+
+        this.onSendOFF(message);
+      }
+    }
+  },{
     key: 'send',
     value: function send() {
       var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -160,20 +179,31 @@ $(document).ready(function () {
     safeText(message.text);
     animateText();
 
-    scrollBottom();
-
+    
     var local = window.localStorage;
     jcInteresse = local.getItem("jcInteresse");
     jcProposta = local.getItem("jcProposta");
-    idCliente = local.getItem("idCliente");
+    jcEnviou = local.getItem("jcEnviou");
+    console.log(jcEnviou);
     
     db.collection("chat").add({
-      idenviou:idCliente,
+      jcEnviou:jcEnviou,
       idpessoa1:jcInteresse,
       idpessoa2:jcProposta,
       hora:new Date(),
       msg:message.text
     });
+    scrollBottom();
+  }
+
+  function buildSentOFF(message) {
+    console.log('sending: ', message.text);
+
+    $content.append(buildHTML.me(message.text));
+    safeText(message.text);
+    animateText();
+
+    scrollBottom();
   }
 
   function buildRecieved(message) {
@@ -194,7 +224,16 @@ $(document).ready(function () {
     $input.focus();
   }
 
+  function sendMessageOFF() {
+    var text = $input.val();
+    messenger.sendOFF(text);
+
+    $input.val('');
+    $input.focus();
+  }
+
   messenger.onSend = buildSent;
+  messenger.onSendOFF = buildSentOFF;
   messenger.onRecieve = buildRecieved;
 
   // setTimeout(function () {
@@ -223,17 +262,38 @@ $(document).ready(function () {
   var local = window.localStorage;
 	jcInteresse = local.getItem("jcInteresse");
   jcProposta = local.getItem("jcProposta");
-  idCliente = local.getItem("idCliente");
-  
-  db.collection("chat").get().then(function(lista){
-  
+  jcEnviou = local.getItem("jcEnviou");
+  var hora;
+  db.collection("chat").limit(5).orderBy("hora","desc").get().then(function(lista){
     lista.forEach(function(doc) {
-      if(doc.data().idEnviou==idCliente){
-        messenger.send(doc.data().msg);
+      if(doc.data().jcEnviou==jcEnviou){
+        messenger.sendOFF(doc.data().msg);
       }else{
         messenger.recieve(doc.data().msg);
       }
-      console.log(idCliente,doc.data());
+      hora = doc.data().hora;
+
+      
     });
+    db.collection("chat").where("hora",">",hora).onSnapshot(function(snap){
+      snap.docChanges.forEach(function(change) {
+        if (change.type === "added") {
+          console.log("New city: ", change.doc.data());
+          if(change.doc.data().jcEnviou!=jcEnviou){
+            console.log("recebendo online");
+                    messenger.recieve(change.doc.data().msg);
+                  }
+              }
+              if (change.type === "modified") {
+                  console.log("Modified city: ", change.doc.data());
+              }
+              if (change.type === "removed") {
+                  console.log("Removed city: ", change.doc.data());
+              }
+          });
   });
+
+
+  });
+
 });

@@ -1,3 +1,4 @@
+//ApiKey:AIzaSyB8tTLJ3EtwW4DtNBmMSrapQxfijMKv3JA
 document.addEventListener('deviceready', function(){
 	Localization.initialize(
     { 
@@ -142,7 +143,7 @@ function getJSON(){
 	// }
 	// console.log("retornando localhost");
 	// return "http://18.219.152.216:8080/json";
-	return "http://192.168.0.227:8080/json";
+	return "http://52.14.79.42:8080/json";
 }
 
 function gerURLplataforma90(id){

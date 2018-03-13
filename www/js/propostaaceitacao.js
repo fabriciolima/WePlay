@@ -39,16 +39,27 @@ function adicionaMeuJogoTela(jogocliente) {
 	});
 };
 
-function adicionaListaPropostas(rcRef){
+function adicionaListaPropostas(){
 	items = [];
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
-	db.collection('jogocliente').doc(idjogocliente).collection('interessados').get().then(function(propostalista){
-		propostalista.forEach(function(propostadoc) {
-			if(propostadoc.data().dataexclusao == null)
-				adicionaProposta(propostadoc.data().idcliente,propostadoc.data().idjogocliente)		
+	console.log(idjogocliente);
+	db.collection("trocas").where("idproposta","==",idjogocliente).where("dataexclusao","==",false)
+			//.where("datacadastro",">",ultimaabertura)
+			.orderBy("datacadastro", "desc").limit(20).get().then(function(listaTroca){
+				listaTroca.forEach(function(docTroca){
+					adicionaProposta(propostadoc.data().idcliente,docTroca.data().idinteresse);
+				});	
+			});
+		db.collection("trocas").where("idinteresse","==",idjogocliente).where("dataexclusao","==",false)
+		//.where("datacadastro",">",ultimaabertura)
+		.orderBy("datacadastro", "desc").limit(20).get().then(function(listaTroca){
+			console.log(listaTroca.size);
+			listaTroca.forEach(function(docTroca){
+				adicionaProposta(docTroca.data().idcliente,docTroca.data().idproposta)
+			});	
 		});
-	});
+
 }
 
 
@@ -86,6 +97,7 @@ function abrechat(jcProposta){
 	var local = window.localStorage;
 	local.setItem("jcInteresse",local.getItem('idjogocliente'));
 	local.setItem("jcProposta",jcProposta);
+	local.setItem("jcEnviou",local.getItem('idjogocliente'));
 	window.location="chat.html";
 }
 // collection("jogocliente").doc(id).collection(interessados).doc(id).collection(chat).doc()

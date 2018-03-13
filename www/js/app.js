@@ -192,23 +192,58 @@ function botaoTemJogosParaTroca(jogocliente){
 	// console.log("jogocliente",jogocliente);
 //	botao",db.collection("jogocliente").doc(jogocliente.id);
 	// console.log(jogocliente.id,jogocliente.data().ultimaabertura);
-	if( jogocliente.data() != null && jogocliente.data().ultimaabertura != null){
-		db.collection("jogocliente").doc(jogocliente.id).collection("interessados").where("datacadastro",">=",jogocliente.data().ultimaabertura)
-		.get().then(function (listaNovos){
-			if(listaNovos.size>0){
-				console.log("novo",jogocliente.id);
-				$('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
-						+'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
-			}//verificar se existem mensagem antigas
-			else db.collection("jogocliente").doc(jogocliente.id).collection("interessados")
-			.get().then(function (listaTudo){
-				if(listaTudo.size>0){
-					console.log("tudo");
-					$('<a style="float:right" class="btn btn-floating" onclick="verpropostas('+jogocliente.id+')">' 
-							+'<i class="material-icons">message</i></a>').appendTo('#listainteressados_'+jogocliente.id);
+	ultimaabertura = jogocliente.data().ultimaabertura;
+	console.log(jogocliente.id)
+	if( jogocliente.data() != null && ultimaabertura != null){
+		temMsg = false;
+		qtdMsg = 0;
+		db.collection("trocas").where("idproposta","==",jogocliente.id).where("dataexclusao","==",false)
+			//.where("datacadastro",">",ultimaabertura)
+			.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
+				qtdMsg += listaTroca.size;
+				console.log(listaTroca.size);
+				listaTroca.forEach(function(docTroca){
+					temMsg = temMsg || docTroca.data().datacadastro > ultimaabertura;
+				});	
+
+				if(!temMsg){
+					db.collection("trocas").where("idinteresse","==",jogocliente.id).where("dataexclusao","==",false)
+					//.where("datacadastro",">",ultimaabertura)
+					.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
+						console.log(listaTroca.size);
+						qtdMsg += listaTroca.size;
+						listaTroca.forEach(function(docTroca){
+							temMsg = temMsg || (docTroca.data().datacadastro > ultimaabertura);
+						});	
+
+						if(temMsg){
+								 $('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
+										 +'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
+							
+						}else if(qtdMsg >0){
+							$('<a style="float:right" class="btn btn-floating" onclick="verpropostas('+jogocliente.id+')">' 
+											 +'<i class="material-icons">message</i></a>').appendTo('#listainteressados_'+jogocliente.id);
+						}
+					});
 				}
 			});
-		});
+
+		// db.collection("jogocliente").doc(jogocliente.id).collection("interessados").where("datacadastro",">=",jogocliente.data().ultimaabertura)
+		// .get().then(function (listaNovos){
+		// 	if(listaNovos.size>0){
+		// 		console.log("novo",jogocliente.id);
+		// 		$('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
+		// 				+'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
+		// 	}//verificar se existem mensagem antigas
+		// 	else db.collection("jogocliente").doc(jogocliente.id).collection("interessados")
+		// 	.get().then(function (listaTudo){
+		// 		if(listaTudo.size>0){
+		// 			console.log("tudo");
+		// 			$('<a style="float:right" class="btn btn-floating" onclick="verpropostas('+jogocliente.id+')">' 
+		// 					+'<i class="material-icons">message</i></a>').appendTo('#listainteressados_'+jogocliente.id);
+		// 		}
+		// 	});
+		// });
 	}
 	return '';
 }
@@ -296,6 +331,7 @@ function getMeusJogosTelaInicial(){
 	var local = window.localStorage;
 	idCliente = local.getItem('idCliente');
 	console.log(idCliente);
+	if(idCliente != null)
 	db.collection("jogocliente")
 		.where("idcliente","==",idCliente)
 		// .where("dataexclusao","==",null)
@@ -451,13 +487,7 @@ window.addEventListener('pushnotification', function(notification) {
 }, false);
 
 document.addEventListener("deviceready", function(){
-	universalLinks.subscribe(null, function (eventData) {
-        // do some work
-        alert(eventData.url);
-		alert.log('eventdata ', eventData);
-		
-		
-	});
+	
 	initAd();
 	window.plugins.AdMob.createBannerView();
 	//showBannerFunc();

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta http-equiv="Content-Security-Policy"
@@ -23,41 +24,26 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <script src="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.js"></script>
-	  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+	  <script src="js/lib/firebase.js"></script>
+      <script src="js/lib/firebase-app.js"></script>
 	  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
-	  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
+	  <script src="js/lib/firebase-firestore.js"></script>
       
 </head>
-<body onpageshow="telaLogin()">
-	<script type="text/javascript">
-	/* Máscaras ER */
-	function mascara(o,f){
-	    v_obj=o
-	    v_fun=f
-	    setTimeout("execmascara()",1)
-	}
-	function execmascara(){
-	    v_obj.value=v_fun(v_obj.value)
-	}
-	function mtel(v){
-	    v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
-	    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-	    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
-	    return v;
-	}
-	function id( el ){
-		return document.getElementById( el );
-	}
-	window.onload = function(){
-		id('telefone').onkeypress = function(){
-			mascara( this, mtel );
-		}
-	}
-	</script>
+<body >
+		<header id="navMain" class="nav-bar">
+
+				<div class="topo-fixo z-depth-1">
+					<div class="valign-wrapper cyan darken-4 white-text">
+							<i class="material-icons waves-effect waves-light waves-circle botao-voltar">arrow_back</i>			
+							
+				</div>
+				
+			</div>
+		</header>
 
 
-	<div id="Login" >
+	<div class="depois-topo" id="Login" style="top: 117px;">
 		<div class="row" align="center">
 			<button class="loginBtn loginBtn--facebook" onclick="loginFacebook()">
 			  <span class="l10n-loginfacebook"></span>

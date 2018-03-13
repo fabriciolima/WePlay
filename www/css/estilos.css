@@ -17,10 +17,16 @@ body {
 
 /* fixo no topo */
 .topo-fixo {
-    position: relative;
+    position: fixed;
     top: 0;
     width: 100%;
     z-index: 2;
+}
+
+.depois-topo{
+    top: 60px;
+    position: relative;
+    width: 100%;
 }
 /* .section { */
 /*     padding-top: 25px; */

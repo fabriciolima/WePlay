@@ -30,19 +30,19 @@ function adicionaMeuJogoTelaProposta(jogocliente) {
 	idjogocliente = local.getItem('idjogocliente');
 	
 	nomejogo = "";
-	console.log("===",proposta);
+	
 	db.collection("jogo").doc(proposta.idjogo).get().then(function (docJogo){
 		db.collection("plataforma").doc(proposta.idplataforma).get().then(function (docPlataforma){
 			
 			var checked = "";
 			//verificar se tem jogo cadastrado para troca
-			db.collection("jogocliente").doc(idjogocliente).collection("interessados")
-			.where("idcliente","==",idCliente)
-			.where("idjogocliente","==",jogocliente.id)
-			// .where("dataexclusao","==",false)
+			db.collection("trocas")
+			.where("idproposta","==",jogocliente.id)
+			.where("idinteresse","==",idjogocliente)
+			//.where("dataexclusao","==",false)
 				.get().then(function(lista){
 					lista.forEach(function(docProposta) {
-						if(docProposta.data().dataexclusao == null)
+						if(docProposta.data().dataexclusao == false)
 						checked = " checked ";						
 					});
 						items.push('<div class="col s12 m7">'
@@ -54,6 +54,7 @@ function adicionaMeuJogoTelaProposta(jogocliente) {
 						+ '	<div style="padding: 5px  15px  24px 5px;">'
 						+ '		<h6 style="padding-left:  15px;">'+docPlataforma.data().nome+'</h6>'
 						+ '		<h5 style="padding-left:  5px;"> '+docJogo.data().nome+'</h5>'
+						
 						+ '	</div>'
 						+'		    <input type="checkbox" name="'+jogocliente.id+'" id="'+jogocliente.id+'" '+checked+'/>'
 						+' <label for="'+jogocliente.id+'">Proposta de troca</label>'
@@ -120,25 +121,44 @@ function fazProposta(){
 		sList += "(" + $(this).val() + "-" + (this.checked ? "checked" : "not checked") + ")";
 		if(this.checked){
 			console.log("+",this.id);
-			db.collection("jogocliente").doc(idjogocliente).collection("interessados")
-				.doc(this.id+'-'+idjogocliente).set({
+			db.collection("trocas").doc(this.id+'-'+idjogocliente).set({
 					idcliente:idCliente,
+					idinteresse:idjogocliente,
+					idproposta:this.id,
 					idjogocliente:this.id,
 					datacadastro:new Date(),
-					dataexclusao:null
+					dataexclusao:false
 				});
 			}else{
 				console.log("-",this.id);
-			db.collection("jogocliente").doc(idjogocliente).collection("interessados")
-				.doc(this.id+'-'+idjogocliente).set({
+			db.collection("trocas").doc(this.id+'-'+idjogocliente).set({
+					idcliente:idCliente,
+					idinteresse:idjogocliente,
+					idproposta:this.id,
 					idjogocliente:this.id,
 					idcliente:idCliente,
 					dataexclusao:new Date()
 				});
 				}
+			// db.collection("jogocliente").doc(idjogocliente).collection("interessados")
+			// 	.doc(this.id+'-'+idjogocliente).set({
+			// 		idcliente:idCliente,
+			// 		idjogocliente:this.id,
+			// 		datacadastro:new Date(),
+			// 		dataexclusao:null
+			// 	});
+			// }else{
+			// 	console.log("-",this.id);
+			// db.collection("jogocliente").doc(idjogocliente).collection("interessados")
+			// 	.doc(this.id+'-'+idjogocliente).set({
+			// 		idjogocliente:this.id,
+			// 		idcliente:idCliente,
+			// 		dataexclusao:new Date()
+			// 	});
+			// 	}
 	});
 	
-	window.location = "index.html";
+	//window.location = "index.html";
 	Materialize.toast(Localization.for("jogocadastrado"), 4000);
     return false;
 };

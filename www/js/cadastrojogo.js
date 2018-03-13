@@ -17,10 +17,6 @@ function salvaJogo(){
 		return false;
 	}
 
-	
-	console.log(idCliente);
-    console.log($('#console').val());
-    console.log($('#dinheiro').val()?$('#dinheiro').val():"");
 	var idEstado = 0;
 	
 	estadoradio = document.getElementsByName('estado');

@@ -1,6 +1,4 @@
-
-alert(0);
-    
+   
 var app = {
     // Application Constructor
     initialize: function() {
@@ -19,23 +17,21 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        
+        universalLinks.subscribe(null, function (eventData) {
+            // do some work
+            alert(eventData.url);
+            alert.log('eventdata ', eventData);
+    
+        }),     
   
         // app.receivedEvent('deviceready');
-       universalLinks.subscribe(null, function (eventData) {
-        // do some work
-        alert(eventData.url);
-        console.log('eventdata ', eventData);
-
-    });
-       
 
     universalLinks.subscribe('verify', function(data) {
         alert('verify: ' + JSON.stringify(data, null, 2));
-      });
+      }),
       universalLinks.subscribe('load', function(data) {
         alert('load: ' + JSON.stringify(data, null, 2));
-      });
+      }),
        navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
     //   initAd();
     //    showBannerFunc();

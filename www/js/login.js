@@ -52,11 +52,6 @@ function login(){
 // 	});
 // }
 
-function telaLogin(){
-	document.addEventListener('deviceready', function(){
-		
-	});
-};
 
 function salvaCliente(){
 	var local = window.localStorage;

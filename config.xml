@@ -77,7 +77,7 @@
     <preference name="phonegap-version" value="cli-7.1.0" />
     <universal-links>
         <host name="jx52y.app.goo.gl" scheme="https">
-            <path url="/pGuk/*" />
+            <path url="/pGuk/teste" />
         </host>
         <host name="jogos-usados.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
