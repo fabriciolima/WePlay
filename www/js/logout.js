@@ -1,4 +1,3 @@
-console.log(" sadfsadfsd");
 var items = [];
 var local = window.localStorage;
 document.addEventListener('deviceready', function(){

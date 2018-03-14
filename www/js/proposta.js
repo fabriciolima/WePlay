@@ -158,7 +158,7 @@ function fazProposta(){
 			// 	}
 	});
 	
-	//window.location = "index.html";
+	window.location = "index.html";
 	Materialize.toast(Localization.for("jogocadastrado"), 4000);
     return false;
 };

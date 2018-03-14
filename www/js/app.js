@@ -228,22 +228,18 @@ function botaoTemJogosParaTroca(jogocliente){
 				}
 			});
 
-		// db.collection("jogocliente").doc(jogocliente.id).collection("interessados").where("datacadastro",">=",jogocliente.data().ultimaabertura)
-		// .get().then(function (listaNovos){
-		// 	if(listaNovos.size>0){
-		// 		console.log("novo",jogocliente.id);
-		// 		$('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
-		// 				+'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
-		// 	}//verificar se existem mensagem antigas
-		// 	else db.collection("jogocliente").doc(jogocliente.id).collection("interessados")
-		// 	.get().then(function (listaTudo){
-		// 		if(listaTudo.size>0){
-		// 			console.log("tudo");
-		// 			$('<a style="float:right" class="btn btn-floating" onclick="verpropostas('+jogocliente.id+')">' 
-		// 					+'<i class="material-icons">message</i></a>').appendTo('#listainteressados_'+jogocliente.id);
-		// 		}
-		// 	});
-		// });
+
+			//chat baseado em recebido
+			db.collection("chat").where("idpessoa1","==",jogocliente.id)
+			//where("dataexclusao","==",false)
+			//.where("datacadastro",">",ultimaabertura)
+			.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
+				if(listaTroca.size>0){
+					 $('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
+										 +'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
+				}
+			});
+
 	}
 	return '';
 }
@@ -270,24 +266,31 @@ google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
 	$currentPage = 0;
+	
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
-		if(local.getItem('lat')!=null){
-			adicionaJogosPorPerto();
-		}
-		else
-		navigator.geolocation.getCurrentPosition(function(posicao){
-			alert(99);
-			console.log("indo buscar no GPS");
-			adicionaJogosPorPerto();
-		}, onError, { timeout: 3000 });
+		var filtros=[];
+		db.collection("plataforma").get().then(function(listaPlataforma){
+			listaPlataforma.forEach(function(docPlataforma){
+				if(local.getItem("plataforma"+docPlataforma.id)!= "")
+				filtros.push(docPlataforma.id);
+			});
+			if(local.getItem('lat')!=null){
+				adicionaJogosPorPerto(filtros);
+			}
+			else
+			navigator.geolocation.getCurrentPosition(function(posicao){
+				Materialize.toast("indo buscar no GPS", 4000);
+				adicionaJogosPorPerto(filtros);
+			}, onError, { timeout: 3000 });
+		});
+
 	});
 }
 
+function adicionaJogosPorPerto(filtros){
 
-function adicionaJogosPorPerto(posicao){
-
-	if(posicao==null){
+	if(local.getItem('lat')!=null){
 		lat = local.getItem('lat');
 		long = local.getItem('lon');
 	}
@@ -298,7 +301,9 @@ function adicionaJogosPorPerto(posicao){
 		local.setItem('lon',long);
 	}
 	pos = "Point(" + long+" "+lat+")";
-
+	
+	
+console.log(JSON.stringify(filtros));
 	$.ajax({
 		type: "GET",
 		url: getJSON()+"/jogosperto",
@@ -308,8 +313,8 @@ function adicionaJogosPorPerto(posicao){
 			// sortBy: 'name', 
 			// sortOrder: 'ASC',
 			page: $currentPage,
-			size: $pageSize
-			// filterBy: $filter
+			size: $pageSize,
+			plataformas:JSON.stringify(filtros)
 		},
 		crossDomain: false,
 		cache: false,
@@ -508,8 +513,8 @@ document.addEventListener("deviceready", function(){
 			document.addEventListener('onReceiveInterstitialAd', function(){ });
 			document.addEventListener('onPresentInterstitialAd', function(){ });
 			document.addEventListener('onDismissInterstitialAd', function(){
-				window.plugins.AdMob.createInterstitialView();			//REMOVE THESE 2 LINES IF USING AUTOSHOW 
-				window.plugins.AdMob.requestInterstitialAd();			//get the next one ready only after the current one is closed 
+				//window.plugins.AdMob.createInterstitialView();			//REMOVE THESE 2 LINES IF USING AUTOSHOW 
+				//window.plugins.AdMob.requestInterstitialAd();			//get the next one ready only after the current one is closed 
 			});
 		}
 	 
@@ -543,9 +548,9 @@ function initAd(){
 		window.plugins.AdMob.setOptions( {
 			publisherId: admobid.banner,
 			interstitialAdId: admobid.interstitial,
-			adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER,	//use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
+			adSize: window.plugins.AdMob.AD_SIZE.BANNER,	//use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
 			bannerAtTop: false, // set to true, to put banner at top
-			overlap: true, // banner will overlap webview 
+			overlap: false, // banner will overlap webview 
 			offsetTopBar: false, // set to true to avoid ios7 status bar overlap
 			isTesting: true, // receiving test ad
 			autoShow: false // auto show interstitial ad when loaded

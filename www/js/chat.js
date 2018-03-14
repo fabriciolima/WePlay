@@ -264,18 +264,20 @@ $(document).ready(function () {
   jcProposta = local.getItem("jcProposta");
   jcEnviou = local.getItem("jcEnviou");
   var hora;
-  db.collection("chat").limit(5).orderBy("hora","desc").get().then(function(lista){
-    lista.forEach(function(doc) {
-      if(doc.data().jcEnviou==jcEnviou){
-        messenger.sendOFF(doc.data().msg);
+  db.collection("chat").where("idpessoa1","==",jcInteresse).where("idpessoa2","==",jcProposta).
+  limit(5).orderBy("hora","desc").get().then(function(lista1){
+    lista1.forEach(function(doc1) {
+      if(doc1.data().jcEnviou==jcEnviou){
+        messenger.sendOFF(doc1.data().msg);
       }else{
-        messenger.recieve(doc.data().msg);
+        messenger.recieve(doc1.data().msg);
       }
-      hora = doc.data().hora;
-
-      
+      hora = doc1.data().hora;      
     });
-    db.collection("chat").where("hora",">",hora).onSnapshot(function(snap){
+
+    if(hora != null)
+    db.collection("chat").where("idpessoa1","==",jcInteresse).where("idpessoa2","==",jcProposta)
+    .where("hora",">",hora).onSnapshot(function(snap){
       snap.docChanges.forEach(function(change) {
         if (change.type === "added") {
           console.log("New city: ", change.doc.data());
@@ -292,8 +294,39 @@ $(document).ready(function () {
               }
           });
   });
+  });
 
 
+  //ordem inversa
+  db.collection("chat").where("idpessoa2","==",jcInteresse).where("idpessoa1","==",jcProposta).
+  limit(5).orderBy("hora","desc").get().then(function(lista2){
+    lista2.forEach(function(doc2) {
+      if(doc2.data().jcEnviou==jcEnviou){
+        messenger.sendOFF(doc2.data().msg);
+      }else{
+        messenger.recieve(doc2.data().msg);
+      }
+      hora = doc2.data().hora;      
+    });
+    if(hora != null)
+    db.collection("chat").where("idpessoa2","==",jcInteresse).where("idpessoa1","==",jcProposta)
+    .where("hora",">",hora).onSnapshot(function(snap){
+      snap.docChanges.forEach(function(change) {
+        if (change.type === "added") {
+          console.log("New city: ", change.doc.data());
+          if(change.doc.data().jcEnviou!=jcEnviou){
+            console.log("recebendo online");
+                    messenger.recieve(change.doc.data().msg);
+                  }
+              }
+              if (change.type === "modified") {
+                  console.log("Modified city: ", change.doc.data());
+              }
+              if (change.type === "removed") {
+                  console.log("Removed city: ", change.doc.data());
+              }
+          });
+  });
   });
 
 });

@@ -25,6 +25,12 @@ body {
 
 .depois-topo{
     top: 60px;
+    position: relative;
+    width: 100%;
+}
+
+.depois-topo-tab{
+    top: 60px;
     position: fixed;
     width: 100%;
 }

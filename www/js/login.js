@@ -11,7 +11,7 @@ function loginGoogle(){
 	firebase.auth().signInWithRedirect(provider).then(login());
 }
 function loginFacebook(){
-	firebase.auth().signInWithRedirect(provider);
+	firebase.auth().signInWithRedirect(provider).then(login());
 }
 
 function login(){
