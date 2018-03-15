@@ -2,7 +2,6 @@
 function salvaJogo(){
 	var local = window.localStorage;
     var postData = $(this).serialize();
-    idCliente = local.getItem('idCliente');
     nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	nomeJogo = $('#nome').val();
 	idPlataforma = $('#console').val();
@@ -11,62 +10,43 @@ function salvaJogo(){
 		Materialize.toast(Localization.for("escolherplataforma"), 4000);
 		return false;
 	}
-
+	
 	if(nomeJogo.length < 3){
 		Materialize.toast(Localization.for("escolherjogo"), 4000);
 		return false;
 	}
-
+	
 	var idEstado = 0;
 	
 	estadoradio = document.getElementsByName('estado');
 	for (var cont = 0, length = estadoradio.length; cont < length; cont++){
- 		if (estadoradio[cont].checked) {
+		if (estadoradio[cont].checked) {
 			idEstado = estadoradio[cont].id;
-			  break;
+			break;
 		}
 	}
-
+	
 	//verificando se tem um jogocliente salvo
 	nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	nomeJogo = $('#nome').val();
 	idPlataforma = $('#console').val();
 	
-	db.collection("jogo").where("nomepesquisa","==",nomePesquisa).get().then(function(listajogo){
-		var idjogo;
-		listajogo.forEach(function(docjogoRef) {
-			console.log("docjogoRef",docjogoRef);
-			idjogo = docjogoRef.id;
-		});
-		console.log("ref",idjogo);
-			db.collection("jogocliente")
-			.where("idcliente","==",idCliente)
-			.where("idjogo","==",idjogo)
-			.where("estado","==",idEstado)
-			.get().then(function(jogoclienteRef){
-				if(jogoclienteRef.size > 0)
-				Materialize.toast(Localization.for("jogojacadastrado"), 4000);
-				else{//indo cadastrar
-					$.post(getJSON()+"/jogo/add",{
-						idPlataforma:idPlataforma,
-						uidCliente:idCliente,
-						estado:idEstado,
-						nomePesquisa:nomePesquisa,
-						nomeJogo:nomeJogo,
-						dinheiro:$('#dinheiro').val()},function(data, status){
-							if(data.length >2){
-								Materialize.toast(Localization.for("jogocadastrado"), 4000);
-								window.location="index.html";
-							}
-							// else
-							// 	Materialize.toast(':(', 4000);
-						});
-					}
-				});
-			});
-			// voltar();	
-    // }).catch(function(erro){Materialize.toast('Erro salvando', 4000);});
-
+	idCliente = local.getItem('idCliente');
+	
+	$.post(getJSON()+"/jogo/add",{
+			idPlataforma:idPlataforma,
+			idCliente:idCliente,
+			estado:idEstado,
+			nomePesquisa:nomePesquisa,
+			nomeJogo:nomeJogo,
+			dinheiro:$('#dinheiro').val()},function(data, status){
+				if(data.length >2){
+					Materialize.toast(Localization.for("jogocadastrado"), 4000);
+					window.location="index.html";
+				}
+				// else
+			})
+		
 	return false;
 }
 // });

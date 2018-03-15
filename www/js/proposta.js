@@ -1,109 +1,97 @@
-getMeusJogos();
+
+getMeusJogosTelaProposta();
 adicionaJogoInteresse();
 
-function getMeusJogos(){
+function getMeusJogosTelaProposta(){
+	$("#meusjogos").empty();
 	var local = window.localStorage;
 	idCliente = local.getItem('idCliente');
-	db.collection("jogocliente")
-		.where("idcliente","==",idCliente)
-		// .where("dataexclusao","==",true)
-		.get().then(function(lista){
-			lista.forEach(function(doc) {
-				if(doc.exists){
-					if(doc.data().dataexclusao == null)
-					adicionaMeuJogoTelaProposta(doc);
-				}else{
-					console.log("doc nao existe");
-				}
-			});
-		});		
-
-
-}
-
-
-function adicionaMeuJogoTelaProposta(jogocliente) {
-	proposta = jogocliente.data();
-	var items = [];
-	var local = window.localStorage;
-	idCliente = local.getItem("idCliente");
+	if(idCliente != null)
 	idjogocliente = local.getItem('idjogocliente');
+	$.ajax({
+		type: "GET",
+		url: getJSON()+"/meusjogos",
+		data: {idcliente:idCliente,
+			idinteresse:idjogocliente},
+			crossDomain: false,
+			cache: false,
+			dataType: "json",
+			success: function(data){
+				for(cont = 0 ; cont < data.length; ++cont){
+					// adicionaMeuJogoTelaInicial(data[cont])
+					console.log(data[cont]);
+					montaMeuJogoTelaProposta(data[cont]);
+				}
+			}
+		});
+	}
+
+
+function montaMeuJogoTelaProposta(jogocliente) {
 	
-	nomejogo = "";
+	var checked = jogocliente.possuiPropostaCom!=null ? " checked ":" ";	
+	var itemsMeu = [];
+	itemsMeu.push('<div class="col s12 m7">'
+	+ '<div class="card horizontal">'
+	+ '<div class="card-image">'
+	+ '	<img src="'+gerURLjogo90(jogocliente.idJogo)+'"> '
+	+ '</div>'
+	+ '<div class="card-stacked">'
+	+ '	<div style="padding: 5px  15px  24px 5px;">'
+	+ '		<h6 style="padding-left:  15px;">'+jogocliente.nomePlataforma+'</h6>'
+	+ '		<h5 style="padding-left:  5px;"> '+jogocliente.nomeJogo+'</h5>'
 	
-	db.collection("jogo").doc(proposta.idjogo).get().then(function (docJogo){
-		db.collection("plataforma").doc(proposta.idplataforma).get().then(function (docPlataforma){
-			
-			var checked = "";
-			//verificar se tem jogo cadastrado para troca
-			db.collection("trocas")
-			.where("idproposta","==",jogocliente.id)
-			.where("idinteresse","==",idjogocliente)
-			//.where("dataexclusao","==",false)
-				.get().then(function(lista){
-					lista.forEach(function(docProposta) {
-						if(docProposta.data().dataexclusao == false)
-						checked = " checked ";						
-					});
-						items.push('<div class="col s12 m7">'
-						+ '<div class="card horizontal">'
-						+ '<div class="card-image">'
-						+ '	<img src="'+gerURLjogo90(docJogo.id)+'"> '
-						+ '</div>'
-						+ '<div class="card-stacked">'
-						+ '	<div style="padding: 5px  15px  24px 5px;">'
-						+ '		<h6 style="padding-left:  15px;">'+docPlataforma.data().nome+'</h6>'
-						+ '		<h5 style="padding-left:  5px;"> '+docJogo.data().nome+'</h5>'
-						
-						+ '	</div>'
-						+'		    <input type="checkbox" name="'+jogocliente.id+'" id="'+jogocliente.id+'" '+checked+'/>'
-						+' <label for="'+jogocliente.id+'">Proposta de troca</label>'
-						
-						
-						// +' <div class="switch center-align"> <label>'
-						// +'	<input type="checkbox" name="'+proposta.idjogo+'" id="'+proposta.idjogo+'" >'
-						// +'<span class="lever"></span>'
-						// // +' <label for="'+proposta.idjogo+'">Proposta de troca</label>'
-						// +' </label> </div>'
-						
-						
-						+ '</div>'
-						+ '</div>' + '</div>');
-						$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#meusjogos');
-					});
-					});
-				});
-		};
+	+ '	</div>'
+	+'		    <input type="checkbox" name="'+jogocliente.id+'" id="'+jogocliente.id+'" '+checked+'/>'
+	+' <label for="'+jogocliente.id+'">Proposta de troca</label>'
+	
+	
+	// +' <div class="switch center-align"> <label>'
+	// +'	<input type="checkbox" name="'+proposta.idjogo+'" id="'+proposta.idjogo+'" >'
+	// +'<span class="lever"></span>'
+	// // +' <label for="'+proposta.idjogo+'">Proposta de troca</label>'
+	// +' </label> </div>'
+	
+	+ '</div>'
+	+ '</div></div>');
+	$('<ul/>', {'class' : 'my-new-list',html : itemsMeu.join('')}).appendTo('#meusjogos');
+};
+					
 
 
 function adicionaJogoInteresse(){
 	items = [];
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
-	db.doc('jogocliente/'+idjogocliente).get().then(function(docjc){//busca jc
-		console.log(idjogocliente);
-		db.doc('jogo/'+docjc.data().idjogo).get().then(function (docjogo){
+	$.ajax({
+		type: "GET",
+		url: getJSON()+"/jogocliente",
+		data: { idjogocliente:idjogocliente},
+		crossDomain: false,
+		cache: false,
+		dataType: "json",
+		success: function(data){
 			items.push('<div class="col s12 m7">'
-					+ '<div class="card horizontal">'
-					+ '<div class="card-image">'
-					+ '	<img src="'+gerURLjogo90(docjogo.id)+'"> '
-					+ '</div>'
-					+ '<div class="card-stacked">'
-					+ '	<div style="padding: 5px  15px  24px 5px;">'
-					+ '		<h6 style="padding-left:  15px;">'+local.getItem('nomeplataforma')+'</h6>'
-					+ '		<h5 style="padding-left:  5px;"> '+docjogo.data().nome+'</h5>'
-					+ '	</div>'
-					+ '	<div class="card-action">'
-					+'  <span class="badge">'+local.getItem('distancia')+'Km</span></div>'
-					+ '	</div>'
-					+ '</div>'
-					+ '</div></div>');
+			+ '<div class="card horizontal">'
+			+ '<div class="card-image">'
+			+ '	<img src="'+gerURLjogo90(data.idJogo)+'"> '
+			+ '</div>'
+			+ '<div class="card-stacked">'
+			+ '	<div style="padding: 5px  15px  24px 5px;">'
+			+ '		<h6 style="padding-left:  15px;">'+data.nomePlataforma+'</h6>'
+			+ '		<h5 style="padding-left:  5px;"> '+data.nomeJogo+'</h5>'
+			+ '	</div>'
+			+ '	<div class="card-action">'
+			+'  <span class="badge">'+local.getItem('distancia')+'Km</span></div>'
+			+ '	</div>'
+			+ '</div>'
+			+ '</div></div>');
 			$('<ul/>', {'class' : 'my-new-list',
-				html : items.join('')
-			}).appendTo('#jogointeresse');
-			
-		}); //busca o jogo
-	});
+			html : items.join('')
+		}).appendTo('#jogointeresse');
+		
+	}
+});
 }
 
 // $('form').submit(function(){
@@ -114,52 +102,51 @@ function fazProposta(){
 	sList ="";
 	listaJogo = [];
 	idCliente = local.getItem('idCliente');
+	console.log("idjogocliente",local.getItem('idjogocliente'));
 	console.log("idcliente",idCliente);
 	if(idCliente == null || idCliente =="null")
 		window.location="login.html"
 	$('input[type=checkbox]').each(function () {
+	// SpinnerDialog.show();
+		meuId = this.id;
 		sList += "(" + $(this).val() + "-" + (this.checked ? "checked" : "not checked") + ")";
 		if(this.checked){
 			console.log("+",this.id);
-			db.collection("trocas").doc(this.id+'-'+idjogocliente).set({
-					idcliente:idCliente,
-					idinteresse:idjogocliente,
-					idproposta:this.id,
-					idjogocliente:this.id,
-					datacadastro:new Date(),
-					dataexclusao:false
-				});
-			}else{
-				console.log("-",this.id);
-			db.collection("trocas").doc(this.id+'-'+idjogocliente).set({
-					idcliente:idCliente,
-					idinteresse:idjogocliente,
-					idproposta:this.id,
-					idjogocliente:this.id,
-					idcliente:idCliente,
-					dataexclusao:new Date()
-				});
-				}
-			// db.collection("jogocliente").doc(idjogocliente).collection("interessados")
-			// 	.doc(this.id+'-'+idjogocliente).set({
-			// 		idcliente:idCliente,
-			// 		idjogocliente:this.id,
-			// 		datacadastro:new Date(),
-			// 		dataexclusao:null
-			// 	});
-			// }else{
-			// 	console.log("-",this.id);
-			// db.collection("jogocliente").doc(idjogocliente).collection("interessados")
-			// 	.doc(this.id+'-'+idjogocliente).set({
-			// 		idjogocliente:this.id,
-			// 		idcliente:idCliente,
-			// 		dataexclusao:new Date()
-			// 	});
-			// 	}
-	});
-	
-	window.location = "index.html";
+			var dados = {funcao:"adiciona",
+			idinteresse:idjogocliente,
+			idproposta:meuId};
+
+			salvaPropostaJson(dados);
+		}else{
+			console.log("-",meuId);
+			var dados = {funcao:"remove",
+			idinteresse:idjogocliente,
+			idproposta:meuId};
+
+			salvaPropostaJson(dados);
+		};
+		// SpinnerDialog.hide();
+	})
+		
+	// window.location = "index.html";
 	Materialize.toast(Localization.for("jogocadastrado"), 4000);
     return false;
-};
+}
 
+
+function salvaPropostaJson(dados){
+		console.log("salvando dados:",dados);
+		$.post(getJSON()+"/fazproposta",dados,function(data, status)
+				{
+					if(status=='success'){
+						if(data=='erro')
+							alert('Erro. Tente novamente mais tarde');
+						else{
+							console.log("Data: " + data);
+						}
+					}
+					else
+						console.log("Data: " + data + "\nStatus: " + status);
+				});
+	}
+	

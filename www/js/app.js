@@ -40,15 +40,15 @@ var options={message:"Check This",
 getJogosPorPerto();
 getMeusJogosTelaInicial();
 $('.atualiza').on('click',function(){
-                // mRefresh.refresh();
-        //refresh();
+	$currentPage = 0;	
 	$("#porperto").empty();
 	$("#meusjogos").empty();
 	getMeusJogosTelaInicial();
 	getJogosPorPerto();
-                return false;
-            });
-
+	return false;
+});
+	
+                
 
 
 $('.cadastro-jogo').on('click', function() {
@@ -84,11 +84,6 @@ $('.cadastro-jogo').on('click', function() {
 
 
 function adicionaJogoTelaInicial(data) {
-// db.collection("jogocliente").doc(data.idJogoCliente).set({
-// idcliente:data.idCliente,
-// idjogo:data.idJogo,
-// estadojogo:1,
-// idplataforma:data.idPlataforma});
 	var items = [];
 	
 	items.push('<div class="col s12 m7">'
@@ -135,37 +130,29 @@ function proporTroca(idJogoCliente,distancia,nomePlataforma){
 }
 function adicionaMeuJogoTelaInicial(jogocliente) {
 	var items = [];
-// console.log(data);
-	nomejogo = "";
-//	console.log("jc",doc);
-
-	db.doc("jogo/"+jogocliente.data().idjogo).get().then(function(doc){
-		if(doc && doc.exists){
-			db.collection("plataforma").doc(jogocliente.data().idplataforma).get().then(function(plataforma){
-				items.push('<div class="col s12 m7">'
+	items.push('<div class="col s12 m7">'
 					+ '<div class="card horizontal">'
 					+ '<div class="card-image">'
-					+'<img src="'+gerURLjogo90(doc.id)+'"> '
+					+'<img src="'+gerURLjogo90(jogocliente.idJogo)+'"> '
 					+ '</div>'
 					+ '<div class="card-stacked">'
 					+ '	<div class="card-content listadiv">'
-					+'<a style="float:right" class="btn btn-floating" onclick="apaga(\''+jogocliente.id+'\')">' 
+					+'<a style="float:right" class="btn btn-floating" onclick="apaga(\''+jogocliente.idJogo+'\')">' 
 							+'<i class="material-icons">delete</i></a>'
 					+ '	<div>'
-					+ '			<h6>'+plataforma.data().nome+'</h6>'
-					+ '			<h5> '+doc.data().nome+'</h5>'
+					+ '			<h6>'+jogocliente.nomePlataforma+'</h6>'
+					+ '			<h5> '+jogocliente.nomeJogo+'</h5>'
 					+ ' </div>'
-					+'<div id="listainteressados_'+jogocliente.id+'" > </div>'
+					
+					 +(jogocliente.qtdInteressados ==0?'':'<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
+					 					 +'<i class="material-icons">message</i></a></div>')
+					
 					+ '	</div>'
 					+ '</div>'
 					+ '</div></div>');
 				$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#meusjogos');
-			botaoTemJogosParaTroca(jogocliente);
-			})//plataforma
+			// botaoTemJogosParaTroca(jogocliente);
 		}
-	// }).appendTo('body');
-	});
-};
 
 function nomePlataforma(idplataforma){
 	console.log(idplataforma);
@@ -197,7 +184,9 @@ function botaoTemJogosParaTroca(jogocliente){
 	if( jogocliente.data() != null && ultimaabertura != null){
 		temMsg = false;
 		qtdMsg = 0;
-		db.collection("trocas").where("idproposta","==",jogocliente.id).where("dataexclusao","==",false)
+		db.collection("jogocliente").doc(jogocliente.id)
+		
+		where("idproposta","==",jogocliente.id).where("dataexclusao","==",false)
 			//.where("datacadastro",">",ultimaabertura)
 			.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
 				qtdMsg += listaTroca.size;
@@ -247,9 +236,9 @@ function botaoTemJogosParaTroca(jogocliente){
 function verpropostas(idjogocliente){
 	var local = window.localStorage;
 	local.setItem('idjogocliente',idjogocliente);
-	db.collection("jogocliente").doc(idjogocliente).set({
-		ultimaabertura:new Date()
-	}, { merge: true })
+	// db.collection("jogocliente").doc(idjogocliente).set({
+	// 	ultimaabertura:new Date()
+	// }, { merge: true })
 	window.location = "propostaaceitacao.html";
 }
 
@@ -265,8 +254,6 @@ var $filter = 'today';
 google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
-	$currentPage = 0;
-	
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
 		var filtros=[];
@@ -341,21 +328,21 @@ function getMeusJogosTelaInicial(){
 	idCliente = local.getItem('idCliente');
 	console.log(idCliente);
 	if(idCliente != null)
-	db.collection("jogocliente")
-		.where("idcliente","==",idCliente)
-		// .where("dataexclusao","==",null)
-		.get().then(function(lista){
-			lista.forEach(function(doc) {
-				try {//@to-do mudar isso
-					if(doc.data().dataexclusao == null)
-						adicionaMeuJogoTelaInicial(doc);				
-				}
-				catch(err) {
-					console.log(err,doc);
-					
-				}
-			});
-		});
+	$.ajax({
+		type: "GET",
+		url: getJSON()+"/meusjogos",
+		data: {idcliente:idCliente,
+			idinteresse:null},
+		crossDomain: false,
+		cache: false,
+		dataType: "json",
+		success: function(data){
+			for(cont = 0 ; cont < data.length; ++cont){
+				adicionaMeuJogoTelaInicial(data[cont])
+			}
+		}
+	});
+	
 return true;
 }
 
@@ -431,7 +418,6 @@ function salvaClienteJSon(dados){
 					else{
 						console.log("Data: " + data);
 					}
-					
 				}
 				else
 					console.log("Data: " + data + "\nStatus: " + status);

@@ -143,7 +143,7 @@ function getJSON(){
 	// }
 	// console.log("retornando localhost");
 	//  return "http://localhost:8080/json";
-	return "http://52.14.79.42:8080/json";
+	return "http://localhost:8080/json";
 }
 
 function gerURLplataforma90(id){
