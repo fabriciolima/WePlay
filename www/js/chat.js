@@ -181,15 +181,13 @@ $(document).ready(function () {
 
     
     var local = window.localStorage;
-    jcInteresse = local.getItem("jcInteresse");
-    jcProposta = local.getItem("jcProposta");
-    jcEnviou = local.getItem("jcEnviou");
-    console.log(jcEnviou);
+    idChat = local.getItem("idChat");
+    console.log(idChat);
+    meuIdCliente = local.getItem("idCliente");
     
-    db.collection("chat").add({
-      jcEnviou:jcEnviou,
-      idpessoa1:jcInteresse,
-      idpessoa2:jcProposta,
+    db.collection("chat").doc(idChat).collection("conversa").
+    add({
+      idEnviou:meuIdCliente,
       hora:new Date(),
       msg:message.text
     });
@@ -260,73 +258,34 @@ $(document).ready(function () {
   
   
   var local = window.localStorage;
-	jcInteresse = local.getItem("jcInteresse");
-  jcProposta = local.getItem("jcProposta");
-  jcEnviou = local.getItem("jcEnviou");
+	idChat = local.getItem("idChat");
+  meuIdCliente = local.getItem("idCliente");
   var hora;
-  db.collection("chat").where("idpessoa1","==",jcInteresse).where("idpessoa2","==",jcProposta).
-  limit(5).orderBy("hora","desc").get().then(function(lista1){
-    lista1.forEach(function(doc1) {
-      if(doc1.data().jcEnviou==jcEnviou){
-        messenger.sendOFF(doc1.data().msg);
+  db.collection("chat").doc(idChat).collection("conversa").limit(20).orderBy("hora","desc").get().then(function(listaMsg){
+    listaMsg.forEach(function(docMsg) {
+      console.log(meuIdCliente);
+      if(docMsg.data().idEnviou==meuIdCliente){
+        messenger.sendOFF(docMsg.data().msg);
       }else{
-        messenger.recieve(doc1.data().msg);
+        messenger.recieve(docMsg.data().msg);
       }
-      hora = doc1.data().hora;      
+      hora = docMsg.data().hora;      
     });
 
     if(hora != null)
-    db.collection("chat").where("idpessoa1","==",jcInteresse).where("idpessoa2","==",jcProposta)
-    .where("hora",">",hora).onSnapshot(function(snap){
-      snap.docChanges.forEach(function(change) {
-        if (change.type === "added") {
-          console.log("New city: ", change.doc.data());
-          if(change.doc.data().jcEnviou!=jcEnviou){
-            console.log("recebendo online");
-                    messenger.recieve(change.doc.data().msg);
-                  }
-              }
-              if (change.type === "modified") {
-                  console.log("Modified city: ", change.doc.data());
-              }
-              if (change.type === "removed") {
-                  console.log("Removed city: ", change.doc.data());
-              }
+    db.collection("chat").doc(idChat).collection("conversa")
+      .where("hora",">",hora).onSnapshot(function(snap){
+        snap.docChanges.forEach(function(change) {
+          if (change.type === "added") {
+            console.log("online: ", change.doc.data());
+            if(change.doc.data().idEnviou!=meuIdCliente){
+              console.log("recebendo online");
+                      messenger.recieve(change.doc.data().msg);
+                    }
+                }
           });
   });
   });
 
-
-  //ordem inversa
-  db.collection("chat").where("idpessoa2","==",jcInteresse).where("idpessoa1","==",jcProposta).
-  limit(5).orderBy("hora","desc").get().then(function(lista2){
-    lista2.forEach(function(doc2) {
-      if(doc2.data().jcEnviou==jcEnviou){
-        messenger.sendOFF(doc2.data().msg);
-      }else{
-        messenger.recieve(doc2.data().msg);
-      }
-      hora = doc2.data().hora;      
-    });
-    if(hora != null)
-    db.collection("chat").where("idpessoa2","==",jcInteresse).where("idpessoa1","==",jcProposta)
-    .where("hora",">",hora).onSnapshot(function(snap){
-      snap.docChanges.forEach(function(change) {
-        if (change.type === "added") {
-          console.log("New city: ", change.doc.data());
-          if(change.doc.data().jcEnviou!=jcEnviou){
-            console.log("recebendo online");
-                    messenger.recieve(change.doc.data().msg);
-                  }
-              }
-              if (change.type === "modified") {
-                  console.log("Modified city: ", change.doc.data());
-              }
-              if (change.type === "removed") {
-                  console.log("Removed city: ", change.doc.data());
-              }
-          });
-  });
-  });
 
 });

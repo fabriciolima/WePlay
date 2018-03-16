@@ -128,9 +128,9 @@ function fazProposta(){
 		// SpinnerDialog.hide();
 	})
 		
-	// window.location = "index.html";
-	Materialize.toast(Localization.for("jogocadastrado"), 4000);
-    return false;
+	window.location = "index.html";
+	// Materialize.toast(Localization.for("jogocadastrado"), 4000);
+    // return false;
 }
 
 
@@ -138,15 +138,11 @@ function salvaPropostaJson(dados){
 		console.log("salvando dados:",dados);
 		$.post(getJSON()+"/fazproposta",dados,function(data, status)
 				{
-					if(status=='success'){
-						if(data=='erro')
-							alert('Erro. Tente novamente mais tarde');
-						else{
-							console.log("Data: " + data);
-						}
+					if(status=='erro'){
+						console.log("Data: " + data + "\nStatus: " + status);
 					}
 					else
-						console.log("Data: " + data + "\nStatus: " + status);
+						console.log("Data: " + data);
 				});
 	}
 	

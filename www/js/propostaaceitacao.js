@@ -1,119 +1,94 @@
-getMeuJogo();
-adicionaListaPropostas();
+adicionaMeuJogoTelaPropostaAceitacao();
+ adicionaListaPropostas();
 
-function getMeuJogo(){
-	var local = window.localStorage;
-	idjogocliente = local.getItem('idjogocliente');
-	rcRef = db.collection("jogocliente").doc(idjogocliente).get().then(function(doc){
-		if(doc.exists){
-				adicionaMeuJogoTela(doc.data());
-				//adicionaPropostas(rcRef);
-			}else{
-				console.log("doc nao existe");
-			}
-		});		
-
-}
-
-function adicionaMeuJogoTela(jogocliente) {
-	var items = [];
-	
-	nomejogo = "";
-	db.collection("jogo").doc(jogocliente.idjogo).get().then(function (docJogo){
-		db.collection("plataforma").doc(jogocliente.idplataforma).get().then(function (docPlataforma){
-				items.push('<div class="col s12 m7">'
-					+ '<div class="card horizontal">'
-					+ '<div class="card-image">'
-					+ '	<img src="'+gerURLjogo90(docJogo.id)+'"> '
-					+ '</div>'
-					+ '<div class="card-stacked">'
-					+ '	<div style="padding: 5px  15px  24px 5px;">'
-					+ '		<h6 style="padding-left:  15px;">'+docPlataforma.data().nome+'</h6>'
-					+ '		<h5 style="padding-left:  5px;"> '+docJogo.data().nome+'</h5>'
-					+ '	</div>'
-					+ '</div>'
-					+ '</div></div>');
-		$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#meujogo');
-	//		}).appendTo('body');
-		});
-	});
-};
-
-function adicionaListaPropostas(){
+function adicionaMeuJogoTelaPropostaAceitacao() {
 	items = [];
 	var local = window.localStorage;
 	idjogocliente = local.getItem('idjogocliente');
-	console.log(idjogocliente);
-	db.collection("trocas").where("idproposta","==",idjogocliente).where("dataexclusao","==",false)
-			//.where("datacadastro",">",ultimaabertura)
-			.orderBy("datacadastro", "desc").limit(20).get().then(function(listaTroca){
-				listaTroca.forEach(function(docTroca){
-					adicionaProposta(propostadoc.data().idcliente,docTroca.data().idinteresse);
-				});	
-			});
-		db.collection("trocas").where("idinteresse","==",idjogocliente).where("dataexclusao","==",false)
-		//.where("datacadastro",">",ultimaabertura)
-		.orderBy("datacadastro", "desc").limit(20).get().then(function(listaTroca){
-			console.log(listaTroca.size);
-			listaTroca.forEach(function(docTroca){
-				adicionaProposta(docTroca.data().idcliente,docTroca.data().idproposta)
-			});	
-		});
+	$.ajax({
+		type: "GET",
+		url: getJSON()+"/jogocliente",
+		data: { idjogocliente:idjogocliente},
+		crossDomain: false,
+		cache: false,
+		dataType: "json",
+		success: function(data){
+			items.push('<div class="col s12 m7">'
+			+ '<div class="card horizontal">'
+			+ '<div class="card-image">'
+			+ '	<img src="'+gerURLjogo90(data.idJogo)+'"> '
+			+ '</div>'
+			+ '<div class="card-stacked">'
+			+ '	<div style="padding: 5px  15px  24px 5px;">'
+			+ '		<h6 style="padding-left:  15px;">'+data.nomePlataforma+'</h6>'
+			+ '		<h5 style="padding-left:  5px;"> '+data.nomeJogo+'</h5>'
+			+ '	</div>'
+			+ '	<div class="card-action">'
+			+ '	</div>'
+			+ '</div>'
+			+ '</div></div>');
+			$('<ul/>', {'class' : 'my-new-list',
+			html : items.join('')
+		}).appendTo('#meujogo');
+		
+	}
+});
+};
 
-}
-
-
-function adicionaProposta(idCliente,idjogocliente){
+function adicionaListaPropostas(){
 	
-	db.collection('jogocliente').doc(idjogocliente).get().then(function (docjc){
-		db.collection('jogo').doc(docjc.data().idjogo).get().then(function(docjogo){
-			db.collection('plataforma').doc(docjc.data().idplataforma).get().then(function(docplataforma){
-				distancia = calcdistancia(idCliente);
-				//							'jogocliente/'+propostadoc.data().idjogocliente+'/interessados/'+docpropostajc.id
-				
-				items.push('<div class="col s12 m7">'
+	itemsProposta = [];
+	var local = window.localStorage;
+	idjogocliente = local.getItem('idjogocliente');
+	$.ajax({
+		type: "GET",
+		url: getJSON()+"/listaproposta",
+		data: { idinteresse:idjogocliente},
+		crossDomain: false,
+		cache: false,
+		dataType: "json",
+		success: function(data){
+			for(cont = 0 ; cont < data.length; ++cont){
+				// adicionaMeuJogoTelaInicial(data[cont])
+				console.log(data[cont]);
+				itemsProposta.push('<div class="col s12 m7">'
 				+ '<div class="card horizontal">'
 				+ '<div class="card-image">'
-				+ '	<img src="'+gerURLjogo90(docjogo.id)+'"> '
+				+ '	<img src="'+gerURLjogo90(data[cont].idJogo)+'"> '
 				+ '</div>'
 				+ '<div class="card-stacked">'
 				+ '	<div style="padding: 5px  15px  24px 5px;">'
-				+ '		<h6 style="padding-left:  15px;">'+docplataforma.data().nome+'</h6>'
-				+ '		<h5 style="padding-left:  5px;"> '+docjogo.data().nome+'</h5>'
-				+'<div><a style="float:right" class="btn btn-floating " onclick="abrechat(\''+idjogocliente+'\')">'
+				+ '		<h6 style="padding-left:  15px;">'+data[cont].nomePlataforma+'</h6>'
+				+ '		<h5 style="padding-left:  5px;"> '+data[cont].nomeJogo+'</h5>'
+				
+				+'<div><a style="float:right" class="btn btn-floating " onclick="abrechat(\''+data[cont].idTroca+'\')">'
 				+'<i class="material-icons">chat</i></a></div>'
 				+'  <span class="badge">'+00 +'Km</span></div>'
+
 				+ '	</div>'
+				+ '	<div class="card-action">'
 				+ '	</div>'
 				+ '</div>'
 				+ '</div></div>');
-			$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#propostas');
-			});
+			}
+			$('<ul/>', {'class' : 'my-new-list',html : itemsProposta.join('')}).appendTo('#propostas');
+		}
 		});
-	});
 }
 
-function abrechat(jcProposta){
+
+				// +'<div><a style="float:right" class="btn btn-floating " onclick="abrechat(\''+idjogocliente+'\')">'
+
+
+function abrechat(idTroca){
 	var local = window.localStorage;
-	local.setItem("jcInteresse",local.getItem('idjogocliente'));
-	local.setItem("jcProposta",jcProposta);
-	local.setItem("jcEnviou",local.getItem('idjogocliente'));
-	window.location="chat.html";
-}
-// collection("jogocliente").doc(id).collection(interessados).doc(id).collection(chat).doc()
-
-function calcdistancia(idcliente,idjogocliente){
-	// db.collection("jogocliente").doc(idjogocliente).get().then(function(docidjogocliente){
-//		db.collection("cliente").doc(docidjogocliente.data().idcliente).get().then(function(doc1){
-		// db.collection("cliente").doc(docidjogocliente.data().idcliente).get().then(function(doc1){
-//			db.collection("cliente").doc(idcliente).get().then(function(doc2){
-	//console.log("doc1",doc1.data().posicao);
-				db.collection("cliente").doc(idcliente).get().then(function(doc2){
-console.log(idcliente);
-				console.log("doc2",doc2.data().localizacao);
-				//  console.log(distancia(doc2.data().localizacao.latitude,doc2.data().localizacao.longitude));
-			})
-	// 	})
-	// })
+	$.post(getJSON()+"/chat/add",{idTroca:idTroca},function(data){
+		console.log(data);
+			local.setItem("idChat",data);	
+			console.log(data);
+			window.location="chat.html";
+			// else
+		})
 	
 }
+// collection("jogocliente").doc(id).collection(interessados).doc(id).collection(chat).doc()

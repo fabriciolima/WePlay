@@ -1,26 +1,4 @@
 var local = window.localStorage;
-//alert(Localization.for("sim"));
-
-//window.location = "chat.html";
-//$('.collection')
-//    .on('click', '.collection-item', function(){
-//        var nomeProduto = this.firstChild.textContent;
-//        Materialize.toast(nomeProduto + ' adicionado', 1000);
-//
-//        var $badge = $('.badge', this);
-//        if ($badge.length === 0) {
-//            $badge = $('<span class="badge brown-text">0</span>').appendTo(this);
-//        }
-//
-//        $badge.text(parseInt($badge.text()) + 1);
-//    })
-//    .on('click', '.badge', function() {
-//        $(this).remove();
-//        return false;
-//    });
-
-
-
 
 $('.botao-share').on('click', function() {
 	 window.plugins.socialsharing.shareWithOptions(options,null,null);
@@ -28,6 +6,10 @@ $('.botao-share').on('click', function() {
 $('.botao-config').on('click', function() {
 	window.location="logout.html";
 });
+$('.botao-chat').on('click', function() {
+	window.location = "listachat.html";
+});
+
 var options={message:"Check This",
 	  	   subject:"", 
 	  	   files:null, 
@@ -39,6 +21,8 @@ var options={message:"Check This",
 
 getJogosPorPerto();
 getMeusJogosTelaInicial();
+verificaPossuiChat();
+
 $('.atualiza').on('click',function(){
 	$currentPage = 0;	
 	$("#porperto").empty();
@@ -97,7 +81,7 @@ function adicionaJogoTelaInicial(data) {
 			+ '		<h6 style="padding-left:  15px;">'+data.nomePlataforma+'</h6>'
  			+ '		<h5 style="padding-left:  5px;"> '+data.nomeJogo+'</h5>'
 			 +'<a style="float:right" class="btn btn-floating" onclick="'
-			 +'  proporTroca(\''+data.idJogoCliente+'\','+data.distancia+',\''+data.nomePlataforma
+			 +'  proporTroca(\''+data.id+'\','+data.distancia+',\''+data.nomePlataforma
 			 +'\')"><i class="material-icons">swap_horiz</i></a>'
 			 +'  <span class="badge">'+data.distancia+' Km</span> '
 			 
@@ -145,7 +129,7 @@ function adicionaMeuJogoTelaInicial(jogocliente) {
 					+ ' </div>'
 					
 					 +(jogocliente.qtdInteressados ==0?'':'<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
-					 					 +'<i class="material-icons">message</i></a></div>')
+					 					 +'<i class="material-icons">visibility</i></a></div>')
 					
 					+ '	</div>'
 					+ '</div>'
@@ -386,84 +370,7 @@ $(document).scroll(function(e){
 // navigator.geolocation.getCurrentPosition(cadastracliente, null, { timeout:
 // 3000 });});
 
-function cadastracliente(position){
-	var local = window.localStorage;
-	local.setItem('lat',position.coords.latitude.toFixed(6));
-	local.setItem('lon',position.coords.longitude.toFixed(6));
 
-	var lat=position.coords.latitude.toFixed(6);
-    var long=position.coords.longitude.toFixed(6);
-    
-	    // if(lat != 0)
-    dados={nome:lat,
-    		telefone:"23423423",
-    		localizacao: new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude)};
-	    	
-	    	db.collection("cliente").add(dados)
-							.then(function(doc){
-								console.log("salvo db");
-								dados["localizacao"] = lat +' '+ long ;
-								salvaClienteJSon(dados)})
-							.catch(function(erro){console.log(erro);});
-	
-}
-
-function salvaClienteJSon(dados){
-	console.log("salvando dados:",dados);
-	$.post(getJSON()+"/cliente/add",dados,function(data, status)
-		    {
-				if(status=='success'){
-					if(data=='erro')
-						alert('Erro. Tente novamente mais tarde');
-					else{
-						console.log("Data: " + data);
-					}
-				}
-				else
-					console.log("Data: " + data + "\nStatus: " + status);
-			});
-}
-
-
-
-// db.collection("jogos").get().then({ includeQueryMetadataChanges: true },
-// function(snapshot) {
-// snapshot.docChanges.forEach(function(change) {
-// console.log('change',change);
-// adicionaJogoTelaInicial(change.doc.data());
-// if (change.type === "added") {console.log("New city: ", change.doc.data());}
-//				
-// var source = snapshot.metadata.fromCache ? "local cache" : "server";
-// console.log("Data came from " + source); });
-// });
-	
-
-//const messaging = firebase.messaging();
-//messaging.requestPermission()
-//.then(function() {
-//	console.log('Notification permission granted.');
-//	console.log(messaging.getToken());
-//	alert(messaging.getToken());
-//	return messaging.getToken();
-//}).then(function (token){
-//	alert(token);
-//}).catch(function(err) {
-//	alert(err);
-//});
-//
-//cordova.plugins.firebase.messaging.requestPermission().then(function(token) {
-//	alert(": ", token);
-//});
-
-
-
-// cordova.plugins.firebase.messaging.requestPermission().then(function(token) {
-//     console.log("APNS device token: ", token);
-// });
-
-// cordova.plugins.firebase.messaging.getToken().then(function(token) {
-//     console.log("Got device token: ", token);
-// });
 
 
 window.addEventListener('pushnotification', function(notification) {
@@ -548,4 +455,15 @@ function initAd(){
 	} else {
 		//alert( 'admob plugin not ready' );
 	}
+}
+
+function verificaPossuiChat(){
+// 	//$('<i class="material-icons waves-effect waves-light waves-circle botao-chat">message</i>').appendTo('#botoes');
+// 	$('<button class="btn waves-effect waves-light" onclick=")">'
+// 		+' <i class="material-icons right">message</i> </button>').appendTo('#botoes');
+// 	local.getItem("idCliente");
+// 	$.post(getJSON()+'/chat/verifica',{idCliente: idCliente}, function(result){
+// 		console.log(result);
+// 		// if(result=="true")
+// });	
 }
