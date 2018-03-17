@@ -76,18 +76,9 @@
     <access origin="*" />
     <preference name="phonegap-version" value="cli-7.1.0" />
     <universal-links>
-        <host name="jx52y.app.goo.gl" scheme="https">
-            <path url="/pGuk/teste" />
-        </host>
+        <host name="jx52y.app.goo.gl" scheme="https" />
         <host name="jogos-usados.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
-        </host>
-        <host name="*.myapp.com" scheme="https">
-            <path event="verify" url="*verify*" />
-            <path event="load" url="/*" />
-        </host>
-        <host name="weplay" scheme="https">
-            <path url="/*" />
         </host>
     </universal-links>
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />

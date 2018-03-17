@@ -17,12 +17,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
+
+		<ul id="dropdown1" class="dropdown-content" >
+			<li><i style="font-size: 18px;padding: 0 14px 0px 10px;" class="adiciona-jogo"><span class="l10n-adicionarjogo"></span></i></li>
+			
+				<li class="divider"></li>
+				<li> <a style="font-size: 18px;padding: 0 14px 0px 10px;" class="botao-share"><span class="l10n-share"></span></a></li>
+				<li> <a href="logout.html" style="font-size: 18px;padding: 0 14px 0px 10px;" ><span class="l10n-config"></span></a></li>
+			</ul>
+			
+			
+			<nav class="nav-extended navbar-fixed">
+				<div class="nav-wrapper cyan darken-4 white-text">
+					
+					<ul class="right ">
+						<li><i class="material-icons waves-effect waves-light waves-circle atualiza">refresh</i></li>
+						<li><i href='listachat.html' class="material-icons waves-effect waves-light waves-circle botao-chat">message</i></li>
+					<li><a style="top:50px" class="dropdown-button  transparent" data-hover="true" data-constrainWidth="false" href='#' data-activates="dropdown1"><i class="material-icons right">more_vert</i></a></li>
+			</ul>
+			</div>
+			<div class="nav-content cyan darken-4 white-text">
+			<ul class="tabs tabs-transparent">
+				<li class="tab"><a href="#porperto"> <span class="l10n-perto"></span></a></li>
+				<li class="tab"><a href="#meusjogos"><span class="l10n-meusjogos"></span> </a></li>
+				<!-- <li class="tab disabled"><a href="#test3">Disabled Tab</a></li> -->
+				
+			</ul>
+			</div>
+		</nav>
 	
-	<header id="navMain" class="nav-bar topo-fixo z-depth-1">
+
+		<div id="meusjogos" class="section">
+		</div>
+		<div id="porperto" class="section">
+		</div>
+				
+	<!-- <header id="navMain" class="nav-bar topo-fixo z-depth-1">
 
 		<div >
 			<div class="valign-wrapper cyan darken-4 white-text">
-				<h5 class="titulo">WePlay</h5>
+				<h5 class="titulo"></h5>
 
 				<span id="doRotate">
 						<span  class="rotate-btn"></span>
@@ -39,8 +73,8 @@
 		
 	</div>
 	
-</header>
-
+</header> -->
+<!-- 
 <div class="depois-topo-tab" style="z-index: 2;">
 <ul class="tabs cyan darken-4" id="ppp" style="position: fixed;">
 	<li class="tab" ><a href="#porperto"
@@ -50,23 +84,25 @@
 		</ul>
 	</div>
 						<div style="top: 81px;position: relative;" >        
+							 -->
 <!-- 	<div class="demo-code">
             mRefresh({
             <p class="indent">
                 nav: '#navMain'
             </p>
-            });
+		});
 	</div>
- -->	
-		<div id="porperto" class="section">
-			<ul data-role="listview" id="SomeListView" class="tab"></ul>
-		</div>
-	
-	
-		<div id="meusjogos" class="section">
-			<ul data-role="listview" id="listameusjogos" class="tab"></ul>		
-		</div>
-	</div>
+
+	   <div id="porperto" class="section">
+		   <ul data-role="listview" id="SomeListView" class="tab"></ul>
+	   </div>
+   
+   
+	   <div id="meusjogos" class="section">
+		   <ul data-role="listview" id="listameusjogos" class="tab"></ul>		
+	   </div>
+   </div>
+-->
 	<!-- <div class="fixed-action-btn">
 		<a
 			class="btn-floating btn-large waves-effect waves-light brown modal-trigger"

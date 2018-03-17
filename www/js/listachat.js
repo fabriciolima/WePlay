@@ -22,11 +22,18 @@ function getListaChat(){
 		});
 	}
 
+function abreChat(id){
+	var local = window.localStorage;
+	idChat = local.setItem("idChat",id);
+	window.location = "chat.html";
+
+}
 
 function adicionaChat(chat) {
 	
 	var itemsMeu = [];
-	itemsMeu.push('<div class="col s12 m7">'
+	itemsMeu.push('<li onclick="abreChat(this.id)" id="'+chat.id+'">'
+	+'<div class="col s12 m7">'
 	+ '<div class="card horizontal">'
 
 	// + '<div id="interesse"'
@@ -55,7 +62,8 @@ function adicionaChat(chat) {
 	// +'</div>'
 
 
-	+ '</div></div>');
+	+ '</div></div>'
+	+'</li>');
 	$('<ul/>', {'class' : 'my-new-list',html : itemsMeu.join('')}).appendTo('#listachat');
 };
 					

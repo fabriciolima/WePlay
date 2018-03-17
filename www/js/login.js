@@ -1,35 +1,76 @@
 //window.sqlitePlugin.deleteDatabase();
-var provider = new firebase.auth.GoogleAuthProvider();
-provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-firebase.auth().useDeviceLanguage();
-
-provider.setCustomParameters({
-	  'login_hint': 'user@example.com'
-	});
+//var provider = null;
+//  new firebase.auth.GoogleAuthProvider();
+// provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+// firebase.auth().useDeviceLanguage();
+var local = window.localStorage;
+//provider.setCustomParameters({'login_hint': 'user@example.com'});
 
 function loginGoogle(){
-	firebase.auth().signInWithRedirect(provider).then(login());
+	 var provider = new firebase.auth.GoogleAuthProvider();
+	 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+	 firebase.auth().useDeviceLanguage();
+	 firebase.auth().signInWithRedirect(provider).then(function() {
+		firebase.auth().getRedirectResult().then(function(result) {
+		  // This gives you a Google Access Token.
+		  // You can use it to access the Google API.
+		  Materialize.toast("ok"); 
+		  var token = result.credential.accessToken;
+		  // The signed-in user info.
+		  var user = result.user;
+
+		  local.setItem('idTemp', user.uid);
+			local.setItem('nomeCliente', user.displayName);
+
+			
+		});
+	});	  
+	 
+	 
+
 }
 function loginFacebook(){
-	firebase.auth().signInWithRedirect(provider).then(login());
+	var provider = new firebase.auth.FacebookAuthProvider();
+	firebase.auth().useDeviceLanguage();
+	provider.addScope('public_profile');
+	firebase.auth().signInWithRedirect(provider);
 }
 
+
 function login(){
-		firebase.auth().getRedirectResult().then(function(result) {
+	firebase.auth().getRedirectResult().then(function(result) {
 		if (result.credential) {
-			// This gives you a Google Access Token. You can use it to access the Google API.
-			
-		//firebase.auth().signInWithPopup(provider).then(function(result) {
 			var token = result.credential.accessToken;
+		}
+
 			var user = result.user;
 			var local = window.localStorage;
 			local.setItem('idTemp', user.uid);
 			local.setItem('nomeCliente', user.displayName);
 			console.log('idTemp', user.uid);
 			console.log('user', user);
-		}
 	});
 }
+
+
+		firebase.auth().getRedirectResult().then(function(result) {
+			Materialize.toast(result.user);
+		if (result.credential) {
+			// This gives you a Google Access Token. You can use it to access the Google API.
+			Materialize.toast("ok");
+		//firebase.auth().signInWithPopup(provider).then(function(result) {
+			var token = result.credential.accessToken;
+			Materialize.toast(token);
+		}
+			var user = result.user;
+			var local = window.localStorage;
+			local.setItem('idTemp', user.uid);
+			local.setItem('nomeCliente', user.displayName);
+			console.log('idTemp', user.uid);
+			console.log('user', user);
+		
+	});
+
 
 
 // 	firebase.auth().signInWithPopup(provider).then(function(result) {

@@ -29,7 +29,10 @@ document.addEventListener('deviceready', function(){
 			jogojacadastrado:"Voce já tem esse jogo",
 			jogocadastrado:"Pronto para troca",
 			tiporolo:"Comentário ou troco por $$$ ",
-			propostas:"Propostas para troca"
+			propostas:"Propostas para troca",
+			adicionarjogo:"Adicionar Jogo",
+			config:"Configurações",
+			share:"Compartilhar"
 
         },
         fr: {
@@ -63,7 +66,10 @@ document.addEventListener('deviceready', function(){
 			escolherjogo:"Elegir un juego",
 			jogojacadastrado:"Usted ya tiene ese juego",
 			jogocadastrado:"listo para el intercambio",
-			tiporolo:"Comentario o intercambio por $$$ "
+			tiporolo:"Comentario o intercambio por $$$ ",
+			adicionarjogo:"Add game",
+			config:"Settings",
+			share:"Share"
 						
         },
         en: {
@@ -93,7 +99,10 @@ document.addEventListener('deviceready', function(){
 			jogojacadastrado:"You have this game already",
 			jogocadastrado:"OK. Good to go",
 			tiporolo:"Comments or how much do you want",
-			propostas:"Games to Swap"
+			propostas:"Games to Swap",
+			adicionarjogo:"Add Game",
+			config:"Settings",
+			share:"Share"
 			
         }
     },"en");
@@ -142,8 +151,8 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	 return "http://localhost:8080/json";
-	// return "http://18.188.100.118:8080/json";
+	 //return "http://localhost:8080/json";
+	return "http://18.231.108.134:8080/json";
 }
 
 function gerURLplataforma90(id){

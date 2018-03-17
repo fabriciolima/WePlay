@@ -3,9 +3,7 @@ var local = window.localStorage;
 $('.botao-share').on('click', function() {
 	 window.plugins.socialsharing.shareWithOptions(options,null,null);
 });
-$('.botao-config').on('click', function() {
-	window.location="logout.html";
-});
+
 $('.botao-chat').on('click', function() {
 	window.location = "listachat.html";
 });
@@ -16,7 +14,7 @@ var options={message:"Check This",
 	  	   url:"https://jx52y.app.goo.gl/pGuk",
 	  	   chooserTitle:'We Play'}
 
-
+			 
 	
 
 getJogosPorPerto();
@@ -35,7 +33,7 @@ $('.atualiza').on('click',function(){
                 
 
 
-$('.cadastro-jogo').on('click', function() {
+$('.adiciona-jogo').on('click', function() {
 	var idCliente = local.getItem('idCliente');
 	if(idCliente == null || idCliente =="null")
 		window.location = "login.html";
@@ -70,7 +68,8 @@ $('.cadastro-jogo').on('click', function() {
 function adicionaJogoTelaInicial(data) {
 	var items = [];
 	
-	items.push('<div class="col s12 m7">'
+	items.push('<li onclick="proporTroca(\''+data.id+'\','+data.distancia+',\''+data.nomePlataforma+'\')" >'
+			+'<div class="col s12 m7">'
 			+ '<div class="card horizontal">'
 			+ '<div class="card-image" >'
 			+ '	<img src="'+gerURLjogo90(data.idJogo)+'"> '
@@ -80,9 +79,6 @@ function adicionaJogoTelaInicial(data) {
 			+ '	<div style="padding: 5px  15px  24px 5px;">'
 			+ '		<h6 style="padding-left:  15px;">'+data.nomePlataforma+'</h6>'
  			+ '		<h5 style="padding-left:  5px;"> '+data.nomeJogo+'</h5>'
-			 +'<a style="float:right" class="btn btn-floating" onclick="'
-			 +'  proporTroca(\''+data.id+'\','+data.distancia+',\''+data.nomePlataforma
-			 +'\')"><i class="material-icons">swap_horiz</i></a>'
 			 +'  <span class="badge">'+data.distancia+' Km</span> '
 			 
 			 + '</div>'
@@ -93,8 +89,8 @@ function adicionaJogoTelaInicial(data) {
 								
 			+'<div">'
 			+ '</div>'
-			+ '</div></div>');
-	$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#porperto');
+			+ '</div></div></li>');
+	$('<ul />', {'class' : 'my-new-list',html : items.join('')}).appendTo('#porperto');
 // }).appendTo('body');
 };
 
@@ -113,8 +109,8 @@ function proporTroca(idJogoCliente,distancia,nomePlataforma){
 	}
 }
 function adicionaMeuJogoTelaInicial(jogocliente) {
-	var items = [];
-	items.push('<div class="col s12 m7">'
+	var itemsMeu = [];
+	itemsMeu.push('<div class="col s12 m7">'
 					+ '<div class="card horizontal">'
 					+ '<div class="card-image">'
 					+'<img src="'+gerURLjogo90(jogocliente.idJogo)+'"> '
@@ -134,7 +130,8 @@ function adicionaMeuJogoTelaInicial(jogocliente) {
 					+ '	</div>'
 					+ '</div>'
 					+ '</div></div>');
-				$('<ul/>', {'class' : 'my-new-list',html : items.join('')}).appendTo('#meusjogos');
+					
+				$('<ul/>', {'class' : 'my-new-list',html : itemsMeu.join('')}).appendTo('#meusjogos');
 			// botaoTemJogosParaTroca(jogocliente);
 		}
 
@@ -246,7 +243,10 @@ function getJogosPorPerto(){
 				if(local.getItem("plataforma"+docPlataforma.id)!= "")
 				filtros.push(docPlataforma.id);
 			});
-			if(local.getItem('lat')!=null){
+			console.log(JSON.stringify(filtros));
+			lat = local.getItem('lat');
+			long = local.getItem('lon');
+			if(lat!=null){
 				adicionaJogosPorPerto(filtros);
 			}
 			else
@@ -261,16 +261,8 @@ function getJogosPorPerto(){
 
 function adicionaJogosPorPerto(filtros){
 
-	if(local.getItem('lat')!=null){
-		lat = local.getItem('lat');
-		long = local.getItem('lon');
-	}
-	else{
-		var lat=posicao.coords.latitude.toFixed(6);
-		var long=posicao.coords.longitude.toFixed(6);
-		local.setItem('lat',lat);
-		local.setItem('lon',long);
-	}
+	lat = local.getItem('lat');
+	long = local.getItem('lon');
 	pos = "Point(" + long+" "+lat+")";
 	
 	
@@ -285,7 +277,7 @@ console.log(JSON.stringify(filtros));
 			// sortOrder: 'ASC',
 			page: $currentPage,
 			size: $pageSize,
-			plataformas:JSON.stringify(filtros)
+			listaPlataforma:JSON.stringify(filtros)
 		},
 		crossDomain: false,
 		cache: false,
@@ -322,7 +314,7 @@ function getMeusJogosTelaInicial(){
 		dataType: "json",
 		success: function(data){
 			for(cont = 0 ; cont < data.length; ++cont){
-				adicionaMeuJogoTelaInicial(data[cont])
+				adicionaMeuJogoTelaInicial(data[cont]);
 			}
 		}
 	});

@@ -261,7 +261,7 @@ $(document).ready(function () {
 	idChat = local.getItem("idChat");
   meuIdCliente = local.getItem("idCliente");
   var hora;
-  db.collection("chat").doc(idChat).collection("conversa").limit(20).orderBy("hora","desc").get().then(function(listaMsg){
+  db.collection("chat").doc(idChat).collection("conversa").limit(20).orderBy("hora").get().then(function(listaMsg){
     listaMsg.forEach(function(docMsg) {
       console.log(meuIdCliente);
       if(docMsg.data().idEnviou==meuIdCliente){
