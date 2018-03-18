@@ -76,19 +76,11 @@ function atualizaCadastro()
 {
 	document.addEventListener('deviceready', function(){
 
-		
-//-------------------------------------------------------------------------------------------		
-		
-		db.collection("plataforma")//.where("nome","==",nomeJogo)
-		.get().then(function (lista){
-			lista.forEach(function(doc) {
-				var opcao = '<option value='+doc.id+'>'+doc.data().nome+'</option>';
-				$('#console').append(opcao);
-				$('#console').material_select();
-	        });
-
-		});
-
+		for(cont = 0 ; cont < plataforma.length; ++cont){
+			var opcao = '<option value='+plataforma[cont][0]+'>'+plataforma[cont][1]+'</option>';
+			$('#console').append(opcao);
+		}
+		$('#console').material_select();
 
 	});
 	
@@ -105,8 +97,6 @@ function mostrandoCadastro(){
 	 $('#estado').material_select();
 	 
 	//document.addEventListener("deviceready",lerDBGPS,false);
-	
-	
 }
 
 

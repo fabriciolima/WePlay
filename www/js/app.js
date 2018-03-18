@@ -1,4 +1,11 @@
 var local = window.localStorage;
+console.log("primeiravez",local.getItem("primeiravez"));
+if(local.getItem("primeiravez")==null){
+	for(cont = 0 ; cont < plataforma.length; ++cont){
+			local.setItem("plataforma"+plataforma[cont][0], "checked");
+		};
+		// local.setItem("primeiravez","nao");
+}
 
 $('.botao-share').on('click', function() {
 	 window.plugins.socialsharing.shareWithOptions(options,null,null);
@@ -156,63 +163,7 @@ function apaga(idJogoCliente){
 	getMeusJogosTelaInicial();
 }
 
-function botaoTemJogosParaTroca(jogocliente){
-	// console.log("jogocliente",jogocliente);
-//	botao",db.collection("jogocliente").doc(jogocliente.id);
-	// console.log(jogocliente.id,jogocliente.data().ultimaabertura);
-	ultimaabertura = jogocliente.data().ultimaabertura;
-	console.log(jogocliente.id)
-	if( jogocliente.data() != null && ultimaabertura != null){
-		temMsg = false;
-		qtdMsg = 0;
-		db.collection("jogocliente").doc(jogocliente.id)
-		
-		where("idproposta","==",jogocliente.id).where("dataexclusao","==",false)
-			//.where("datacadastro",">",ultimaabertura)
-			.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
-				qtdMsg += listaTroca.size;
-				console.log(listaTroca.size);
-				listaTroca.forEach(function(docTroca){
-					temMsg = temMsg || docTroca.data().datacadastro > ultimaabertura;
-				});	
 
-				if(!temMsg){
-					db.collection("trocas").where("idinteresse","==",jogocliente.id).where("dataexclusao","==",false)
-					//.where("datacadastro",">",ultimaabertura)
-					.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
-						console.log(listaTroca.size);
-						qtdMsg += listaTroca.size;
-						listaTroca.forEach(function(docTroca){
-							temMsg = temMsg || (docTroca.data().datacadastro > ultimaabertura);
-						});	
-
-						if(temMsg){
-								 $('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
-										 +'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
-							
-						}else if(qtdMsg >0){
-							$('<a style="float:right" class="btn btn-floating" onclick="verpropostas('+jogocliente.id+')">' 
-											 +'<i class="material-icons">message</i></a>').appendTo('#listainteressados_'+jogocliente.id);
-						}
-					});
-				}
-			});
-
-
-			//chat baseado em recebido
-			db.collection("chat").where("idpessoa1","==",jogocliente.id)
-			//where("dataexclusao","==",false)
-			//.where("datacadastro",">",ultimaabertura)
-			.orderBy("datacadastro", "desc").limit(1).get().then(function(listaTroca){
-				if(listaTroca.size>0){
-					 $('<div><a style="float:right" class="btn btn-floating pulse" onclick="verpropostas(\''+jogocliente.id+'\')">'
-										 +'<i class="material-icons">message</i></a></div>').appendTo('#listainteressados_'+jogocliente.id);
-				}
-			});
-
-	}
-	return '';
-}
 
 function verpropostas(idjogocliente){
 	var local = window.localStorage;
@@ -232,17 +183,18 @@ var scrollStop = 0;
 var $filter = 'today';
 
 // Ajax call
-google.maps.event.addDomListener(window, 'load', getLocation);
+// google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
 		var filtros=[];
-		db.collection("plataforma").get().then(function(listaPlataforma){
-			listaPlataforma.forEach(function(docPlataforma){
-				if(local.getItem("plataforma"+docPlataforma.id)!= "")
-				filtros.push(docPlataforma.id);
-			});
+		
+		for(cont = 0 ; cont < plataforma.length; ++cont){
+			if(local.getItem("plataforma"+plataforma[cont][0])== "checked"){
+				filtros.push(plataforma[cont][0]);
+			}
+		}
 			console.log(JSON.stringify(filtros));
 			lat = local.getItem('lat');
 			long = local.getItem('lon');
@@ -254,8 +206,7 @@ function getJogosPorPerto(){
 				Materialize.toast("indo buscar no GPS", 4000);
 				adicionaJogosPorPerto(filtros);
 			}, onError, { timeout: 3000 });
-		});
-
+		
 	});
 }
 
@@ -265,8 +216,7 @@ function adicionaJogosPorPerto(filtros){
 	long = local.getItem('lon');
 	pos = "Point(" + long+" "+lat+")";
 	
-	
-console.log(JSON.stringify(filtros));
+	console.log(JSON.stringify(filtros));
 	$.ajax({
 		type: "GET",
 		url: getJSON()+"/jogosperto",
@@ -365,23 +315,22 @@ $(document).scroll(function(e){
 
 
 
-window.addEventListener('pushnotification', function(notification) {
-    console.log("push");
-    // was the app in the forground when the notification was received?
-    window.addEventListener('pushnotification', function(notification) {
+// window.addEventListener('pushnotification', function(notification) {
+//     console.log("push");
+//     // was the app in the forground when the notification was received?
+//     window.addEventListener('pushnotification', function(notification) {
         
-        // was the app in the forground when the notification was received?
-        var inForground = notification.$foreground;
-        // was the app active when then notification was received?
-        notification.$active;
+//         // was the app in the forground when the notification was received?
+//         var inForground = notification.$foreground;
+//         // was the app active when then notification was received?
+//         notification.$active;
         
-        alert()
-    }, false);
+//         alert()
+//     }, false);
 
-}, false);
+// }, false);
 
 document.addEventListener("deviceready", function(){
-	
 	initAd();
 	window.plugins.AdMob.createBannerView();
 	//showBannerFunc();
@@ -406,15 +355,8 @@ document.addEventListener("deviceready", function(){
 	function showBannerFunc(){
 		window.plugins.AdMob.createBannerView();
 	}
-	
-if(local.getItem("primeiravez")==null){
-	db.collection("plataforma").get().then(function listaPlataforma(listaPlataforma){
-		listaPlataforma.forEach(function(doc){
-			local.setItem("plataforma"+doc.id, "checked");
-		});
-	});
-	local.setItem("primeiravez","nao");
-}
+
+
 
 function initAd(){
 	if ( window.plugins && window.plugins.AdMob ) {
@@ -459,3 +401,4 @@ function verificaPossuiChat(){
 // 		// if(result=="true")
 // });	
 }
+

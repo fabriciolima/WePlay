@@ -1,4 +1,3 @@
-   
 var app = {
     // Application Constructor
     initialize: function() {
@@ -31,13 +30,14 @@ var app = {
       }),
       universalLinks.subscribe('load', function(data) {
         alert('load: ' + JSON.stringify(data, null, 2));
-      }),
-       navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
+      })
+    
+    }
+}
+    //    navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
     //   initAd();
     //    showBannerFunc();
 
-
-    }
     // ,    onSuccess: function(position){
     //     var longitude = position.coords.longitude;
     //     var latitude = position.coords.latitude;
@@ -61,8 +61,6 @@ var app = {
     // onError: function(error){
     //     alert("the code is " + error.code + ". \n" + "message: " + error.message);
     // },
-};
-
 
 
 app.initialize();

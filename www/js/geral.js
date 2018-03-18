@@ -1,3 +1,4 @@
+var local = window.localStorage;
 //ApiKey:AIzaSyB8tTLJ3EtwW4DtNBmMSrapQxfijMKv3JA
 document.addEventListener('deviceready', function(){
 	Localization.initialize(
@@ -151,7 +152,7 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	 //return "http://localhost:8080/json";
+	//  return "http://localhost:8080/json";
 	return "http://18.231.108.134:8080/json";
 }
 
@@ -221,4 +222,22 @@ function degreesToRadians(degrees) {
 // 		  adId: admobid.banner,
 // 		  position: AdMob.AD_POSITION.TOP_CENTER,
 // 		  autoShow: true });
+
+var plataforma = new Array(
+	["1","Outros"],
+	["2","Playstation 1"],
+	["3","Playstation 2"],
+	["4","Playstation 3"],
+	["5","Playstation 4"],
+	["6","PSP"],
+	["7","Xbox One"],
+	["8","Xbox 360"],
+	["9","Xbox"],
+	["10","Wii U"],
+	["11","Wii"],
+	["12","Nintendo DS"],
+	["13","Game Boy"],
+	["14","Nintendo Switch"],
+	["15","PS Vita"]
+);
 

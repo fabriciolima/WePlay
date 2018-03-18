@@ -3,7 +3,7 @@ function mapa(){
 	window.location = "mapa.html";
 }
 
-google.maps.event.addDomListener(window, 'load', getLocation);
+// google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getPointLocation(){
 	navigator.geolocation.getCurrentPosition(function(posicao){
@@ -51,12 +51,6 @@ function onError(error) {
 	Materialize.toast(Localization.for("semgps"), 4000);
 }
 
-document.addEventListener("deviceready", onDeviceReady, true);
-
-function onDeviceReady()
-{     
-      //document.addEventListener("backbutton", BackKeyDown, true);
-}
 
 function onBackKeyDown()
 {
