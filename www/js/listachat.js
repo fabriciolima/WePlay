@@ -33,34 +33,28 @@ function adicionaChat(chat) {
 	
 	var itemsMeu = [];
 	itemsMeu.push('<li onclick="abreChat(this.id)" id="'+chat.id+'">'
+	
 	+'<div class="col s12 m7">'
 	+ '<div class="card horizontal">'
 
 	// + '<div id="interesse"'
-	+ '<div class="card-image">'
-	+ '	<img src="'+gerURLjogo90(chat.interesseIdJogo)+'"> '
-	+ '</div>'
-	+ '<div class="card-stacked">'
-	+ '	   <div style="padding: 5px  15px  24px 5px;">'
+	+ '<div class="card-image" style="max-width: 50%;">'
+	+ '	   <div >'
 	+ '		  <h6 style="padding-left:  15px;">'+chat.interesseNomePlataforma+'</h6>'
 	+ '		  <h5 style="padding-left:  5px;"> '+chat.interesseNomeJogo+'</h5>'
 	+ '	   </div>'
+	+ '	<img src="'+gerURLjogo90(chat.interesseIdJogo)+'"> '
 	+ '</div>'
-	// +'</div>'
 
-
-	// + '<div id="proposta"'
-	+ '<div class="card-image">'
-	+ '	<img src="'+gerURLjogo90(chat.propostaIdJogo)+'"> '
+	+'<div class="valign-wrapper"><i class="material-icons ">swap_horiz</i></div>'
+	
+	+ '<div class="card-image right-align" style="max-width: 50%;">'
+			+'<div>'
+			+ '		  <h6 style="padding-left:  15px;">'+chat.propostaNomePlataforma+'</h6>'
+			+ '		  <h5 style="padding-left:  5px;"> '+chat.propostaNomeJogo+'</h5>'
+			+'</div>'
+			+ '	<div > <img src="'+gerURLjogo90(chat.propostaIdJogo)+'"> </div>'
 	+ '</div>'
-	+ '<div class="card-stacked">'
-	+ '	   <div style="padding: 5px  15px  24px 5px;">'
-	+ '		  <h6 style="padding-left:  15px;">'+chat.propostaNomePlataforma+'</h6>'
-	+ '		  <h5 style="padding-left:  5px;"> '+chat.propostaNomeJogo+'</h5>'
-	+ '	   </div>'
-	+ '</div>'
-	// +'</div>'
-
 
 	+ '</div></div>'
 	+'</li>');

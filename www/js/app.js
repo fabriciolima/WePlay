@@ -78,7 +78,7 @@ function adicionaJogoTelaInicial(data) {
 	items.push('<li onclick="proporTroca(\''+data.id+'\','+data.distancia+',\''+data.nomePlataforma+'\')" >'
 			+'<div class="col s12 m7">'
 			+ '<div class="card horizontal">'
-			+ '<div class="card-image" >'
+			+ '<div class="card-image" style="max-width: 35%;" >'
 			+ '	<img src="'+gerURLjogo90(data.idJogo)+'"> '
 // + ' <img src="'+ getImagemPlataforma(data.id)+ '">'
 			+ '</div>'
@@ -156,11 +156,16 @@ function nomePlataforma(idplataforma){
 	}
 
 function apaga(idJogoCliente){
-	db.collection("jogocliente").doc(idJogoCliente).set({
-		dataexclusao:new Date()
-	}, { merge: true });
-	$("#meusjogos").empty();
-	getMeusJogosTelaInicial();
+	idCliente = local.getItem("idCliente");
+	console.log(idJogoCliente,idCliente);
+	$.post(getJSON()+'/jogo/d',{
+		jc:idJogoCliente,
+		i:idCliente},
+	 function(result){
+		$("#meusjogos").empty();		 
+		Materialize.toast("OK", 4000);
+		getMeusJogosTelaInicial();
+	});
 }
 
 
@@ -198,15 +203,17 @@ function getJogosPorPerto(){
 			console.log(JSON.stringify(filtros));
 			lat = local.getItem('lat');
 			long = local.getItem('lon');
+			console.log("lat",lat);
 			if(lat!=null){
 				adicionaJogosPorPerto(filtros);
 			}
-			else
-			navigator.geolocation.getCurrentPosition(function(posicao){
-				Materialize.toast("indo buscar no GPS", 4000);
-				adicionaJogosPorPerto(filtros);
-			}, onError, { timeout: 3000 });
-		
+			else{
+				navigator.geolocation.getCurrentPosition(function(posicao){
+					local.setItem('lat',posicao.coords.latitude);
+					local.setItem('lon',posicao.coords.longitude);
+					adicionaJogosPorPerto(filtros);
+				}, onError, { timeout: 3000 });
+			}
 	});
 }
 
