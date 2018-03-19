@@ -18,10 +18,8 @@ var plataforma = new Array(
 var items = [];
 var local = window.localStorage;
 document.addEventListener('deviceready', function(){
-	console.log(plataforma);
 	for(cont = 0 ; cont < plataforma.length; ++cont){
 		checked =  local.getItem("plataforma"+plataforma[cont][0]);
-		console.log("+",checked);
 		items.push('<div class="col s12 m7">'
 		+ '<div class="card horizontal">'
 		+ '<div class="card-image">'
@@ -41,8 +39,7 @@ document.addEventListener('deviceready', function(){
 
 
 function salvaPlataforma(checkbox){
-	console.log(checkbox);
-		local.setItem("plataforma"+checkbox.id,  (checkbox.checked ? "checked" : ""));
+	local.setItem("plataforma"+checkbox.id,  (checkbox.checked ? "checked" : ""));
 }
 function salvaCliente(){
 	local.setItem("idCliente",null);

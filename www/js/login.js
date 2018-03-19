@@ -63,8 +63,6 @@ function login(){
 			var local = window.localStorage;
 			local.setItem('uidCliente', user.uid);
 			local.setItem('nomeCliente', user.displayName);
-			console.log('uidCliente', user.uid);
-			console.log('user', user);
 		
 	});
 
@@ -111,12 +109,10 @@ function salvaCliente(){
 			lon:lon},function(data, status){
 					if(data != null && data != ""){
 						local.setItem('idCliente',data);
-						console.log("===>",data);
 						window.location = "index.html";
 					}
 				}).catch(function(erro){
 					Materialize.toast('Erro salvando', 4000);
-					console.log(erro);
 				});
 			};
 	return false;

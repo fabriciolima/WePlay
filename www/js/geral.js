@@ -180,7 +180,6 @@ $('.botao-voltar').on('click', function() {
 
 
 function distancia(lat,lon) {
-	console.log("distanciaslndf;assdf");
 	  var radius = 6371; // Earth's radius in kilometers
 	  var local = window.localStorage;
 	  

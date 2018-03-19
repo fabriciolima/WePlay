@@ -18,8 +18,6 @@ function getMeusJogosTelaProposta(){
 			dataType: "json",
 			success: function(data){
 				for(cont = 0 ; cont < data.length; ++cont){
-					// adicionaMeuJogoTelaInicial(data[cont])
-					console.log(data[cont]);
 					montaMeuJogoTelaProposta(data[cont]);
 				}
 			}
@@ -102,8 +100,6 @@ function fazProposta(){
 	sList ="";
 	listaJogo = [];
 	idCliente = local.getItem('idCliente');
-	console.log("idjogocliente",local.getItem('idjogocliente'));
-	console.log("idcliente",idCliente);
 	if(idCliente == null || idCliente =="null")
 		window.location="login.html"
 	$('input[type=checkbox]').each(function () {
@@ -111,14 +107,12 @@ function fazProposta(){
 		meuId = this.id;
 		sList += "(" + $(this).val() + "-" + (this.checked ? "checked" : "not checked") + ")";
 		if(this.checked){
-			console.log("+",this.id);
 			var dados = {funcao:"adiciona",
 			idinteresse:idjogocliente,
 			idproposta:meuId};
 
 			salvaPropostaJson(dados);
 		}else{
-			console.log("-",meuId);
 			var dados = {funcao:"remove",
 			idinteresse:idjogocliente,
 			idproposta:meuId};
@@ -135,14 +129,11 @@ function fazProposta(){
 
 
 function salvaPropostaJson(dados){
-		console.log("salvando dados:",dados);
-		$.post(getJSON()+"/fazproposta",dados,function(data, status)
-				{
+		$.post(getJSON()+"/fazproposta",dados,
+			function(data, status){
 					if(status=='erro'){
-						console.log("Data: " + data + "\nStatus: " + status);
-					}
-					else
-						console.log("Data: " + data);
-				});
-	}
+						Materialize.toast("OK", 4000);
+					};
+	});
+}
 	

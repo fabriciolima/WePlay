@@ -89,7 +89,6 @@ function atualizaCadastro()
 }
 
 function atualizaEstado(){
-	console.log("csdf");
 	$('#estado').material_select();
 }
 function mostrandoCadastro(){
@@ -117,7 +116,6 @@ $("#nome").on("input", function(e) {
 			var dataList = $("#searchresults");
 			dataList.empty();
 			lista.forEach(function(doc){
-				console.log(doc.data().nome);
 				var opt = $("<option></option>").attr("value", doc.data().nome);
 				dataList.append(opt);
 			});
