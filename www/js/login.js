@@ -19,7 +19,7 @@ function loginGoogle(){
 		  // The signed-in user info.
 		  var user = result.user;
 
-		  local.setItem('idTemp', user.uid);
+		  local.setItem('uidCliente', user.uid);
 			local.setItem('nomeCliente', user.displayName);
 
 			
@@ -42,13 +42,10 @@ function login(){
 		if (result.credential) {
 			var token = result.credential.accessToken;
 		}
-
 			var user = result.user;
 			var local = window.localStorage;
-			local.setItem('idTemp', user.uid);
+			local.setItem('uidCliente', user.uid);
 			local.setItem('nomeCliente', user.displayName);
-			console.log('idTemp', user.uid);
-			console.log('user', user);
 	});
 }
 
@@ -64,9 +61,9 @@ function login(){
 		}
 			var user = result.user;
 			var local = window.localStorage;
-			local.setItem('idTemp', user.uid);
+			local.setItem('uidCliente', user.uid);
 			local.setItem('nomeCliente', user.displayName);
-			console.log('idTemp', user.uid);
+			console.log('uidCliente', user.uid);
 			console.log('user', user);
 		
 	});
@@ -79,7 +76,7 @@ function login(){
 // 	  // The signed-in user info.
 // 	  var user = result.user;
 // 		var local = window.localStorage;
-// 		local.setItem('idTemp', user.uid);
+// 		local.setItem('uidCliente', user.uid);
 // 	  local.setItem('nomeCliente', user.displayName);
 // 	}).catch(function(error) {
 // 	  // Handle Errors here.
@@ -99,7 +96,7 @@ function salvaCliente(){
 	lat = local.getItem('lat');
 	lon = local.getItem('lon');
 	
-	if(local.getItem('idTemp')==null || local.getItem('idTemp')=="null"){
+	if(local.getItem('uidCliente')==null || local.getItem('uidCliente')=="null"){
 		Materialize.toast(Localization.for("facalogin"));
 	}
 	else
@@ -108,7 +105,7 @@ function salvaCliente(){
 	}
 	else{
 		$.post(getJSON()+'/cliente/add',{
-      uid:local.getItem('idTemp'),
+      uid:local.getItem('uidCliente'),
 			nome:local.getItem('nomeCliente'),
 			lat:lat,
 			lon:lon},function(data, status){

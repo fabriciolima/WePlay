@@ -124,7 +124,7 @@ function adicionaMeuJogoTelaInicial(jogocliente) {
 					+ '</div>'
 					+ '<div class="card-stacked">'
 					+ '	<div class="card-content listadiv">'
-					+'<a style="float:right" class="btn btn-floating" onclick="apaga(\''+jogocliente.idJogo+'\')">' 
+					+'<a style="float:right" class="btn btn-floating" onclick="apaga(\''+jogocliente.id+'\')">' 
 							+'<i class="material-icons">delete</i></a>'
 					+ '	<div>'
 					+ '			<h6>'+jogocliente.nomePlataforma+'</h6>'
@@ -160,7 +160,7 @@ function apaga(idJogoCliente){
 	console.log(idJogoCliente,idCliente);
 	$.post(getJSON()+'/jogo/d',{
 		jc:idJogoCliente,
-		i:idCliente},
+		uid:uidCliente},
 	 function(result){
 		$("#meusjogos").empty();		 
 		Materialize.toast("OK", 4000);
