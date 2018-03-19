@@ -80,6 +80,12 @@
         <host name="jogos-usados.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
+        <host name="jx52y.app.goo.gl/8f7b" scheme="https">
+            <path event="lista2" url="/user" />
+        </host>
+        <host name="weplay" scheme="https">
+            <path event="lista" url="/user" />
+        </host>
     </universal-links>
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />

@@ -16,16 +16,18 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        universalLinks.subscribe(null, function (eventData) {
-            // do some work
+        universalLinks.subscribe('lista', function (eventData) {
+            // window.location = "listachat.html";
+            // Materialize.toast(eventData.path, 4000);
             alert(eventData.url);
+            Materialize.toast(eventData.params['id'], 4000);
             alert.log('eventdata ', eventData);
     
         }),     
   
         // app.receivedEvent('deviceready');
 
-    universalLinks.subscribe('verify', function(data) {
+    universalLinks.subscribe('lista2', function(data) {
         alert('verify: ' + JSON.stringify(data, null, 2));
       }),
       universalLinks.subscribe('load', function(data) {
