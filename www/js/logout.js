@@ -47,6 +47,12 @@ function salvaPlataforma(checkbox){
 function salvaCliente(){
 	local.setItem("idCliente",null);
 	window.location="index.html";
+	idCliente = local.getItem("idCliente");
+	$.post(getJSON()+'/cliente/d',{i:idCliente},
+		 function(result){
+			$("#meusjogos").empty();		 
+			Materialize.toast("OK", 4000);
+			getMeusJogosTelaInicial();
+		});
+	}
 	
-};
-
