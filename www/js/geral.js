@@ -152,8 +152,8 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	 return "http://localhost:8080/json";
-	// return "http://18.231.108.134:8080/json";
+	 //return "http://localhost:8080/json";
+	 return "http://18.231.108.134:8080/weplay/json";
 }
 
 function gerURLplataforma90(id){

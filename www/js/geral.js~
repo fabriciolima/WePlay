@@ -1,3 +1,5 @@
+var local = window.localStorage;
+//ApiKey:AIzaSyB8tTLJ3EtwW4DtNBmMSrapQxfijMKv3JA
 document.addEventListener('deviceready', function(){
 	Localization.initialize(
     { 
@@ -28,7 +30,10 @@ document.addEventListener('deviceready', function(){
 			jogojacadastrado:"Voce já tem esse jogo",
 			jogocadastrado:"Pronto para troca",
 			tiporolo:"Comentário ou troco por $$$ ",
-			propostas:"Propostas para troca"
+			propostas:"Propostas para troca",
+			adicionarjogo:"Adicionar Jogo",
+			config:"Configurações",
+			share:"Compartilhar"
 
         },
         fr: {
@@ -62,7 +67,10 @@ document.addEventListener('deviceready', function(){
 			escolherjogo:"Elegir un juego",
 			jogojacadastrado:"Usted ya tiene ese juego",
 			jogocadastrado:"listo para el intercambio",
-			tiporolo:"Comentario o intercambio por $$$ "
+			tiporolo:"Comentario o intercambio por $$$ ",
+			adicionarjogo:"Add game",
+			config:"Settings",
+			share:"Share"
 						
         },
         en: {
@@ -92,7 +100,10 @@ document.addEventListener('deviceready', function(){
 			jogojacadastrado:"You have this game already",
 			jogocadastrado:"OK. Good to go",
 			tiporolo:"Comments or how much do you want",
-			propostas:"Games to Swap"
+			propostas:"Games to Swap",
+			adicionarjogo:"Add Game",
+			config:"Settings",
+			share:"Share"
 			
         }
     },"en");
@@ -141,8 +152,8 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	// return "http://18.219.152.216:8080/json";
-	return "http://192.168.15.2:8080/json";
+	 //return "http://localhost:8080/json";
+	 return "http://18.231.108.134:8080/json";
 }
 
 function gerURLplataforma90(id){
@@ -169,7 +180,7 @@ $('.botao-voltar').on('click', function() {
 
 
 function distancia(lat,lon) {
-	var radius = 6371; // Earth's radius in kilometers
+	  var radius = 6371; // Earth's radius in kilometers
 	  var local = window.localStorage;
 	  
 	  var latDelta = degreesToRadians(lat - local.getItem('lat'));
@@ -210,4 +221,22 @@ function degreesToRadians(degrees) {
 // 		  adId: admobid.banner,
 // 		  position: AdMob.AD_POSITION.TOP_CENTER,
 // 		  autoShow: true });
+
+var plataforma = new Array(
+	["1","Outros"],
+	["2","Playstation 1"],
+	["3","Playstation 2"],
+	["4","Playstation 3"],
+	["5","Playstation 4"],
+	["6","PSP"],
+	["7","Xbox One"],
+	["8","Xbox 360"],
+	["9","Xbox"],
+	["10","Wii U"],
+	["11","Wii"],
+	["12","Nintendo DS"],
+	["13","Game Boy"],
+	["14","Nintendo Switch"],
+	["15","PS Vita"]
+);
 

@@ -15,7 +15,6 @@ function getListaChat(){
 			success: function(data){
 				for(cont = 0 ; cont < data.length; ++cont){
 					// adicionaMeuJogoTelaInicial(data[cont])
-					console.log(data[cont]);
 					adicionaChat(data[cont]);
 				}
 			}
@@ -48,12 +47,12 @@ function adicionaChat(chat) {
 
 	+'<div class="valign-wrapper"><i class="material-icons ">swap_horiz</i></div>'
 	
-	+ '<div class="card-image right-align" style="max-width: 50%;">'
+	+ '<div class="card-image right-align" style="width: 46%;padding-right: 10px;">'
 			+'<div>'
 			+ '		  <h6 style="padding-left:  15px;">'+chat.propostaNomePlataforma+'</h6>'
 			+ '		  <h5 style="padding-left:  5px;"> '+chat.propostaNomeJogo+'</h5>'
 			+'</div>'
-			+ '	<div > <img src="'+gerURLjogo90(chat.propostaIdJogo)+'"> </div>'
+			+ '	<div > <img style="float: right;" src="'+gerURLjogo90(chat.propostaIdJogo)+'"> </div>'
 	+ '</div>'
 
 	+ '</div></div>'

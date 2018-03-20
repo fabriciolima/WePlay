@@ -43,13 +43,21 @@ function salvaPlataforma(checkbox){
 }
 function salvaCliente(){
 	local.setItem("idCliente",null);
-	window.location="index.html";
 	idCliente = local.getItem("idCliente");
-	$.post(getJSON()+'/cliente/d',{i:idCliente},
-		 function(result){
-			$("#meusjogos").empty();		 
-			Materialize.toast("OK", 4000);
-			getMeusJogosTelaInicial();
-		});
+	firebase.auth().signOut().then(function() {
+		$.post(getJSON()+'/cliente/d',{
+			i:idCliente,
+			u:local.getItem('uidCliente')
+		},
+		function(result){
+			$("#meusjogos").empty();	
+			Materialize.toast("Bye", 4000);
+			//getMeusJogosTelaInicial();
+			window.location="index.html";
+			});
+	  }).catch(function(error) {
+		// An error happened.
+	  });
+	  
 	}
 	

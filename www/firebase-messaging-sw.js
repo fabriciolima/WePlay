@@ -16,14 +16,14 @@ const messaging = firebase.messaging();
 
 messaging.requestPermission()
 .then(function() {
-	console.log('Notification permission granted2.');
+	//console.log('Notification permission granted2.');
 	return messaging.getToken();
 }).then(function (token){
-	console.log("token",token);
+	//console.log("token",token);
 }).catch(function(err) {
-	console.log('Unable to get permission to notify.', err);
+	//console.log('Unable to get permission to notify.', err);
 });
 
 messaging.onMessage(function(payload){
-	console.log("payload",payload);
+	//console.log("payload",payload);
 })

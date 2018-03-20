@@ -1,3 +1,12 @@
+var map;
+
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+	center: {lat: -34.397, lng: 150.644},
+	zoom: 8
+	});
+}
+  
 var marker;
 function mapa(){
 	window.location = "mapa.html";
@@ -39,7 +48,7 @@ function onSuccess(position) {
     		mapTypeControl:false,
     		scaleControl: false,
     		streetViewControl: false}
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     //var marker = new google.maps.Marker();
     marker = new google.maps.Marker({
         		position: myLatlng,
@@ -48,7 +57,7 @@ function onSuccess(position) {
 }
 
 function onError(error) {
-	Materialize.toast(Localization.for("semgps"), 4000);
+	Materialize.toast(Localization.for("GPS ERROR"), 4000);
 }
 
 
@@ -71,7 +80,6 @@ function localizacao(){
 	var local = window.localStorage;
 	local.setItem('lat',marker.getPosition().lat().toFixed(6));
 	local.setItem('lon',marker.getPosition().lng().toFixed(6));
-	console.log(local.getItem('lon'));
 	history.go(-1);
 	//alert(marker.getPosition().lng().toFixed(6));
 	//criarDBGPS();

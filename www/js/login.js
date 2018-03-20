@@ -14,7 +14,6 @@ function loginGoogle(){
 		firebase.auth().getRedirectResult().then(function(result) {
 		  // This gives you a Google Access Token.
 		  // You can use it to access the Google API.
-		  Materialize.toast("ok"); 
 		  var token = result.credential.accessToken;
 		  // The signed-in user info.
 		  var user = result.user;
@@ -50,21 +49,19 @@ function login(){
 }
 
 
-		firebase.auth().getRedirectResult().then(function(result) {
-			Materialize.toast(result.user);
+firebase.auth().getRedirectResult().then(function(result) {
+	var local = window.localStorage;
+	if(result!=null){
+		console.log(result);
+		local.setItem('uidCliente', result.user.uid);
+		local.setItem('nomeCliente', result.user.displayName);
 		if (result.credential) {
 			// This gives you a Google Access Token. You can use it to access the Google API.
-			Materialize.toast("ok");
-		//firebase.auth().signInWithPopup(provider).then(function(result) {
-			var token = result.credential.accessToken;
-			Materialize.toast(token);
+			//var token = result.credential.accessToken;
 		}
-			var user = result.user;
-			var local = window.localStorage;
-			local.setItem('uidCliente', user.uid);
-			local.setItem('nomeCliente', user.displayName);
+	}
 		
-	});
+});
 
 
 

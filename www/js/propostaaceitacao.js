@@ -50,7 +50,6 @@ function adicionaListaPropostas(){
 		success: function(data){
 			for(cont = 0 ; cont < data.length; ++cont){
 				// adicionaMeuJogoTelaInicial(data[cont])
-				console.log(data[cont]);
 				itemsProposta.push('<div class="col s12 m7">'
 				+ '<div class="card horizontal">'
 				+ '<div class="card-image">'
@@ -83,9 +82,7 @@ function adicionaListaPropostas(){
 function abrechat(idTroca){
 	var local = window.localStorage;
 	$.post(getJSON()+"/chat/add",{idTroca:idTroca},function(data){
-		console.log(data);
 			local.setItem("idChat",data);	
-			console.log(data);
 			window.location="chat.html";
 			// else
 		})

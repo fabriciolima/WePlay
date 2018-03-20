@@ -191,6 +191,7 @@ var $filter = 'today';
 // google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
+	window.plugins.spinnerDialog.show();
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
 		var filtros=[];
@@ -200,10 +201,8 @@ function getJogosPorPerto(){
 				filtros.push(plataforma[cont][0]);
 			}
 		}
-			console.log(JSON.stringify(filtros));
 			lat = local.getItem('lat');
 			long = local.getItem('lon');
-			console.log("lat",lat);
 			if(lat!=null){
 				adicionaJogosPorPerto(filtros);
 			}
@@ -229,6 +228,7 @@ function adicionaJogosPorPerto(filtros){
 		url: getJSON()+"/jogosperto",
 		data: { 
 			pos:pos,
+			id:local.getItem('idCliente'),
 			// getJogosPorPerto: 1,
 			// sortBy: 'name', 
 			// sortOrder: 'ASC',
