@@ -191,7 +191,6 @@ var $filter = 'today';
 // google.maps.event.addDomListener(window, 'load', getLocation);
 
 function getJogosPorPerto(){
-	window.plugins.spinnerDialog.show();
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
 		var filtros=[];
