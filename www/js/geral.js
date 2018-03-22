@@ -167,7 +167,7 @@ function gerURLplataforma(id){
 }
 
 function gerURLjogo90(id){
-	return "https://jogos-usados.firebaseapp.com/jogo90/"+id+"_90.png";
+	return "http://18.231.108.134:8080/jogo90/"+id+"_90.png";
 }
 
 function gerURLjogo(id){

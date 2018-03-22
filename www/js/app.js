@@ -202,7 +202,7 @@ function getJogosPorPerto(){
 		}
 			lat = local.getItem('lat');
 			long = local.getItem('lon');
-			if(lat!=null){
+			if(lat!=null && lat != 'null'){
 				adicionaJogosPorPerto(filtros);
 			}
 			else{
@@ -385,7 +385,7 @@ function initAd(){
 			bannerAtTop: false, // set to true, to put banner at top
 			overlap: false, // banner will overlap webview 
 			offsetTopBar: false, // set to true to avoid ios7 status bar overlap
-			isTesting: true, // receiving test ad
+			isTesting: false, // receiving test ad
 			autoShow: false // auto show interstitial ad when loaded
 		});
 
