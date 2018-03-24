@@ -23,7 +23,12 @@ function loginGoogle(){
 
 			
 		});
-	});	  
+	}).catch(function(error){
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			local.setItem('uidCliente', '0');
+			local.setItem('nomeCliente', 'Logado antes');
+		}
+	});
 	 
 	 
 
@@ -32,7 +37,12 @@ function loginFacebook(){
 	var provider = new firebase.auth.FacebookAuthProvider();
 	firebase.auth().useDeviceLanguage();
 	provider.addScope('public_profile');
-	firebase.auth().signInWithRedirect(provider);
+	firebase.auth().signInWithRedirect(provider).catch(function(error){
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			local.setItem('uidCliente', '0');
+			local.setItem('nomeCliente', 'Logado antes');
+		}
+	});
 }
 
 

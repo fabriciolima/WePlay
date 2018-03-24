@@ -112,14 +112,25 @@ $("#nome").on("input", function(e) {
 		// 	.on('value',snap =>{
 		// 		console.log("dsfg");
 		// 	})
-		 db.collection("jogo").where("nomepesquisa",">=",nomeJogo).limit(3).get().then(function (lista){
-			var dataList = $("#searchresults");
-			dataList.empty();
-			lista.forEach(function(doc){
-				var opt = $("<option></option>").attr("value", doc.data().nome);
-				dataList.append(opt);
-			});
-		})
+		$.ajax({
+			type: "GET",
+			url: getJSON()+"/jogo/nome",
+			data: { nome:val},
+			crossDomain: false,
+			cache: false,
+			dataType: "json",
+			success: function(data){
+				var dataList = $("#searchresults");
+				dataList.empty();
+				for(cont = 0 ; cont < data.length; ++cont){
+					var opt = $("<option id="+data[cont].id+"></option>").attr("value", data[cont].nome);
+					dataList.append(opt);
+				}
+				
+			}
+		});
+
+		 
 	}
 	
 }); 

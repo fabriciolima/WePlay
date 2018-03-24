@@ -4,8 +4,8 @@
   "displayName": "Garçonete Só de Cenoura",
   "cordova": {
     "platforms": [
-      "browser",
-      "android"
+      "android",
+      "browser"
     ],
     "plugins": {
       "cordova-plugin-statusbar": {},

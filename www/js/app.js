@@ -1,10 +1,9 @@
 var local = window.localStorage;
-console.log("primeiravez",local.getItem("primeiravez"));
 if(local.getItem("primeiravez")==null){
 	for(cont = 0 ; cont < plataforma.length; ++cont){
 			local.setItem("plataforma"+plataforma[cont][0], "checked");
 		};
-		// local.setItem("primeiravez","nao");
+		local.setItem("primeiravez","nao");
 }
 
 $('.botao-share').on('click', function() {
@@ -258,7 +257,6 @@ function adicionaJogosPorPerto(filtros){
 function getMeusJogosTelaInicial(){
 	var local = window.localStorage;
 	idCliente = local.getItem('idCliente');
-	console.log(idCliente);
 	if(idCliente != null)
 	$.ajax({
 		type: "GET",
