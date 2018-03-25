@@ -1,5 +1,3 @@
-
-
 // funcoes do chat
 // --------------------------------------------------------------------------------------------------------------
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -184,13 +182,14 @@ $(document).ready(function () {
     idChat = local.getItem("idChat");
     console.log(idChat);
     meuIdCliente = local.getItem("idCliente");
-    
+    horaLocal=new Date();
     db.collection("chat").doc(idChat).collection("conversa").
     add({
       idEnviou:meuIdCliente,
-      hora:new Date(),
+      hora:horaLocal,
       msg:message.text
     });
+    atualizaUltimaHoraChat(horaLocal);
     scrollBottom();
   }
 
@@ -264,7 +263,6 @@ $(document).ready(function () {
   var hora;
   db.collection("chat").doc(idChat).collection("conversa").limit(20).orderBy("hora").get().then(function(listaMsg){
     listaMsg.forEach(function(docMsg) {
-      console.log(meuIdCliente);
       if(docMsg.data().idEnviou==meuIdCliente){
         messenger.sendOFF(docMsg.data().msg);
       }else{
@@ -278,7 +276,6 @@ $(document).ready(function () {
       .where("hora",">",hora).onSnapshot(function(snap){
         snap.docChanges.forEach(function(change) {
           if (change.type === "added") {
-            console.log("online: ", change.doc.data());
             if(change.doc.data().idEnviou!=meuIdCliente){
                       messenger.recieve(change.doc.data().msg);
                     }
@@ -289,3 +286,27 @@ $(document).ready(function () {
 
 
 });
+
+function atualizaUltimaHoraChat(hora){
+  var local = window.localStorage;
+	idChat = local.getItem("idChat");
+  meuIdCliente = local.getItem("idCliente");
+  
+  chatRef = db.collection("chat").doc(idChat).set({
+    ['hora_'+meuIdCliente]=hora
+  }, { merge: true })
+  
+  
+  
+  .then(function(chat){
+    cha
+    listaMsg.forEach(function(docMsg) {
+      console.log(meuIdCliente);
+      if(docMsg.data().idEnviou==meuIdCliente){
+        messenger.sendOFF(docMsg.data().msg);
+      }else{
+        messenger.recieve(docMsg.data().msg);
+      }
+      hora = docMsg.data().hora;      
+    });
+}
