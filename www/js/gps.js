@@ -8,9 +8,6 @@ function initMap() {
 }
   
 var marker;
-function mapa(){
-	window.location = "mapa.html";
-}
 
 // google.maps.event.addDomListener(window, 'load', getLocation);
 

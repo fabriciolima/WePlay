@@ -129,7 +129,7 @@ function fazProposta(){
 
 
 function salvaPropostaJson(dados){
-		$.post(getJSON()+"/fazproposta",dados,
+		$.get(getJSON()+"/fazproposta",dados,
 			function(data, status){
 					if(status=='erro'){
 						Materialize.toast("OK", 4000);

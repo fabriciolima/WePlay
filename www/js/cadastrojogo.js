@@ -2,9 +2,9 @@
 function salvaJogo(){
 	var local = window.localStorage;
     var postData = $(this).serialize();
-    nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-	nomeJogo = $('#nome').val();
-	idPlataforma = $('#console').val();
+    //nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	var idPlataforma = $('#console').children(":selected").attr("id");
+	//idPlataforma = $().val();
 	
 	if(idPlataforma == null){
 		Materialize.toast(Localization.for("escolherplataforma"), 4000);
@@ -27,17 +27,27 @@ function salvaJogo(){
 	}
 	
 	//verificando se tem um jogocliente salvo
-	nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	//nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	nomeJogo = $('#nome').val();
-	idPlataforma = $('#console').val();
+	nomeJogo = $('#nome').val();
+	idJogo=0;
+	try {
+		idJogo= document.querySelector("#searchresults option[value=\""+nomeJogo+"\"]").dataset.value;
+	}catch(err) {
+		idJogo=0;
+	}
+
+	
+
+	console.log(idPlataforma);
 	
 	idCliente = local.getItem('idCliente');
 	
-	$.post(getJSON()+"/jogo/add",{
+	$.get(getJSON()+"/jogo/add",{
 			idPlataforma:idPlataforma,
 			idCliente:idCliente,
 			estado:idEstado,
-			nomePesquisa:nomePesquisa,
+			idJogo:idJogo,
 			nomeJogo:nomeJogo,
 			dinheiro:$('#dinheiro').val()},function(data, status){
 				if(data.length >2){
@@ -77,7 +87,7 @@ function atualizaCadastro()
 	document.addEventListener('deviceready', function(){
 
 		for(cont = 0 ; cont < plataforma.length; ++cont){
-			var opcao = '<option value='+plataforma[cont][0]+'>'+plataforma[cont][1]+'</option>';
+			var opcao = '<option id	='+plataforma[cont][0]+'>'+plataforma[cont][1]+'</option>';
 			$('#console').append(opcao);
 		}
 		$('#console').material_select();
@@ -103,15 +113,8 @@ $("#nome").on("input", function(e) {
 	var val = $(this).val();
 	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	
-
-//	if(val === "") return;
-	//You could use this to limit results
 	if(val.length > 2){
 
-		// db.child('jogo').orderByChild('nomepesquise').startAt(nomeJogo).limit(4)
-		// 	.on('value',snap =>{
-		// 		console.log("dsfg");
-		// 	})
 		$.ajax({
 			type: "GET",
 			url: getJSON()+"/jogo/nome",
@@ -123,7 +126,7 @@ $("#nome").on("input", function(e) {
 				var dataList = $("#searchresults");
 				dataList.empty();
 				for(cont = 0 ; cont < data.length; ++cont){
-					var opt = $("<option id="+data[cont].id+"></option>").attr("value", data[cont].nome);
+					var opt = $("<option data-value="+data[cont].id+"></option>").attr("value", data[cont].nome);
 					dataList.append(opt);
 				}
 				

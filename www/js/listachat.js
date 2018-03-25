@@ -31,7 +31,7 @@ function abreChat(id){
 function adicionaChat(chat) {
 	
 	var itemsMeu = [];
-	itemsMeu.push('<li onclick="abreChat(this.id)" id="'+chat.id+'">'
+	itemsMeu.push('<li onclick="abreChat(this.id)" id="'+chat.idChat+'">'
 	
 	+'<div class="col s12 m7">'
 	+ '<div class="card horizontal">'
@@ -40,7 +40,7 @@ function adicionaChat(chat) {
 	+ '<div class="card-image" style="max-width: 50%;">'
 	+ '	   <div >'
 	+ '		  <h6 style="padding-left:  15px;">'+chat.interesseNomePlataforma+'</h6>'
-	+ '		  <h5 style="padding-left:  5px;"> '+chat.interesseNomeJogo+'</h5>'
+	+ '		  <h6 style="padding-left:  5px;"> '+chat.interesseNomeJogo+'</h6>'
 	+ '	   </div>'
 	+ '	<img src="'+gerURLjogo90(chat.interesseIdJogo)+'"> '
 	+ '</div>'
@@ -50,7 +50,7 @@ function adicionaChat(chat) {
 	+ '<div class="card-image right-align" style="width: 46%;padding-right: 10px;">'
 			+'<div>'
 			+ '		  <h6 style="padding-left:  15px;">'+chat.propostaNomePlataforma+'</h6>'
-			+ '		  <h5 style="padding-left:  5px;"> '+chat.propostaNomeJogo+'</h5>'
+			+ '		  <h6 style="padding-left:  5px;"> '+chat.propostaNomeJogo+'</h6>'
 			+'</div>'
 			+ '	<div > <img style="float: right;" src="'+gerURLjogo90(chat.propostaIdJogo)+'"> </div>'
 	+ '</div>'

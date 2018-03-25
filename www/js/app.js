@@ -157,9 +157,9 @@ function nomePlataforma(idplataforma){
 function apaga(idJogoCliente){
 	idCliente = local.getItem("idCliente");
 	console.log(idJogoCliente,idCliente);
-	$.post(getJSON()+'/jogo/d',{
+	$.get(getJSON()+'/jogo/d',{
 		jc:idJogoCliente,
-		uid:uidCliente},
+		i:idCliente},
 	 function(result){
 		$("#meusjogos").empty();		 
 		Materialize.toast("OK", 4000);
@@ -192,17 +192,10 @@ var $filter = 'today';
 function getJogosPorPerto(){
 	document.addEventListener('deviceready', function(){
 		//var local = window.localStorage;
-		var filtros=[];
-		
-		for(cont = 0 ; cont < plataforma.length; ++cont){
-			if(local.getItem("plataforma"+plataforma[cont][0])== "checked"){
-				filtros.push(plataforma[cont][0]);
-			}
-		}
 			lat = local.getItem('lat');
 			long = local.getItem('lon');
 			if(lat!=null && lat != 'null'){
-				adicionaJogosPorPerto(filtros);
+				adicionaJogosPorPerto();
 			}
 			else{
 				navigator.geolocation.getCurrentPosition(function(posicao){
@@ -214,22 +207,26 @@ function getJogosPorPerto(){
 	});
 }
 
-function adicionaJogosPorPerto(filtros){
+function adicionaJogosPorPerto(){
 
 	lat = local.getItem('lat');
 	long = local.getItem('lon');
 	pos = "Point(" + long+" "+lat+")";
-	
-	console.log(JSON.stringify(filtros));
+	var filtros=[];
+		
+		for(cont = 0 ; cont < plataforma.length; ++cont){
+			if(local.getItem("plataforma"+plataforma[cont][0])== "checked"){
+				filtros.push(plataforma[cont][0]);
+			}
+		}
+		
 	$.ajax({
 		type: "GET",
 		url: getJSON()+"/jogosperto",
 		data: { 
 			pos:pos,
 			id:local.getItem('idCliente'),
-			// getJogosPorPerto: 1,
-			// sortBy: 'name', 
-			// sortOrder: 'ASC',
+			listaPlataforma:filtros,
 			page: $currentPage,
 			size: $pageSize,
 			listaPlataforma:JSON.stringify(filtros)

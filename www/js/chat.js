@@ -260,6 +260,7 @@ $(document).ready(function () {
   var local = window.localStorage;
 	idChat = local.getItem("idChat");
   meuIdCliente = local.getItem("idCliente");
+  console.log(idChat)
   var hora;
   db.collection("chat").doc(idChat).collection("conversa").limit(20).orderBy("hora").get().then(function(listaMsg){
     listaMsg.forEach(function(docMsg) {
@@ -279,7 +280,6 @@ $(document).ready(function () {
           if (change.type === "added") {
             console.log("online: ", change.doc.data());
             if(change.doc.data().idEnviou!=meuIdCliente){
-              console.log("recebendo online");
                       messenger.recieve(change.doc.data().msg);
                     }
                 }

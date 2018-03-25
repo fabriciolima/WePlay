@@ -1,10 +1,5 @@
-//window.sqlitePlugin.deleteDatabase();
-//var provider = null;
-//  new firebase.auth.GoogleAuthProvider();
-// provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-// firebase.auth().useDeviceLanguage();
 var local = window.localStorage;
-//provider.setCustomParameters({'login_hint': 'user@example.com'});
+liberaCadastro();
 
 function loginGoogle(){
 	 var provider = new firebase.auth.GoogleAuthProvider();
@@ -20,6 +15,7 @@ function loginGoogle(){
 
 		  local.setItem('uidCliente', user.uid);
 			local.setItem('nomeCliente', user.displayName);
+			document.getElementById("btnlogin").disabled = false;
 
 			
 		});
@@ -37,12 +33,7 @@ function loginFacebook(){
 	var provider = new firebase.auth.FacebookAuthProvider();
 	firebase.auth().useDeviceLanguage();
 	provider.addScope('public_profile');
-	firebase.auth().signInWithRedirect(provider).catch(function(error){
-		if (error.code === 'auth/account-exists-with-different-credential') {
-			local.setItem('uidCliente', '0');
-			local.setItem('nomeCliente', 'Logado antes');
-		}
-	});
+	firebase.auth().signInWithRedirect(provider);
 }
 
 
@@ -55,23 +46,33 @@ function login(){
 			var local = window.localStorage;
 			local.setItem('uidCliente', user.uid);
 			local.setItem('nomeCliente', user.displayName);
+			document.getElementById("btnlogin").disabled = false;
 	});
 }
 
 
 firebase.auth().getRedirectResult().then(function(result) {
 	var local = window.localStorage;
+	console.log("resultado",result);
 	if(result!=null){
 		console.log(result);
 		local.setItem('uidCliente', result.user.uid);
 		local.setItem('nomeCliente', result.user.displayName);
+		document.getElementById("btnlogin").disabled = false;
 		if (result.credential) {
 			// This gives you a Google Access Token. You can use it to access the Google API.
 			//var token = result.credential.accessToken;
 		}
 	}
 		
-});
+}).catch(function(error) {
+	console.log("erro1",error);
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			local.setItem('uidCliente', '0');
+			local.setItem('nomeCliente', 'Logado antes');
+			document.getElementById("btnlogin").disabled = false;
+		}
+  });;
 
 
 
@@ -95,6 +96,20 @@ firebase.auth().getRedirectResult().then(function(result) {
 // 	});
 // }
 
+function liberaCadastro(){
+	var local = window.localStorage;
+	if(local.getItem('uidCliente')==null || local.getItem('uidCliente')=="null"
+		|| local.getItem('idCliente')==null || local.getItem('idCliente')=="null"){
+		document.getElementById("btnlogin").disabled = true;
+	}
+	else
+	if((lat == null) || (lat == 0)){
+		document.getElementById("btnlogin").disabled = true;
+	}else
+		document.getElementById("btnlogin").disabled = false;
+
+}
+
 
 function salvaCliente(){
 	var local = window.localStorage;
@@ -109,12 +124,14 @@ function salvaCliente(){
 		Materialize.toast(Localization.for("escolherlocalizacao"));
 	}
 	else{
-		$.post(getJSON()+'/cliente/add',{
-      uid:local.getItem('uidCliente'),
+		
+		$.get(getJSON()+'/cliente/add',{
+      		uid:local.getItem('uidCliente'),
 			nome:local.getItem('nomeCliente'),
 			lat:lat,
 			lon:lon},function(data, status){
-					if(data != null && data != ""){
+
+					if(data != null && data != "" && data != "null"){
 						local.setItem('idCliente',data);
 						window.location = "index.html";
 					}
@@ -126,3 +143,6 @@ function salvaCliente(){
 	
 };
 
+function mapa(){
+	window.location = "mapa.html";
+}

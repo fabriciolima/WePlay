@@ -81,7 +81,7 @@ function adicionaListaPropostas(){
 
 function abrechat(idTroca){
 	var local = window.localStorage;
-	$.post(getJSON()+"/chat/add",{idTroca:idTroca},function(data){
+	$.get(getJSON()+"/chat/add",{idTroca:idTroca},function(data){
 			local.setItem("idChat",data);	
 			window.location="chat.html";
 			// else
