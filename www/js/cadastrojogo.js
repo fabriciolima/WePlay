@@ -36,10 +36,6 @@ function salvaJogo(){
 	}catch(err) {
 		idJogo=0;
 	}
-
-	
-
-	console.log(idPlataforma);
 	
 	idCliente = local.getItem('idCliente');
 	

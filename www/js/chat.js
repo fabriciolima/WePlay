@@ -171,7 +171,7 @@ $(document).ready(function () {
   }
 
   function buildSent(message) {
-    console.log('sending: ', message.text);
+    // console.log('sending: ', message.text);
 
     $content.append(buildHTML.me(message.text));
     safeText(message.text);
@@ -180,7 +180,6 @@ $(document).ready(function () {
     
     var local = window.localStorage;
     idChat = local.getItem("idChat");
-    console.log(idChat);
     meuIdCliente = local.getItem("idCliente");
     horaLocal=new Date();
     db.collection("chat").doc(idChat).collection("conversa").
@@ -189,12 +188,12 @@ $(document).ready(function () {
       hora:horaLocal,
       msg:message.text
     });
-    atualizaUltimaHoraChat(horaLocal);
+    atualizaUltimaHoraChat();
     scrollBottom();
   }
 
   function buildSentOFF(message) {
-    console.log('sending: ', message.text);
+    // console.log('sending: ', message.text);
 
     $content.append(buildHTML.me(message.text));
     safeText(message.text);
@@ -204,7 +203,7 @@ $(document).ready(function () {
   }
 
   function buildRecieved(message) {
-    console.log('recieving: ', message.text);
+    // console.log('recieving: ', message.text);
 
     $content.append(buildHTML.them(message.text));
     safeText(message.text);
@@ -259,7 +258,6 @@ $(document).ready(function () {
   var local = window.localStorage;
 	idChat = local.getItem("idChat");
   meuIdCliente = local.getItem("idCliente");
-  console.log(idChat)
   var hora;
   db.collection("chat").doc(idChat).collection("conversa").limit(20).orderBy("hora").get().then(function(listaMsg){
     listaMsg.forEach(function(docMsg) {
@@ -277,36 +275,25 @@ $(document).ready(function () {
         snap.docChanges.forEach(function(change) {
           if (change.type === "added") {
             if(change.doc.data().idEnviou!=meuIdCliente){
-                      messenger.recieve(change.doc.data().msg);
-                    }
-                }
-          });
+              atualizaUltimaHoraChat();
+              messenger.recieve(change.doc.data().msg);
+            }
+          }
+        });
   });
   });
 
 
 });
 
-function atualizaUltimaHoraChat(hora){
+function atualizaUltimaHoraChat(){
   var local = window.localStorage;
 	idChat = local.getItem("idChat");
   meuIdCliente = local.getItem("idCliente");
-  
-  chatRef = db.collection("chat").doc(idChat).set({
-    ['hora_'+meuIdCliente]=hora
-  }, { merge: true })
-  
-  
-  
-  .then(function(chat){
-    cha
-    listaMsg.forEach(function(docMsg) {
-      console.log(meuIdCliente);
-      if(docMsg.data().idEnviou==meuIdCliente){
-        messenger.sendOFF(docMsg.data().msg);
-      }else{
-        messenger.recieve(docMsg.data().msg);
-      }
-      hora = docMsg.data().hora;      
-    });
+  db.collection("chat").doc(idChat).collection('hora').doc(meuIdCliente).set({
+    hora: new Date()
+  }, { merge: true });
 }
+
+  
+  

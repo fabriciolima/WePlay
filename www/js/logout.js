@@ -57,7 +57,7 @@ function salvaCliente(){
 			window.location="index.html";
 			});
 	  }).catch(function(error) {
-		Console.log("erro",error);
+		// Console.log("erro",error);
 	  });
 	  
 	}

@@ -21,6 +21,23 @@ function getListaChat(){
 		});
 	}
 
+function msgsNovas(idChat){
+	var local = window.localStorage;
+	meuIdCliente = local.getItem("idCliente");
+	chatRef = db.collection("chat").doc(idChat);
+	
+	chatRef.collection('hora').doc(meuIdCliente).get()
+		.then(function(doc){
+					if(doc.exists){
+						chatRef.collection('conversa').where("hora",">",doc.data().hora).get()
+							.then(function(listaMsg){
+								if(listaMsg.size>0)
+									$('<span class="new badge">'+listaMsg.size+'</span>').appendTo('#qtdenovos_'+idChat);
+							});
+					}
+				});
+
+}
 function abreChat(id){
 	var local = window.localStorage;
 	idChat = local.setItem("idChat",id);
@@ -45,7 +62,9 @@ function adicionaChat(chat) {
 	+ '	<img src="'+gerURLjogo90(chat.interesseIdJogo)+'"> '
 	+ '</div>'
 
-	+'<div class="valign-wrapper"><i class="material-icons ">swap_horiz</i></div>'
+	+'<div class="valign-wrapper"><i class="material-icons ">swap_horiz</i> <br>'
+	+'<div id="qtdenovos_'+chat.idChat+'" > </div>'
+	+'</div>'
 	
 	+ '<div class="card-image right-align" style="width: 46%;padding-right: 10px;">'
 			+'<div>'
@@ -58,6 +77,8 @@ function adicionaChat(chat) {
 	+ '</div></div>'
 	+'</li>');
 	$('<ul/>', {'class' : 'my-new-list',html : itemsMeu.join('')}).appendTo('#listachat');
+
+	msgsNovas(chat.idChat)
 };
 					
 

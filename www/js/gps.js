@@ -15,7 +15,6 @@ function getPointLocation(){
 	navigator.geolocation.getCurrentPosition(function(posicao){
 		var lat=position.coords.latitude;
 	    var long=position.coords.longitude;
-	    console.log("Point(" + long+" "+lat+")");
 	    return "Point(" + long+" "+lat+")";
 	}, onError, { timeout: 3000 });
 }

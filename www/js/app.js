@@ -79,7 +79,6 @@ function adicionaJogoTelaInicial(data) {
 			+ '<div class="card horizontal">'
 			+ '<div class="card-image" style="max-width: 35%;" >'
 			+ '	<img src="'+gerURLjogo90(data.idJogo)+'"> '
-// + ' <img src="'+ getImagemPlataforma(data.id)+ '">'
 			+ '</div>'
 			+ '<div class="card-stacked">'
 			+ '	<div style="padding: 5px  15px  24px 5px;">'
@@ -142,12 +141,9 @@ function adicionaMeuJogoTelaInicial(jogocliente) {
 		}
 
 function nomePlataforma(idplataforma){
-	console.log(idplataforma);
 	if(idplataforma == null)
 		return "";
-	
-		console.log("doc-"+idplataforma,doc.data())
-		if(doc.exists)
+	if(doc.exists)
 			return doc.data().nome;
 		else
 			return "";
@@ -156,7 +152,7 @@ function nomePlataforma(idplataforma){
 
 function apaga(idJogoCliente){
 	idCliente = local.getItem("idCliente");
-	console.log(idJogoCliente,idCliente);
+	
 	$.get(getJSON()+'/jogo/d',{
 		jc:idJogoCliente,
 		i:idCliente},

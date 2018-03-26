@@ -53,9 +53,8 @@ function login(){
 
 firebase.auth().getRedirectResult().then(function(result) {
 	var local = window.localStorage;
-	console.log("resultado",result);
+	
 	if(result!=null){
-		console.log(result);
 		local.setItem('uidCliente', result.user.uid);
 		local.setItem('nomeCliente', result.user.displayName);
 		document.getElementById("btnlogin").disabled = false;
@@ -66,8 +65,7 @@ firebase.auth().getRedirectResult().then(function(result) {
 	}
 		
 }).catch(function(error) {
-	console.log("erro1",error);
-		if (error.code === 'auth/account-exists-with-different-credential') {
+	if (error.code === 'auth/account-exists-with-different-credential') {
 			local.setItem('uidCliente', '0');
 			local.setItem('nomeCliente', 'Logado antes');
 			document.getElementById("btnlogin").disabled = false;
