@@ -44,7 +44,9 @@ body {
 }
 
 .my-new-list{ margin-bottom: 0;margin-top: 0;}
-	
+    
+.dropdown1{top:60px !important;}
+
 .card.horizontal {
      display: -webkit-flex;
      display: -ms-flexbox;

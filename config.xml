@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.trocajogo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.trocajogo" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WePlay</name>
     <description>
 	    WePlay
@@ -80,14 +80,12 @@
     </universal-links>
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
-    <plugin name="cordova-sqlite-storage" spec="^2.2.1" />
     <plugin name="cordova-plugin-googlemaps" spec="^2.2.5">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAWjHwV4XROiM8YYRtqUBfaPNtn-ixZHh0" />
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Show your location on the map" />
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Trace your location on the map" />
     </plugin>
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-globalization" spec="^1.0.9" />
     <plugin name="cordova-plugin-x-socialsharing" spec="git+https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
