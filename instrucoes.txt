@@ -1,6 +1,8 @@
 adb shell am start -W -a android.intent.action.VIEW -d "https://jx52y.app.goo.gl/user/ul-plugin-released.html"
 
 ..\platform-tools\adb shell am start -W -a android.intent.action.VIEW -d "https://jogos-usados.firebaseapp.com/__/auth/callback"
+#keytool -importcert -file upload_cert.der -keystore meu.keystore
+#adiciona o upload no certificado
 
 #apagar <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />   do AndroidManifest.xml
 cordova build android --release
