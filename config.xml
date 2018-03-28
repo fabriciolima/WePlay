@@ -6,7 +6,7 @@
 	</description>
     <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="Orientation" value="portrait" />
-    <preference name="BackgroundColor" value="cyan darken-4" />
+    <preference name="BackgroundColor" value="honeydew" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="0" />

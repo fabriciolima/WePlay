@@ -73,28 +73,36 @@ $('.adiciona-jogo').on('click', function() {
 
 function adicionaJogoTelaInicial(data) {
 	var items = [];
-	
-	items.push('<li onclick="proporTroca(\''+data.id+'\','+data.distancia+',\''+data.nomePlataforma+'\')" >'
-			+'<div class="col s12 m7">'
-			+ '<div class="card horizontal">'
-			+ '<div class="card-image" style="max-width: 35%;" >'
+
+	console.log(data);
+	items.push(
+	'<div class="col s12 m7">'
+	+ '<div class="card horizontal">'
+	+ '<div class="card-image" style="max-width: 35%;" >'
+	+'<li onclick="proporTroca(\''+data.idJogoCliente+'\','+data.distancia+',\''+data.nomePlataforma+'\')" >'
 			+ '	<img src="'+gerURLjogo90(data.idJogo)+'"> '
+			+'</li>'
 			+ '</div>'
 			+ '<div class="card-stacked">'
 			+ '	<div style="padding: 5px  15px  24px 5px;">'
+			+'<li onclick="proporTroca(\''+data.idJogoCliente+'\','+data.distancia+',\''+data.nomePlataforma+'\')" >'
 			+ '		<h6 style="padding-left:  15px;">'+data.nomePlataforma+'</h6>'
  			+ '		<h5 style="padding-left:  5px;"> '+data.nomeJogo+'</h5>'
-			 +'  <span class="badge">'+data.distancia+' Km</span> '
-			 
+			 +'</li>'
 			 + '</div>'
-			+ '	</div>'
-			// + '	<button class="btn waves-effect waves-light" type="submit" name="action" ' 
-			// +'     onclick="proporTroca('+data.idJogoCliente+','+data.distancia
-			// 					+')"> Propor troca <i class="material-icons right">shuffle</i> </button>'
-								
-			+'<div">'
+			 + '</div>'
+			 +'<div>'
+			 +(data.comentario.length <2 ?'':'<p><span class="card-title activator grey-text text-darken-4"><i class="material-icons top right" style="margin: 13px 13px 13px 13px;">more_vert</i></span></p>')
+			 +'<p style="vertical-align: bottom;">  <span class="badge bottom right">'+data.distancia+' Km</span> </p>'
+			 +'</div>'
+			 					
+			+ '<div class="card-reveal">'
+			+ '	<span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>'
+			+ '	<p>'+data.comentario+'</p>'
 			+ '</div>'
-			+ '</div></div></li>');
+			 + '	</div>'
+
+			+'</div>');
 	$('<ul />', {'class' : 'my-new-list',html : items.join('')}).appendTo('#porperto');
 // }).appendTo('body');
 };

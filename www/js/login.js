@@ -96,6 +96,8 @@ firebase.auth().getRedirectResult().then(function(result) {
 
 function liberaCadastro(){
 	var local = window.localStorage;
+	lat = local.getItem('lat');
+	
 	if(local.getItem('uidCliente')==null || local.getItem('uidCliente')=="null"
 		|| local.getItem('idCliente')==null || local.getItem('idCliente')=="null"){
 		document.getElementById("btnlogin").disabled = true;
