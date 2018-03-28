@@ -1,11 +1,14 @@
 var local = window.localStorage;
-if(local.getItem("primeiravez")==null){
-	for(cont = 0 ; cont < plataforma.length; ++cont){
-			local.setItem("plataforma"+plataforma[cont][0], "checked");
-		};
-		local.setItem("primeiravez","nao");
-}
+primeiraVez();
 
+function primeiraVez(){
+	if(local.getItem("primeiravez")==null){
+		for(cont = 0 ; cont < plataforma.length; ++cont){
+				local.setItem("plataforma"+plataforma[cont][0], "checked");
+			};
+			local.setItem("primeiravez","nao");
+	};
+}
 $('.botao-share').on('click', function() {
 	 window.plugins.socialsharing.shareWithOptions(options,null,null);
 });
@@ -205,7 +208,7 @@ function getJogosPorPerto(){
 				navigator.geolocation.getCurrentPosition(function(posicao){
 					local.setItem('lat',posicao.coords.latitude);
 					local.setItem('lon',posicao.coords.longitude);
-					adicionaJogosPorPerto(filtros);
+					adicionaJogosPorPerto();
 				}, onError, { timeout: 3000 });
 			}
 	});
