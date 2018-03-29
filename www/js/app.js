@@ -10,7 +10,22 @@ function primeiraVez(){
 	};
 }
 $('.botao-share').on('click', function() {
-	 window.plugins.socialsharing.shareWithOptions(options,null,null);
+	window.plugins.socialsharing.shareWithOptions(options,null,null);
+});
+
+$('.compartilharlista').on('click', function() {
+	var encrypted = CryptoJS.AES.encrypt("Message", "123");
+	console.log(encrypted);
+
+	var local = window.localStorage;
+	idCliente = local.getItem("idCliente");
+	var listaoptions={message:"Minha lista",
+	  	   subject:"Olhe minha lista", 
+	  	   files:null, 
+	  	   url:"https://weplay/user?id="+encrypted,
+	  	   chooserTitle:'We Play'}
+
+	window.plugins.socialsharing.shareWithOptions(listaoptions,null,null);
 });
 
 $('.botao-chat').on('click', function() {
@@ -23,14 +38,13 @@ var options={message:"Check This",
 	  	   url:"https://jx52y.app.goo.gl/pGuk",
 	  	   chooserTitle:'We Play'}
 
-			 
-	
-
 getJogosPorPerto();
 getMeusJogosTelaInicial();
 verificaPossuiChat();
 
 $('.atualiza').on('click',function(){
+	$("#visitar").empty();
+	$("#olharidcliente").empty();
 	$currentPage = 0;	
 	$("#porperto").empty();
 	$("#meusjogos").empty();
@@ -74,10 +88,9 @@ $('.adiciona-jogo').on('click', function() {
 // });
 
 
-function adicionaJogoTelaInicial(data) {
+function adicionaJogoTelaInicial(data,ondeAppend) {
 	var items = [];
-
-	console.log(data);
+	console.log(items);
 	items.push(
 	'<div class="col s12 m7">'
 	+ '<div class="card horizontal">'
@@ -95,7 +108,7 @@ function adicionaJogoTelaInicial(data) {
 			 + '</div>'
 			 + '</div>'
 			 +'<div>'
-			 +(data.comentario.length <2 ?'':'<p><span class="card-title activator grey-text text-darken-4"><i class="material-icons top right" style="margin: 13px 13px 13px 13px;">more_vert</i></span></p>')
+			 +((data.comentario ==null || data.comentario.length <2) ?'':'<p><span class="card-title activator grey-text text-darken-4"><i class="material-icons top right" style="margin: 13px 13px 13px 13px;">more_vert</i></span></p>')
 			 +'<p style="vertical-align: bottom;">  <span class="badge bottom right">'+data.distancia+' Km</span> </p>'
 			 +'</div>'
 			 					
@@ -106,7 +119,7 @@ function adicionaJogoTelaInicial(data) {
 			 + '	</div>'
 
 			+'</div>');
-	$('<ul />', {'class' : 'my-new-list',html : items.join('')}).appendTo('#porperto');
+	$('<ul />', {'class' : 'lista-itens',html : items.join('')}).appendTo(ondeAppend);
 // }).appendTo('body');
 };
 
@@ -246,9 +259,9 @@ function adicionaJogosPorPerto(){
 		},
 		success: function(data){
 			for(cont = 0 ; cont < data.length; ++cont){
-				//console.log("cont",cont);
+				console.log("cont",cont);
 				// atualizaJogosDB(data.content[cont]);
-				adicionaJogoTelaInicial(data[cont]);
+				adicionaJogoTelaInicial(data[cont],'#porperto');
 			}
 			if(data != null) scrollStop = 0;
 			else scrollStop = 1;
@@ -339,6 +352,36 @@ $(document).scroll(function(e){
 // }, false);
 
 document.addEventListener("deviceready", function(){
+	universalLinks.subscribe('lista', function (eventData) {
+		idClienteVisitar = eventData.params['id'];
+		if(idClienteVisitar!=null && idClienteVisitar != 'null'){
+			$("#visitar").empty();
+			$("#olharidcliente").empty();
+			var local = window.localStorage;
+			idCliente = local.getItem("idCliente");
+		
+			
+			$.ajax({
+				type: "GET",
+				url: getJSON()+"/jogoscliente",
+				data: { 
+					idCliente:idCliente,
+					idClienteVisita:idClienteVisitar
+				},
+				crossDomain: false,
+				cache: false,
+				dataType: "json",
+				success: function(data){
+					$("#olharidcliente").append('<li class="tab"><a href="#visitar">'+data[0].nomeCliente+' </a></li>');
+					for(cont = 0 ; cont < data.length; ++cont){
+						adicionaJogoTelaInicial(data[cont],'#visitar');
+					}	
+				}
+			});
+		}
+				
+
+	});
 	initAd();
 	window.plugins.AdMob.createBannerView();
 	//showBannerFunc();

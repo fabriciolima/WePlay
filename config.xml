@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.trocajogo" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.trocajogo" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WePlay</name>
     <description>
 	    WePlay
@@ -58,11 +58,11 @@
         <icon height="360" src="resources/windows/icon/Wide310x150Logo.scale-240.png" width="744" />
     </platform>
     <platform name="android">
-        <preference name="StatusBarBackgroundColor" value="cyan darken-4" />
+        <preference name="StatusBarBackgroundColor" value="honeydew" />
     </platform>
     <platform name="ios">
         <preference name="StatusBarOverlaysWebView" value="false" />
-        <preference name="StatusBarBackgroundColor" value="cyan darken-4" />
+        <preference name="StatusBarBackgroundColor" value="honeydew" />
     </platform>
     <access origin="*" />
     <preference name="phonegap-version" value="cli-7.1.0" />
@@ -72,7 +72,7 @@
             <path url="/__/auth/callback" />
         </host>
         <host name="jx52y.app.goo.gl/8f7b" scheme="https">
-            <path event="lista2" url="/user" />
+            <path event="lista" url="/user" />
         </host>
         <host name="weplay" scheme="https">
             <path event="lista" url="/user" />
