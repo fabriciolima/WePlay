@@ -33,7 +33,8 @@ document.addEventListener('deviceready', function(){
 			propostas:"Propostas para troca",
 			adicionarjogo:"Adicionar Jogo",
 			config:"Configurações",
-			share:"Compartilhar"
+			share:"Compartilhar WePlay",
+			sharelist:"Compartilhar minha lista"
 
         },
         fr: {
@@ -70,7 +71,8 @@ document.addEventListener('deviceready', function(){
 			tiporolo:"Comentario o intercambio por $$$ ",
 			adicionarjogo:"Add game",
 			config:"Settings",
-			share:"Share"
+			share:"Share",
+			sharelist:"Share My List"
 						
         },
         en: {
@@ -103,7 +105,8 @@ document.addEventListener('deviceready', function(){
 			propostas:"Games to Swap",
 			adicionarjogo:"Add Game",
 			config:"Settings",
-			share:"Share"
+			share:"Share WePlay",
+			sharelist:"Share My List"
 			
         }
     },"en");
@@ -152,8 +155,8 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	return "http://192.168.15.7:8080/json";
-//	return "http://54.94.219.84:8080/weplay/json";
+	//return "http://192.168.15.7:8080/json";
+	return "http://54.94.219.84:8080/weplay/json";
 }
 
 function gerURLplataforma90(id){

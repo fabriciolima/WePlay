@@ -13,12 +13,11 @@ $('.botao-share').on('click', function() {
 	window.plugins.socialsharing.shareWithOptions(options,null,null);
 });
 
-$('.compartilharlista').on('click', function() {
-	var encrypted = CryptoJS.AES.encrypt("Message", "123");
-	console.log(encrypted);
-
+$('.botao-sharelist').on('click', function() {
 	var local = window.localStorage;
 	idCliente = local.getItem("idCliente");
+	var encrypted = CryptoJS.AES.encrypt(idCliente, "123");
+	console.log(encrypted);
 	var listaoptions={message:"Minha lista",
 	  	   subject:"Olhe minha lista", 
 	  	   files:null, 

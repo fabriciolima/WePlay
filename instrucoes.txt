@@ -8,6 +8,7 @@ adb shell am start -W -a android.intent.action.VIEW -d "https://jx52y.app.goo.gl
 cordova build android --release
 
 copy platforms\android\build\outputs\apk\android-release-unsigned.apk .
+cp platforms/android/build/outputs/apk/android-release-unsigned.apk .
 
 "C:\Program Files\Java\jdk1.8.0_161\bin\jarsigner" -verbose -sigalg MD5withRSA -digestalg SHA1 -keystore meu.keystore android-release-unsigned.apk key0
 Q!w2e3r4 
