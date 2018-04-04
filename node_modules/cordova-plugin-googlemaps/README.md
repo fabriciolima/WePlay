@@ -1,4 +1,4 @@
-# Cordova GoogleMaps plugin for iOS and Android (version 2.2.5)
+# Cordova GoogleMaps plugin for iOS and Android (version 2.2.9)
 
 This plugin is a thin wrapper for [Google Maps Android API](https://developers.google.com/maps/documentation/android/) and [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/).
 
@@ -15,8 +15,23 @@ $> cordova plugin add cordova-plugin-googlemaps \
     --variable API_KEY_FOR_IOS="..."
 
 (Optional variables)
+  // [Android]
+  //    The Google Play Services SDK version
+  //    You need to specify the same version number with all other plugins.
+  //    Check out the latest version is here.
+  //    https://developers.google.com/android/guides/releases
   PLAY_SERVICES_VERSION="11.8.0" (for Android)
+
+  // [Android]
+  //    This plugin requires the Android support library v4.
+  //    The minimum version is 24.1.0
+  //    Check out the latest version is here.
+  //    https://developer.android.com/topic/libraries/support-library/revisions.html
   ANDROID_SUPPORT_V4_VERSION="24.1.0" (for Android)
+
+  // [iOS]
+  //    These variable messages are displayed when application requests
+  //    end-user location.
   LOCATION_WHEN_IN_USE_DESCRIPTION="(your custom message)"  (for iOS)
   LOCATION_ALWAYS_USAGE_DESCRIPTION="(your custom message)"  (for iOS)
 ```
@@ -25,7 +40,7 @@ $> cordova plugin add cordova-plugin-googlemaps \
 
 ```xml
 <widget ...>
-  <plugin name="cordova-plugin-googlemaps" spec="^2.2.5">
+  <plugin name="cordova-plugin-googlemaps" spec="^2.2.9">
     <variable name="API_KEY_FOR_ANDROID" value="(api key)" />
     <variable name="API_KEY_FOR_IOS" value="(api key)" />
 
@@ -40,7 +55,7 @@ $> cordova plugin add cordova-plugin-googlemaps \
     You need to specify cli-7.1.0 or greater version.
     https://build.phonegap.com/current-support
   -->
-  <preference name="phonegap-version" value="cli-7.1.0" />
+  <preference name="phonegap-version" value="cli-8.0.0" />
 </widget>
 ```
 
@@ -75,6 +90,35 @@ $> cordova plugin add cordova-plugin-googlemaps \
 - **v2.2.5** (small update)
   - Bug fix: setMyLocationEnabed(true) hide the MyLocationButton.
   - Fix: Conflict with `cordova-plugin-geolocation`
+
+- **v2.2.6**
+  - Add: support languages
+    (`Russian`, `Ukrainian`, `Brazilian Portuguese`, `German`, `French`, `Hindi`)
+  - Fix: [OK]button of &lt;select&gt;tag is displayed as Japanese
+  - Fix: Cannot build with Java 1.7
+  - Fix: `INFO_CLOSE` event is triggered twice
+  - Fix: `map.setOptions()` does not work very after soon from the `MAP_READY` event.
+
+- **v2.2.7**
+  - Add: support languages (`Arabic` and `Dutch`)
+  - Fix: Can not build on iOS.
+
+- **v2.2.8**
+  - Add: support languages (`Polish`)
+  - Add: plugin remove helper script.
+  - Fix: can not build on iOS completely.
+  - Fix: localize function is incorrect.
+  - Fix: can not use backbutton event.
+  - Fix: marker cluster does not work correctly if position data contains `id` field.
+  - Update: Wait MAP_READY until map.getVisibleRegion() is ready.
+
+- **v2.2.9**
+  - Add: support languages (`Denmark`)
+  - Add: hook scripts to prevent `unknown property GOOGLE_PLAY_SERVICES_VERSION` problem with older version Cordova.
+  - Refactoring internal code
+  - Fix: Cannot find module '../node_modules/xml2js' error.
+  - Fix: getMyLocation() does not work on Genymotion.
+  - Fix: map disappears sometime on changing ionic tab.
 
 ---
 
@@ -227,12 +271,15 @@ map.addPolygon({
 <tr>
   <td><a href="https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.0.0/class/GroundOverlay/README.md"><img src="https://github.com/mapsplugin/cordova-plugin-googlemaps/blob/master/images/groundoverlay.png?raw=true"><br>GroundOverlay</a></td>
   <td><pre>
-map.addPolygon({
-  'points': GORYOKAKU_POINTS,
-  'strokeColor' : '#AA00FF',
-  'strokeWidth': 5,
-  'fillColor' : '#880000'
-}, function(polygon) { ... });</pre></td>
+map.addGroundOverlay({
+  'url': "./newark_nj_1922.jpg",
+  'bounds': [
+    {"lat": 40.712216, "lng": -74.22655},
+    {"lat": 40.773941, "lng": -74.12544}
+  ],
+  'opacity': 0.5
+}, function(groundOverlay) { ... });
+</pre></td>
 </tr>
 <tr>
   <td><a href="https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.0.0/class/TileOverlay/README.md"><img src="https://github.com/mapsplugin/cordova-plugin-googlemaps/blob/master/images/tileoverlay.png?raw=true"><br>TileOverlay</a></td>

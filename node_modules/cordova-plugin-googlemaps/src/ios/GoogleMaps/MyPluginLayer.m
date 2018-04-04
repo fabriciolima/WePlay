@@ -49,21 +49,35 @@
 
     [self addSubview:self.pluginScrollView];
     [self addSubview:self.webView];
-
     dispatch_queue_t q_background = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
 
     dispatch_async(q_background, ^{
-      self.semaphore = dispatch_semaphore_create(0);
-      self.redrawTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
-                                  target:self
-                                  selector:@selector(resizeTask:)
-                                  userInfo:nil
-                                  repeats:YES];
+      [self startRedrawTimer];
     });
 
     return self;
 }
 
+- (void)startRedrawTimer {
+  @synchronized(self._lockObject) {
+    if (!self.redrawTimer) {
+
+      self.redrawTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                  target:self
+                                  selector:@selector(resizeTask:)
+                                  userInfo:nil
+                                  repeats:YES];
+    }
+  }
+}
+- (void)stopRedrawTimer {
+  @synchronized(self._lockObject) {
+    if (self.redrawTimer) {
+      [self.redrawTimer invalidate];
+      self.redrawTimer = nil;
+    }
+  }
+}
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
   CGPoint offset = self.webView.scrollView.contentOffset;
@@ -191,16 +205,6 @@
 }
 
 - (void)resizeTask:(NSTimer *)timer {
-    if (self.isSuspended) {
-      @synchronized (self.semaphore) {
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-      }
-      //return;
-    }
-    if (self.stopFlag) {
-        return;
-    }
-    self.stopFlag = YES;
     NSArray *keys=[self.pluginScrollView.debugView.mapCtrls allKeys];
     NSString *mapId;
     GoogleMapsViewController *mapCtrl;
@@ -217,7 +221,6 @@
             [self.pluginScrollView.debugView setNeedsDisplay];
         });
     }
-    self.stopFlag = NO;
 }
 
 - (void)updateViewPosition:(GoogleMapsViewController *)mapCtrl {
@@ -230,12 +233,14 @@
     [self.pluginScrollView setContentOffset:offset];
 
     if (!mapCtrl.mapDivId) {
-        return;
+      //NSLog(@"--->no mapDivId");
+      return;
     }
 
     NSDictionary *domInfo = nil;
     @synchronized(self.pluginScrollView.debugView.HTMLNodes) {
       domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:mapCtrl.mapDivId];
+      //NSLog(@"--->domInfo = %@", domInfo);
       if (domInfo == nil) {
           return;
       }
@@ -247,13 +252,19 @@
     }
 
     __block CGRect rect = CGRectFromString(rectStr);
+    if (rect.origin.x == 0 &&
+        rect.origin.y == 0 &&
+        rect.size.width == 0 &&
+        rect.size.height == 0) {
+      return;
+    }
     rect.origin.x *= zoomScale;
     rect.origin.y *= zoomScale;
     rect.size.width *= zoomScale;
     rect.size.height *= zoomScale;
     rect.origin.x += offset.x;
     rect.origin.y += offset.y;
-  //NSLog(@"---->updateViewPos: %@, (%f, %f) - (%f, %f)", mapCtrl.mapId, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+  //NSLog(@"---->updateViewPos: %@, (%f, %f) - (%f, %f), %@", mapCtrl.mapId, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height, rectStr);
 
     float webviewWidth = self.webView.frame.size.width;
     float webviewHeight = self.webView.frame.size.height;
@@ -442,6 +453,7 @@
   NSString *maxDomId = nil;
   CGRect rect;
   float right, bottom;
+  NSDictionary *zIndexProp;
 
 
   domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:domId];
@@ -461,19 +473,23 @@
     overflow.rect = CGRectFromString([domInfo objectForKey:@"size"]);
   }
 
-  if ((containMapCnt > 0 || isMapChild || [@"none" isEqualToString:pointerEvents]) && children != nil && children.count > 0) {
+  zIndexProp = [domInfo objectForKey:@"zIndex"];
+  if ((containMapCnt > 0 || isMapChild || [@"none" isEqualToString:pointerEvents] ||
+       [[zIndexProp objectForKey:@"isInherit"] boolValue]) && children != nil && children.count > 0) {
 
     int maxZIndex = -1215752192;
-    int zIndex;
+    int zIndexValue;
     NSString *childId, *grandChildId;
     NSArray *grandChildren;
 
     for (int i = (int)children.count - 1; i >= 0; i--) {
       childId = [children objectAtIndex:i];
       domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:childId];
-      zIndex = [[domInfo objectForKey:@"zIndex"] intValue];
+      zIndexProp = [domInfo objectForKey:@"zIndex"];
+      zIndexValue = [[zIndexProp objectForKey:@"z"] intValue];
 
-      if (maxZIndex < zIndex) {
+      if (maxZIndex < zIndexValue || [[zIndexProp objectForKey:@"isInherit"] boolValue]) {
+
         grandChildren = [domInfo objectForKey:@"children"];
         if (grandChildren == nil || grandChildren.count == 0) {
           rect = CGRectFromString([domInfo objectForKey:@"size"]);
@@ -499,13 +515,20 @@
           if ([@"none" isEqualToString:[domInfo objectForKey:@"pointerEvents"]]) {
             continue;
           }
-          maxDomId = childId;
+          if (maxZIndex < zIndexValue) {
+            maxZIndex = zIndexValue;
+            maxDomId = childId;
+          }
         } else {
           grandChildId = [self findClickedDom:childId withPoint:clickPoint isMapChild: isMapChild overflow:overflow];
           if (grandChildId == nil) {
+            domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:grandChildId];
             grandChildId = childId;
+          } else {
+            domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:grandChildId];
+            zIndexProp = [domInfo objectForKey:@"zIndex"];
+            zIndexValue = [[zIndexProp objectForKey:@"z"] intValue];
           }
-          domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:grandChildId];
           rect = CGRectFromString([domInfo objectForKey:@"size"]);
 
           right = rect.origin.x + rect.size.width;
@@ -531,9 +554,12 @@
           if ([@"none" isEqualToString:[domInfo objectForKey:@"pointerEvents"]]) {
             continue;
           }
-          maxDomId = grandChildId;
+          if (maxZIndex < zIndexValue) {
+            maxZIndex = zIndexValue;
+            maxDomId = grandChildId;
+          }
         }
-        maxZIndex = zIndex;
+
       }
     }
   }
