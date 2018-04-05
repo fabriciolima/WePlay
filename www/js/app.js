@@ -17,7 +17,6 @@ $('.botao-sharelist').on('click', function() {
 	var local = window.localStorage;
 	idCliente = local.getItem("idCliente");
 	var encrypted = CryptoJS.AES.encrypt(idCliente, "123");
-	console.log(encrypted);
 	var listaoptions={message:"Minha lista",
 	  	   subject:"Olhe minha lista", 
 	  	   files:null, 
@@ -89,7 +88,6 @@ $('.adiciona-jogo').on('click', function() {
 
 function adicionaJogoTelaInicial(data,ondeAppend) {
 	var items = [];
-	console.log(items);
 	items.push(
 	'<div class="col s12 m7">'
 	+ '<div class="card horizontal">'
@@ -258,7 +256,6 @@ function adicionaJogosPorPerto(){
 		},
 		success: function(data){
 			for(cont = 0 ; cont < data.length; ++cont){
-				console.log("cont",cont);
 				// atualizaJogosDB(data.content[cont]);
 				adicionaJogoTelaInicial(data[cont],'#porperto');
 			}

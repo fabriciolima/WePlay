@@ -94,6 +94,10 @@ function localizacao(){
 	
 }
 
+function mapa(){
+	window.location = "mapa.html";
+}
+
 function ocultandoMapa(){
 	document.getElementById('localizacao').value = "xxxxxxx";
 	document.getElementById('localizacaoGPS').value = "xxxxxxx";
