@@ -134,3 +134,27 @@ $("#nome").on("input", function(e) {
 	
 }); 
 
+var options = {
+
+	url: function(phrase) {
+	  return getJSON()+"/jogo/nome";
+	},
+  
+	getValue: function(element) {
+	  return element.nome;
+	},
+  
+	ajaxSettings: {
+	  method: "GET",
+	  data: {}
+	},
+  
+	preparePostData: function(data) {
+	  data.nome = $("#example-ajax-post").val();
+	  return data;
+	},
+  
+	requestDelay: 400
+  };
+  
+  $("#example-ajax-post").easyAutocomplete(options);
