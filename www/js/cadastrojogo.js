@@ -1,11 +1,12 @@
 // $('form').submit(function(){
+var idJogo = 0;
+
 function salvaJogo(){
 	var local = window.localStorage;
     var postData = $(this).serialize();
     //nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	var idPlataforma = $('#console').children(":selected").attr("id");
-	//idPlataforma = $().val();
-	
+		
 	if(idPlataforma == null){
 		Materialize.toast(Localization.for("escolherplataforma"), 4000);
 		return false;
@@ -28,11 +29,11 @@ function salvaJogo(){
 	
 	//verificando se tem um jogocliente salvo
 	//nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-	nomeJogo = $('#nome').val();
-	nomeJogo = $('#nome').val();
-	idJogo=0;
+	
 	try {
-		idJogo= document.querySelector("#searchresults option[value=\""+nomeJogo+"\"]").dataset.value;
+		if(nomeJogo != $('#nome').val())
+			idJogo = 0;
+		//idJogo= document.querySelector("#searchresults option[value=\""+nomeJogo+"\"]").dataset.value;
 	}catch(err) {
 		idJogo=0;
 	}
@@ -105,7 +106,7 @@ function mostrandoCadastro(){
 }
 
 
-$("#nome").on("input", function(e) {
+/*$("#nome").on("input", function(e) {
 	var val = $(this).val();
 	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	
@@ -133,7 +134,7 @@ $("#nome").on("input", function(e) {
 	}
 	
 }); 
-
+*/
 var options = {
 
 	url: function(phrase) {
@@ -143,6 +144,13 @@ var options = {
 	getValue: function(element) {
 	  return element.nome;
 	},
+
+	list: {
+        onSelectItemEvent: function() {
+			idJogo = $("#nome").getSelectedItemData().id;
+			nomeJogo = $("#nome").getSelectedItemData().nome;
+		}
+	},
   
 	ajaxSettings: {
 	  method: "GET",
@@ -150,11 +158,11 @@ var options = {
 	},
   
 	preparePostData: function(data) {
-	  data.nome = $("#example-ajax-post").val();
+	  data.nome = $("#nome").val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	  return data;
 	},
-  
+	theme: "square",
 	requestDelay: 400
   };
   
-  $("#example-ajax-post").easyAutocomplete(options);
+  $("#nome").easyAutocomplete(options);
