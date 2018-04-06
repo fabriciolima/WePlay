@@ -155,8 +155,8 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	// return "http://192.168.15.3:8080/json";
-	return "http://54.94.219.84:8080/weplay/json";
+	return "http://192.168.15.3:8080/json";
+	// return "http://54.94.219.84:8080/weplay/json";
 }
 
 function gerURLplataforma90(id){
@@ -181,26 +181,6 @@ $('.botao-voltar').on('click', function() {
 	voltar();	
 });
 
-
-function distancia(lat,lon) {
-	  var radius = 6371; // Earth's radius in kilometers
-	  var local = window.localStorage;
-	  
-	  var latDelta = degreesToRadians(lat - local.getItem('lat'));
-	  var lonDelta = degreesToRadians(lon - local.getItem('lon'));
-
-	  var a = (Math.sin(latDelta / 2) * Math.sin(latDelta / 2)) +
-	          (Math.cos(degreesToRadians(local.setItem('lat'))) * Math.cos(degreesToRadians(lat)) *
-	          Math.sin(lonDelta / 2) * Math.sin(lonDelta / 2));
-
-	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-	  return radius * c;
-};
-
-function degreesToRadians(degrees) {
-	  return (degrees * Math.PI / 180);
-	};
 	
 // var admobid = {};
 // 	  if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos

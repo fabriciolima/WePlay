@@ -1,17 +1,19 @@
 // $('form').submit(function(){
 var idJogo = 0;
+var nomeJogoSelecionado="";
 
 function salvaJogo(){
 	var local = window.localStorage;
-    var postData = $(this).serialize();
+    // var postData = $(this).serialize();
     //nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	var idPlataforma = $('#console').children(":selected").attr("id");
-		
+	
 	if(idPlataforma == null){
 		Materialize.toast(Localization.for("escolherplataforma"), 4000);
 		return false;
 	}
 	
+	nomeJogo = $('#nome').val();
 	if(nomeJogo.length < 3){
 		Materialize.toast(Localization.for("escolherjogo"), 4000);
 		return false;
@@ -29,20 +31,15 @@ function salvaJogo(){
 	
 	//verificando se tem um jogocliente salvo
 	//nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-<<<<<<< HEAD
-	nomeJogo = $('#nome').val();
 	
-	idJogo=0;
-=======
-	
->>>>>>> master
-	try {
-		if(nomeJogo != $('#nome').val())
-			idJogo = 0;
-		//idJogo= document.querySelector("#searchresults option[value=\""+nomeJogo+"\"]").dataset.value;
-	}catch(err) {
-		idJogo=0;
-	}
+	// idJogo=0;
+	// try {
+	// 	if(nomeJogo != $('#nome').val())
+	// 		idJogo = 0;
+	// 	//idJogo= document.querySelector("#searchresults option[value=\""+nomeJogo+"\"]").dataset.value;
+	// }catch(err) {
+	// 	idJogo=0;
+	// }
 	
 	idCliente = local.getItem('idCliente');
 	
@@ -50,8 +47,9 @@ function salvaJogo(){
 			idPlataforma:idPlataforma,
 			idCliente:idCliente,
 			estado:idEstado,
-			idJogo:idJogo,
+			// idJogo:idJogo,
 			nomeJogo:nomeJogo,
+			nomeJogoSelecionado: nomeJogoSelecionado,
 			dinheiro:$('#dinheiro').val()},function(data, status){
 				if(data.length >2){
 					Materialize.toast(Localization.for("jogocadastrado"), 4000);
@@ -112,15 +110,9 @@ function mostrandoCadastro(){
 }
 
 
-<<<<<<< HEAD
 // $("#nome").on("input", function(e) {
 // 	var val = $(this).val();
 // 	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-=======
-/*$("#nome").on("input", function(e) {
-	var val = $(this).val();
-	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
->>>>>>> master
 	
 // 	if(val.length > 2){
 
@@ -145,54 +137,57 @@ function mostrandoCadastro(){
 		 
 // 	}
 	
-<<<<<<< HEAD
 // }); 
-$(document).ready(function(){
-	$('input.autocomplete').autocomplete({
-		data: {
-		"Apple": null,
-		"Microsoft": null,
-		"Google": 'https://placehold.it/250x250'
-		},
-		limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-		onAutocomplete: function(val) {
-		// Callback function when value is autcompleted.
-		},
-		minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-	});
-});
-=======
+
+
+// $(document).ready(function(){
+// 	$('input.autocomplete').autocomplete({
+// 		data: {
+// 		"Apple": null,
+// 		"Microsoft": null,
+// 		"Google": 'https://placehold.it/250x250'
+// 		},
+// 		limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+// 		onAutocomplete: function(val) {
+// 			console.log(val);
+// 		},
+// 		minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+// 	});
+// });
+
+
+
+$("#nome").on("input", function(e) {
+	var val = $(this).val();
+	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+	
+	if(val.length > 2){
+		
+		$.ajax({
+			type: "GET",
+			url: getJSON()+"/jogo/nome",
+			data: { nome:val},
+			crossDomain: false,
+			cache: false,
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+				var dataComplete = {};
+				for (var i = 0; i < data.length; i++) {
+				  dataComplete[data[i].nome] = data[i].img;
+				}
+
+				$(document).ready(function(){
+					$('input.autocomplete').autocomplete({
+						data: dataComplete,
+						limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+						onAutocomplete: function(val) {
+							nomeJogoSelecionado=val;
+						},
+						minLength: 3, // The minimum length of the input for the autocomplete to start. Default: 1.
+					});
+				});
+			}
+		});
+	}	
 }); 
-*/
-var options = {
-
-	url: function(phrase) {
-	  return getJSON()+"/jogo/nome";
-	},
-  
-	getValue: function(element) {
-	  return element.nome;
-	},
-
-	list: {
-        onSelectItemEvent: function() {
-			idJogo = $("#nome").getSelectedItemData().id;
-			nomeJogo = $("#nome").getSelectedItemData().nome;
-		}
-	},
-  
-	ajaxSettings: {
-	  method: "GET",
-	  data: {}
-	},
-  
-	preparePostData: function(data) {
-	  data.nome = $("#nome").val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-	  return data;
-	},
-	theme: "square",
-	requestDelay: 400
-  };
-  
-  $("#nome").easyAutocomplete(options);
->>>>>>> master
