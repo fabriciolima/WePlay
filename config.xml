@@ -71,9 +71,6 @@
         <host name="jogos-usados.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
-        <host name="jx52y.app.goo.gl/8f7b" scheme="https">
-            <path event="lista" url="/user" />
-        </host>
         <host name="weplay" scheme="https">
             <path event="lista" url="/user" />
         </host>
