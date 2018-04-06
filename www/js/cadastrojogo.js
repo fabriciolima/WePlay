@@ -29,7 +29,7 @@ function salvaJogo(){
 	//verificando se tem um jogocliente salvo
 	//nomePesquisa = $('#nome').val().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	nomeJogo = $('#nome').val();
-	nomeJogo = $('#nome').val();
+	
 	idJogo=0;
 	try {
 		idJogo= document.querySelector("#searchresults option[value=\""+nomeJogo+"\"]").dataset.value;
@@ -105,32 +105,45 @@ function mostrandoCadastro(){
 }
 
 
-$("#nome").on("input", function(e) {
-	var val = $(this).val();
-	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+// $("#nome").on("input", function(e) {
+// 	var val = $(this).val();
+// 	nomeJogo = val.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	
-	if(val.length > 2){
+// 	if(val.length > 2){
 
-		$.ajax({
-			type: "GET",
-			url: getJSON()+"/jogo/nome",
-			data: { nome:val},
-			crossDomain: false,
-			cache: false,
-			dataType: "json",
-			success: function(data){
-				var dataList = $("#searchresults");
-				dataList.empty();
-				for(cont = 0 ; cont < data.length; ++cont){
-					var opt = $("<option data-value="+data[cont].id+"></option>").attr("value", data[cont].nome);
-					dataList.append(opt);
-				}
+// 		$.ajax({
+// 			type: "GET",
+// 			url: getJSON()+"/jogo/nome",
+// 			data: { nome:val},
+// 			crossDomain: false,
+// 			cache: false,
+// 			dataType: "json",
+// 			success: function(data){
+// 				var dataList = $("#searchresults");
+// 				dataList.empty();
+// 				for(cont = 0 ; cont < data.length; ++cont){
+// 					var opt = $("<option data-value="+data[cont].id+"></option>").attr("value", data[cont].nome);
+// 					dataList.append(opt);
+// 				}
 				
-			}
-		});
+// 			}
+// 		});
 
 		 
-	}
+// 	}
 	
-}); 
-
+// }); 
+$(document).ready(function(){
+	$('input.autocomplete').autocomplete({
+		data: {
+		"Apple": null,
+		"Microsoft": null,
+		"Google": 'https://placehold.it/250x250'
+		},
+		limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+		onAutocomplete: function(val) {
+		// Callback function when value is autcompleted.
+		},
+		minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+	});
+});
