@@ -53,3 +53,8 @@ body {
      display: flex; 
      margin-bottom:0px;
     }
+
+    .eac-square input {
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+      }

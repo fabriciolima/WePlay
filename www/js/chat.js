@@ -15,13 +15,13 @@ var Messenger = function () {
     this.them = 5; // and another one
 
     this.onRecieve = function (message) {
-      return console.log('Recieved: ' + message.text);
+      //return console.log('Recieved: ' + message.text);
     };
     this.onSend = function (message) {
-      return console.log('Sent: ' + message.text);
+      //return console.log('Sent: ' + message.text);
     };
     this.onDelete = function (message) {
-      return console.log('Deleted: ' + message.text);
+      //return console.log('Deleted: ' + message.text);
     };
   }
 

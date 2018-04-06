@@ -10,6 +10,7 @@
 	<title>Troca de games</title>
 	<link rel="stylesheet" href="icons/material.css">
 	<link rel="stylesheet" href="css/estilos.css">
+	<link rel="stylesheet" href="css/easy-autocomplete.themes.min.css">
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -24,13 +25,18 @@
 </head>
 <body onpageshow="mostrandoCadastro()">
 
-	<div class="z-depth-1">
-		<div class="valign-wrapper cyan darken-4 white-text">
-				<i class="material-icons waves-effect waves-light waves-circle botao-voltar">arrow_back</i>
-		</div>
-	</div>
+	<header id="navMain" class="nav-bar">
 
-	<div id="cadastro" class="section">
+		<div class="topo-fixo z-depth-1">
+			<div class="valign-wrapper cyan darken-4 white-text">
+					<i class="material-icons waves-effect waves-light waves-circle botao-voltar">arrow_back</i>			
+					
+			</div>
+		
+		</div>
+</header>
+
+	<div id="cadastro" class="depois-topo">
 		
 			<!-- <form class="col s12"> -->
 <!-- 			<input type="hidden" id="idCliente" name="idCliente" value="0"> -->
@@ -63,6 +69,7 @@
 						<label for="nome"><span class="l10n-nomejogo"></span></label>
 					</div>
 				</div> -->
+<<<<<<< HEAD
 
 			
 				  <div class="row">
@@ -80,6 +87,14 @@
 						</div>
 					</div>
 
+=======
+				<div class="row">
+				   <div class="input-field col s12">
+					   <input type="text" name="nome" id="nome" placeholder="Jogo" autocomplete="off">
+					   
+				   </div>
+			   </div>
+>>>>>>> master
 				<div class="row">
 					<div class="input-field col s12">
 						<input type="text" id="dinheiro" name="dinheiro" maxlength="290" >
@@ -95,6 +110,7 @@
 						  <input name="estado" type="radio" id="usado" />
 						<label for="usado"><span class="l10n-usado"></label>
 					</p>
+<<<<<<< HEAD
 				</div>	
 				<!-- <div class="row">
 					<div class="input-field col s12">
@@ -104,6 +120,11 @@
 						<label for="icon_prefix2">Comentários</label>
 					</div>
 				</div> -->
+=======
+				</div>				
+
+
+>>>>>>> master
 				<div class="row">
 					<div class="input-field col s12 center-align">
 						<button class="btn waves-effect waves-light" onclick="salvaJogo()">
@@ -125,6 +146,7 @@
 
 	<script src="js/jquery.min.js"></script>
 	<script src="js/materialize.min.js"></script>
+	<script src="js/lib/jquery.easy-autocomplete.min.js"></script>
 	<script src="cordova.js"></script>
 	<!-- <script src="js/firebase.js"></script> -->
 	<script src="js/localization.js"></script>

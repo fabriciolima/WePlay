@@ -34,7 +34,7 @@ document.addEventListener('deviceready', function(){
 			adicionarjogo:"Adicionar Jogo",
 			config:"Configurações",
 			share:"Compartilhar WePlay",
-			sharelist:"Compartilhar minha lista"
+			sharelist:"Compartilhar meus jogos"
 
         },
         fr: {
@@ -71,8 +71,8 @@ document.addEventListener('deviceready', function(){
 			tiporolo:"Comentario o intercambio por $$$ ",
 			adicionarjogo:"Add game",
 			config:"Settings",
-			share:"Share",
-			sharelist:"Share My List"
+			share:"Share WePlay",
+			sharelist:"Share my games"
 						
         },
         en: {
@@ -106,7 +106,7 @@ document.addEventListener('deviceready', function(){
 			adicionarjogo:"Add Game",
 			config:"Settings",
 			share:"Share WePlay",
-			sharelist:"Share My List"
+			sharelist:"Share my games"
 			
         }
     },"en");
@@ -155,7 +155,7 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
-	//return "http://192.168.15.7:8080/json";
+	// return "http://192.168.15.3:8080/json";
 	return "http://54.94.219.84:8080/weplay/json";
 }
 

@@ -143,6 +143,4 @@ function salvaCliente(){
 	
 };
 
-function mapa(){
-	window.location = "mapa.html";
-}
+
