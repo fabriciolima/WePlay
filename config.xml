@@ -11,66 +11,63 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="0" />
     <preference name="phonegap-version" value="cli-7.1.0" />
-   <platform name="android">
-	<preference name="SplashMaintainAspectRatio" value="true"/>
-<preference name="SplashShowOnlyFirstTime" value="true"/>
-<icon density="ldpi" src="resources/res/icon/android/ldpi.png"/>
-<icon density="mdpi" src="resources/res/icon/android/mdpi.png"/>
-<icon density="hdpi" src="resources/res/icon/android/hdpi.png"/>
-<icon density="xhdpi" src="resources/res/icon/android/xhdpi.png"/>
-<icon density="xxhdpi" src="resources/res/icon/android/xxhdpi.png"/>
-<icon density="xxxhdpi" src="resources/res/icon/android/xxxhdpi.png"/>
-<!--  Portrait  -->
-<splash density="port-ldpi" src="resources/res/screen/android/splash-port-ldpi.png"/>
-<splash density="port-mdpi" src="resources/res/screen/android/splash-port-mdpi.png"/>
-<splash density="port-hdpi" src="resources/res/screen/android/splash-port-hdpi.png"/>
-<splash density="port-xhdpi" src="resources/res/screen/android/splash-port-xhdpi.png"/>
-<splash density="port-xxhdpi" src="resources/res/screen/android/splash-port-xxhdpi.png"/>
-<splash density="port-xxxhdpi" src="resources/res/screen/android/splash-port-xxxhdpi.png"/>
-</platform>
-<platform name="ios">
-<icon src="resources/res/icon/ios/icon-20.png" width="20" height="20"/>
-<icon src="resources/res/icon/ios/icon-48.png" width="48" height="48"/>
-<icon src="resources/res/icon/ios/icon-55.png" width="55" height="55"/>
-<icon src="resources/res/icon/ios/icon-88.png" width="88" height="88"/>
-<icon src="resources/res/icon/ios/icon-172.png" width="172" height="172"/>
-<icon src="resources/res/icon/ios/icon-196.png" width="196" height="196"/>
-<icon src="resources/res/icon/ios/icon-1024.png" width="1024" height="1024"/>
-<icon src="resources/res/icon/ios/icon-small.png" width="29" height="29"/>
-<icon src="resources/res/icon/ios/icon-small@2x.png" width="58" height="58"/>
-<icon src="resources/res/icon/ios/icon-small@3x.png" width="87" height="87"/>
-<icon src="resources/res/icon/ios/icon-small-40.png" width="40" height="40"/>
-<icon src="resources/res/icon/ios/icon-small-40@2x.png" width="80" height="80"/>
-<icon src="resources/res/icon/ios/icon-small-40@3x.png" width="120" height="120"/>
-<icon src="resources/res/icon/ios/icon-small-50.png" width="50" height="50"/>
-<icon src="resources/res/icon/ios/icon-small-50@2x.png" width="100" height="100"/>
-<icon src="resources/res/icon/ios/icon.png" width="57" height="57"/>
-<icon src="resources/res/icon/ios/icon@2x.png" width="114" height="114"/>
-<icon src="resources/res/icon/ios/icon-60.png" width="60" height="60"/>
-<icon src="resources/res/icon/ios/icon-60@2x.png" width="120" height="120"/>
-<icon src="resources/res/icon/ios/icon-60@3x.png" width="180" height="180"/>
-<icon src="resources/res/icon/ios/icon-72.png" width="72" height="72"/>
-<icon src="resources/res/icon/ios/icon-72@2x.png" width="144" height="144"/>
-<icon src="resources/res/icon/ios/icon-76.png" width="76" height="76"/>
-<icon src="resources/res/icon/ios/icon-76@2x.png" width="152" height="152"/>
-<icon src="resources/res/icon/ios/icon-167.png" width="167" height="167"/>
-<icon src="resources/res/icon/ios/icon-83.5@2x.png" width="167" height="167"/>
-<!--  Storyboard portrait  -->
-<splash src="resources/res/screen/ios/Default@2x~iphone~anyany.png"/>
-<splash src="resources/res/screen/ios/Default@2x~iphone~comany.png"/>
-<splash src="resources/res/screen/ios/Default@3x~iphone~anyany.png"/>
-<splash src="resources/res/screen/ios/Default@3x~iphone~comany.png"/>
-<splash src="resources/res/screen/ios/Default@2x~ipad~anyany.png"/>
-<splash src="resources/res/screen/ios/Default@2x~ipad~comany.png"/>
-</platform>
-<platform name="android">
+    <platform name="android">
+        <preference name="SplashMaintainAspectRatio" value="true" />
+        <preference name="SplashShowOnlyFirstTime" value="true" />
+        <icon density="ldpi" src="resources/res/icon/android/ldpi.png" />
+        <icon density="mdpi" src="resources/res/icon/android/mdpi.png" />
+        <icon density="hdpi" src="resources/res/icon/android/hdpi.png" />
+        <icon density="xhdpi" src="resources/res/icon/android/xhdpi.png" />
+        <icon density="xxhdpi" src="resources/res/icon/android/xxhdpi.png" />
+        <icon density="xxxhdpi" src="resources/res/icon/android/xxxhdpi.png" />
+        <splash density="port-ldpi" src="resources/res/screen/android/splash-port-ldpi.png" />
+        <splash density="port-mdpi" src="resources/res/screen/android/splash-port-mdpi.png" />
+        <splash density="port-hdpi" src="resources/res/screen/android/splash-port-hdpi.png" />
+        <splash density="port-xhdpi" src="resources/res/screen/android/splash-port-xhdpi.png" />
+        <splash density="port-xxhdpi" src="resources/res/screen/android/splash-port-xxhdpi.png" />
+        <splash density="port-xxxhdpi" src="resources/res/screen/android/splash-port-xxxhdpi.png" />
+    </platform>
+    <platform name="ios">
+        <icon height="20" src="resources/res/icon/ios/icon-20.png" width="20" />
+        <icon height="48" src="resources/res/icon/ios/icon-48.png" width="48" />
+        <icon height="55" src="resources/res/icon/ios/icon-55.png" width="55" />
+        <icon height="88" src="resources/res/icon/ios/icon-88.png" width="88" />
+        <icon height="172" src="resources/res/icon/ios/icon-172.png" width="172" />
+        <icon height="196" src="resources/res/icon/ios/icon-196.png" width="196" />
+        <icon height="1024" src="resources/res/icon/ios/icon-1024.png" width="1024" />
+        <icon height="29" src="resources/res/icon/ios/icon-small.png" width="29" />
+        <icon height="58" src="resources/res/icon/ios/icon-small@2x.png" width="58" />
+        <icon height="87" src="resources/res/icon/ios/icon-small@3x.png" width="87" />
+        <icon height="40" src="resources/res/icon/ios/icon-small-40.png" width="40" />
+        <icon height="80" src="resources/res/icon/ios/icon-small-40@2x.png" width="80" />
+        <icon height="120" src="resources/res/icon/ios/icon-small-40@3x.png" width="120" />
+        <icon height="50" src="resources/res/icon/ios/icon-small-50.png" width="50" />
+        <icon height="100" src="resources/res/icon/ios/icon-small-50@2x.png" width="100" />
+        <icon height="57" src="resources/res/icon/ios/icon.png" width="57" />
+        <icon height="114" src="resources/res/icon/ios/icon@2x.png" width="114" />
+        <icon height="60" src="resources/res/icon/ios/icon-60.png" width="60" />
+        <icon height="120" src="resources/res/icon/ios/icon-60@2x.png" width="120" />
+        <icon height="180" src="resources/res/icon/ios/icon-60@3x.png" width="180" />
+        <icon height="72" src="resources/res/icon/ios/icon-72.png" width="72" />
+        <icon height="144" src="resources/res/icon/ios/icon-72@2x.png" width="144" />
+        <icon height="76" src="resources/res/icon/ios/icon-76.png" width="76" />
+        <icon height="152" src="resources/res/icon/ios/icon-76@2x.png" width="152" />
+        <icon height="167" src="resources/res/icon/ios/icon-167.png" width="167" />
+        <icon height="167" src="resources/res/icon/ios/icon-83.5@2x.png" width="167" />
+        <splash src="resources/res/screen/ios/Default@2x~iphone~anyany.png" />
+        <splash src="resources/res/screen/ios/Default@2x~iphone~comany.png" />
+        <splash src="resources/res/screen/ios/Default@3x~iphone~anyany.png" />
+        <splash src="resources/res/screen/ios/Default@3x~iphone~comany.png" />
+        <splash src="resources/res/screen/ios/Default@2x~ipad~anyany.png" />
+        <splash src="resources/res/screen/ios/Default@2x~ipad~comany.png" />
+    </platform>
+    <platform name="android">
         <preference name="StatusBarBackgroundColor" value="honeydew" />
     </platform>
     <platform name="ios">
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="StatusBarBackgroundColor" value="honeydew" />
     </platform>
-    
     <access origin="*" />
     <universal-links>
         <host name="jx52y.app.goo.gl" scheme="https" />
