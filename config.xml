@@ -29,6 +29,12 @@
 <splash density="port-xxxhdpi" src="resources/res/screen/android/splash-port-xxxhdpi.png"/>
 </platform>
 <platform name="ios">
+<icon src="resources/res/icon/ios/icon-20.png" width="20" height="20"/>
+<icon src="resources/res/icon/ios/icon-48.png" width="48" height="48"/>
+<icon src="resources/res/icon/ios/icon-55.png" width="55" height="55"/>
+<icon src="resources/res/icon/ios/icon-88.png" width="88" height="88"/>
+<icon src="resources/res/icon/ios/icon-172.png" width="172" height="172"/>
+<icon src="resources/res/icon/ios/icon-196.png" width="196" height="196"/>
 <icon src="resources/res/icon/ios/icon-1024.png" width="1024" height="1024"/>
 <icon src="resources/res/icon/ios/icon-small.png" width="29" height="29"/>
 <icon src="resources/res/icon/ios/icon-small@2x.png" width="58" height="58"/>
