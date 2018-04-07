@@ -64,7 +64,7 @@
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="StatusBarBackgroundColor" value="honeydew" />
     </platform>
-    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    
     <access origin="*" />
     <universal-links>
         <host name="jx52y.app.goo.gl" scheme="https" />
