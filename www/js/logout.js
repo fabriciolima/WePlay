@@ -42,6 +42,7 @@ function salvaPlataforma(checkbox){
 	local.setItem("plataforma"+checkbox.id,  (checkbox.checked ? "checked" : ""));
 }
 function salvaCliente(){
+	var local = window.localStorage;
 	idCliente = local.getItem("idCliente");
 	firebase.auth().signOut().then(function() {
 		$.get(getJSON()+'/cliente/d',{
@@ -52,6 +53,7 @@ function salvaCliente(){
 			$("#meusjogos").empty();	
 			local.setItem("idCliente",null);
 			local.setItem("uidCliente",null);
+			window.localStorage.clear();
 			Materialize.toast("Bye", 4000);
 			//getMeusJogosTelaInicial();
 			window.location="index.html";

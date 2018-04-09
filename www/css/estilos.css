@@ -1,7 +1,12 @@
 /* estilo inicial */
 body {
-    background-color: #F2F2F2;
+    background-color: honeydew ;
 }
+
+.fundo {
+    background-color: aliceblue !important ;
+}
+
 
 /* estilo do titulo */
 .titulo {

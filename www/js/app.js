@@ -409,7 +409,7 @@ function initAd(){
 	if ( window.plugins && window.plugins.AdMob ) {
 		var ad_units = {
 			ios : {
-				banner: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx',		//PUT ADMOB ADCODE HERE
+				banner: 'ca-app-pub-5252544817016620/8293630401',		//PUT ADMOB ADCODE HERE
 				interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'	//PUT ADMOB ADCODE HERE
 			},
 			android : {
