@@ -67,7 +67,7 @@
     </platform>
     <platform name="ios">
         <preference name="StatusBarOverlaysWebView" value="false" />
-        <preference name="StatusBarBackgroundColor" value="honeydew" />
+        <preference name="StatusBarStyle" value="lightcontent" />
     </platform>
     <access origin="*" />
     <universal-links>
