@@ -97,8 +97,8 @@
     <plugin name="cordova-plugin-admob-simple" spec="^3.3.4" />
     <plugin name="cordova-plugin-googlemaps" spec="^2.2.9">
         <variable name="API_KEY_FOR_IOS" value="AIzaSyDexrJmuAR-pJPn1L6iOJmn9MExT70bjKQ" />
-        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="This app wants to get your location while this app runs only." />
-        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app wants to get your location always, even this app runs in background." />
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="This App tracks your position to search nearby games" />
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app dont use your location in background." />
         <variable name="API_KEY_FOR_ANDROID" value="(API_KEY_FOR_ANDROID)" />
     </plugin>
     <plugin name="cordova-universal-links-plugin" spec="https://github.com/flipflopapp/cordova-universal-links-plugin.git" />
