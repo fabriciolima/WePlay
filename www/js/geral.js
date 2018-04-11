@@ -132,10 +132,6 @@ document.addEventListener('deviceready', function(){
 //	});
 //});
 
-function voltar(){
-	history.go(-1);
-}
-
 function getDB(){
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 		  return window.sqlitePlugin.openDatabase({name : "jogoDB.db",location : 'default',
@@ -178,7 +174,8 @@ function gerURLjogo90(id){
 //}
 
 $('.botao-voltar').on('click', function() {
-	voltar();	
+	history.go(-1);
+	// window.history.back();
 });
 
 	
