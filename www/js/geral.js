@@ -13,7 +13,8 @@ document.addEventListener('deviceready', function(){
             estado:"Estado de conservação",
             loginfacebook:"Login com Facebook",
             logingoogle:"Login com Google",
-            localizacao:"Localização",
+			loginemail:"Login com Email",
+			localizacao:"Localização",
             escolherlocalizacao:"Escolher localização",
 			facalogin:"Faça o Login com uma conta selecionada",
 			enviar:"Enviar",
@@ -34,7 +35,9 @@ document.addEventListener('deviceready', function(){
 			adicionarjogo:"Adicionar Jogo",
 			config:"Configurações",
 			share:"Compartilhar WePlay",
-			sharelist:"Compartilhar meus jogos"
+			sharelist:"Compartilhar meus jogos",
+			nome:"Nome",
+			emailcadastrado:"Enviamos um email de confirmação para voce"
 
         },
         fr: {
@@ -84,7 +87,8 @@ document.addEventListener('deviceready', function(){
             selecioneconsole:"Choose a console",
             estado:"conservation state",
             loginfacebook:"Login with Facebook",
-            logingoogle:"Login with Google",
+			logingoogle:"Login with Google",
+			loginemail:"Login with mail",
             localizacao:"Localization",
             escolherlocalizacao:"Choose a localization",
 			facalogin:"Login with a selected account",
@@ -106,7 +110,10 @@ document.addEventListener('deviceready', function(){
 			adicionarjogo:"Add Game",
 			config:"Settings",
 			share:"Share WePlay",
-			sharelist:"Share my games"
+			sharelist:"Share my games",
+			nome:"Name",
+			emailcadastrado:"Confirm email in your inbox"
+			
 			
         }
     },"en");
@@ -151,8 +158,9 @@ function getJSON(){
 		
 	// }
 	// console.log("retornando localhost");
+	return "http://localhost:8080/json";
 	// return "http://192.168.15.3:8080/json";
-	return "http://54.94.219.84:8080/weplay/json";
+	//return "http://54.94.219.84:8080/weplay/json";
 }
 
 function gerURLplataforma90(id){

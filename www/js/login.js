@@ -46,9 +46,12 @@ function loginFacebook(){
   
 			  
 		  });
-	});;
+	});
 }
 
+function loginEmail(){
+	window.location = "cadastroEmail.html";
+}
 
 function login(){
 	firebase.auth().getRedirectResult().then(function(result) {
