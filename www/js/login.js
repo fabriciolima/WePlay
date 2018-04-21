@@ -33,7 +33,20 @@ function loginFacebook(){
 	var provider = new firebase.auth.FacebookAuthProvider();
 	firebase.auth().useDeviceLanguage();
 	provider.addScope('public_profile');
-	firebase.auth().signInWithRedirect(provider);
+	firebase.auth().signInWithRedirect(provider).then(function() {
+		console.log("redirecionado");
+		firebase.auth().getRedirectResult().then(function(result) {
+			console.log("result",result);
+			var token = result.credential.accessToken;
+			var user = result.user;
+  
+			local.setItem('uidCliente', user.uid);
+			  local.setItem('nomeCliente', user.displayName);
+			  document.getElementById("btnlogin").disabled = false;
+  
+			  
+		  });
+	});;
 }
 
 
@@ -53,7 +66,7 @@ function login(){
 
 firebase.auth().getRedirectResult().then(function(result) {
 	var local = window.localStorage;
-	
+	console.log("result",result);
 	if(result!=null){
 		local.setItem('uidCliente', result.user.uid);
 		local.setItem('nomeCliente', result.user.displayName);
@@ -65,6 +78,7 @@ firebase.auth().getRedirectResult().then(function(result) {
 	}
 		
 }).catch(function(error) {
+	console.log("error",error);
 	if (error.code === 'auth/account-exists-with-different-credential') {
 			local.setItem('uidCliente', '0');
 			local.setItem('nomeCliente', 'Logado antes');
