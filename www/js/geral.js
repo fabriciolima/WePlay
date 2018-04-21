@@ -174,8 +174,8 @@ function gerURLjogo90(id){
 //}
 
 $('.botao-voltar').on('click', function() {
-	history.go(-1);
-	// window.history.back();
+	//history.go(-1);
+	 window.history.back();
 });
 
 	
