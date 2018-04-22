@@ -449,3 +449,8 @@ function verificaPossuiChat(){
 // });	
 }
 
+console.log(local.getItem("msg"));
+if(local.getItem("msg")!=null && local.getItem("msg")!='null')
+	Materialize.toast("msg", 4000);
+
+local.setItem("msg",null);

@@ -37,7 +37,10 @@ document.addEventListener('deviceready', function(){
 			share:"Compartilhar WePlay",
 			sharelist:"Compartilhar meus jogos",
 			nome:"Nome",
-			emailcadastrado:"Enviamos um email de confirmação para voce"
+			emailcadastrado:"Enviamos um email de confirmação para voce",
+			emailcadastrado:"Email ja cadastrado. Clique em recurepar senha caso tenha esquecido",
+			cadastrar:"Cadastrar",
+			esqueci:"Esqueci Email ou Senha"
 
         },
         fr: {
@@ -112,7 +115,10 @@ document.addEventListener('deviceready', function(){
 			share:"Share WePlay",
 			sharelist:"Share my games",
 			nome:"Name",
-			emailcadastrado:"Confirm email in your inbox"
+			emailcadastrado:"Confirm email in your inbox",
+			emailcadastrado:"Wrong Email or password.",
+			cadastrar:"Add",
+			esqueci:"Forget Email or Password"
 			
 			
         }
