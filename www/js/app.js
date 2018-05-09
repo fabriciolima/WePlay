@@ -8,6 +8,13 @@ function primeiraVez(){
 			};
 			local.setItem("primeiravez","nao");
 	};
+	if(local.getItem("idClienteConfirmar")=="sim"){
+		$.get(getJSON()+"/cliente/confirmaemail",{
+			id:local.getItem("idCliente")},function(data, status){
+				if(data == "ok")
+					local.setItem("idClienteConfirmar","nao");
+			});
+	}
 }
 $('.botao-share').on('click', function() {
 	window.plugins.socialsharing.shareWithOptions(options,null,null);

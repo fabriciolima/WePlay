@@ -14,7 +14,7 @@ $('form').submit(function(){
 			
 			if(data > 0){
 				local.setItem("idCliente",data);
-				
+				local.setItem("idClienteConfirmar","sim");
 				local.getItem("msg",Localization.for("emailcadastrado"))
 				return false;
 				window.location="index.html";
@@ -41,5 +41,3 @@ $('form').submit(function(){
 	// 	//$('#password').show();
 	// 	$('#checkboxRow').show();
 	// }
-
-}
